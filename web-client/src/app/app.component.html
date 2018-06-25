@@ -1,15 +1,16 @@
 <div>
-  <nav class='navbar navbar-default'>
+  <nav class='navbar navbar-dark bg-primary'>
     <div class="container-fluid">
-      <a class='navbar-brand'>{{ pageTitle }}</a>
-      <ul class="nav navbar-nav">
+      <a class="navbar-brand" href="#">
+        <img src="../assets/images/logo.png" width="180" height="75" alt="">
+        {{ pageTitle }}
+      </a>
+      <!-- <ul class="nav navbar-nav">
           <li>Home</li>
-      </ul>
+      </ul> -->
     </div>
   </nav>
-  <button mat-button color="primary">Primary</button>
-  <button mat-icon-button color="warn">
-    <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
-  </button>
-  <button mat-raised-button color="primary">Primary</button>
+  <div class='container'>
+    <app-trainings-list></app-trainings-list>
+  </div>
 </div>
