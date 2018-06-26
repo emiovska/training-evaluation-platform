@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 
 import { trainings } from '../../api/trainings/trainings';
+import { levelsApi } from '../../api/levels/levels';
 import { Training } from '../models/training';
 
 @Injectable()
@@ -32,8 +33,11 @@ export class TrainingService {
 
   updateTraining(updateTraining: Training) {
     const training = this.trainings.find(t => t.id === updateTraining.id);
-    Object.assign(training, updateTraining);
-    return of(training).pipe(delay(2000));
+    //update level valueView by value property
+    let level = levelsApi.find(x => x.value === training.level.value);
+    updateTraining.level = level;
+    Object.assign(training, updateTraining);    
+    return of(updateTraining).pipe(delay(2000));
   }
 
   deleteTraining(id: number) {

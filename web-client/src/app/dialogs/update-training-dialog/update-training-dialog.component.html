@@ -1,18 +1,18 @@
 <h2 mat-dialog-title>
-  <mat-icon>create</mat-icon> Edit item</h2>
+  <mat-icon color="primary">create</mat-icon> Edit item</h2>
 <mat-dialog-content>
   <div class="example-container">
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Training name" [(ngModel)]="data.name" value="{{data.name}}">
+      <input matInput placeholder="Training name" [(ngModel)]="training.name" value="{{training.name}}">
     </mat-form-field>
 
-    <mat-select placeholder="Training level" [(ngModel)]="data.level.value">
-      <mat-option *ngFor="let level of levels" [value]="data.level.value">
-        {{ level.viewValue }}
+    <mat-select placeholder="Training level" [(ngModel)]="training.level.value">
+      <mat-option *ngFor="let level of levels" [value]="level.value">
+        {{level.viewValue }}
       </mat-option>
     </mat-select>
     <mat-form-field>
-      <textarea matInput placeholder="Enter a description" [(ngModel)]="data.description" value="{{ data.description }}"></textarea>
+      <textarea matInput placeholder="Enter a description" [(ngModel)]="training.description" value="{{ training.description }}"></textarea>
     </mat-form-field>
   </div>
   <mat-dialog-actions>
