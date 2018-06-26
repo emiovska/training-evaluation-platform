@@ -9,6 +9,8 @@ import { DeleteTrainingDialogComponent } from './dialogs/delete-training-dialog/
 import { TrainingItemDialogComponent } from './dialogs/training-item-dialog/training-item-dialog.component';
 import { UpdateTrainingDialogComponent } from './dialogs/update-training-dialog/update-training-dialog.component';
 import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog/add-new-training-dialog.component';
+import { TrainingService } from './services/training.service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog
   imports: [
     BrowserModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   entryComponents: [
     UpdateTrainingDialogComponent,
@@ -30,7 +34,7 @@ import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent
   ],
-  providers: [],
+  providers: [TrainingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

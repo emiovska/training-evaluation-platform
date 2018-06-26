@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Training } from '../models/training';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { UpdateTrainingDialogComponent } from '../dialogs/update-training-dialog/update-training-dialog.component';
 import { DeleteTrainingDialogComponent } from '../dialogs/delete-training-dialog/delete-training-dialog.component';
 import { TrainingItemDialogComponent } from '../dialogs/training-item-dialog/training-item-dialog.component';
-import { trainings } from '../../api/trainings/trainings';
 import { levelsApi } from '../../api/levels/levels';
 import { AddNewTrainingDialogComponent } from '../dialogs/add-new-training-dialog/add-new-training-dialog.component';
+import { TrainingService } from '../services/training.service';
 
 @Component({
   selector: 'app-trainings-list',
@@ -15,15 +15,26 @@ import { AddNewTrainingDialogComponent } from '../dialogs/add-new-training-dialo
 })
 export class TrainingsListComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  dataSource: MatTableDataSource<Training>;
+  levels;
+
+  constructor(public dialog: MatDialog,
+    private trainingService: TrainingService) { }
 
   ngOnInit() {
+    this.trainingService.getAllTrainings().subscribe(trainings => {
+      this.dataSource = new MatTableDataSource(trainings);
+    });
+    this.levels = levelsApi;
   }
 
   displayedColumns = ['id', 'name', 'level', 'description', 'actions'];
-  dataSource = trainings;
 
-  levels = levelsApi;
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
 
   previewDetailsDialog(training: Training): void {
     const { name, level, description } = training;
@@ -35,25 +46,34 @@ export class TrainingsListComponent implements OnInit {
 
   createNewItem(): void {
     let dialogRef = this.dialog.open(AddNewTrainingDialogComponent, {
-      width: '600px'
+      width: '490px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if (result) this.reloadTrainings();
     });
   }
 
   editDialog(training: Training): void {
-    const { name, level, description } = training;
-    this.dialog.open(UpdateTrainingDialogComponent, {
+    const { id, name, level, description } = training;
+    let dialogRef = this.dialog.open(UpdateTrainingDialogComponent, {
       width: '600px',
-      data: { name, level, description }
+      data: { id, name, level, description }
     });
+    dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
   }
 
-  deleteDialog(): void {
-    this.dialog.open(DeleteTrainingDialogComponent, {
-      width: '250px'
+  deleteDialog(id: number): void {
+    let dialogRef = this.dialog.open(DeleteTrainingDialogComponent, {
+      width: '250px',
+      data: { id }
+    });
+    dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
+  }
+
+  reloadTrainings(): void {
+    this.trainingService.getAllTrainings().subscribe(trainings => {
+      this.dataSource = new MatTableDataSource(trainings);
     });
   }
 }
