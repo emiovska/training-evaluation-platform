@@ -1,15 +1,17 @@
-package training.evaluation.training;
+package training.evaluation.training.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import training.evaluation.training.repository.TrainingRepository;
+import training.evaluation.training.model.Training;
 
 import javax.validation.Valid;
 
 @RestController
-public class WidgetController {
+public class TrainingResource {
 
     @Autowired
     private TrainingRepository repository;
