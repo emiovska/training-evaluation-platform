@@ -21,4 +21,9 @@ public class TrainingResource {
         repository.save(training);
         return training;
     }
+
+    @RequestMapping(value="/trainings", method=RequestMethod.GET)
+    public Iterable<Training> trainings() {
+        return repository.findAll();
+    }
 }
