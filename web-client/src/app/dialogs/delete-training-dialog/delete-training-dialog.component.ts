@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { TrainingService } from '../../services/training.service';
 
 @Component({
   selector: 'app-delete-training-dialog',
@@ -8,10 +9,18 @@ import { MatDialogRef } from '@angular/material';
 })
 export class DeleteTrainingDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<DeleteTrainingDialogComponent>) { }
-  
+  constructor(public dialogRef: MatDialogRef<DeleteTrainingDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private trainingService: TrainingService) { }
+
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  confirm(): void {
+    console.log("Confirm", this.data.id);
+    this.trainingService.deleteTraining(this.data.id);
+    this.dialogRef.close(null);
   }
 
 }
