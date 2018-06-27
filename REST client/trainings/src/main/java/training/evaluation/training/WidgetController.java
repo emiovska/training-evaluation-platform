@@ -1,17 +1,22 @@
 package training.evaluation.training;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.*;
+import javax.validation.Valid;
 
-@RequestMapping("/api")
 @RestController
 public class WidgetController {
 
-    @RequestMapping(method=RequestMethod.GET)
-    public String create(){
-        return "Hello World";
+    @Autowired
+    private TrainingRepository repository;
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public Training createTraining(@Valid @RequestBody Training training) {
+        repository.save(training);
+        return training;
     }
 }

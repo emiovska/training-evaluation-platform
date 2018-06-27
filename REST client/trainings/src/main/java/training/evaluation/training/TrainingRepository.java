@@ -7,4 +7,5 @@ import java.util.List;
 public interface TrainingRepository  extends MongoRepository<Training, String> {
     Training findByName(String name);
     List<Training> findByLevel(String level);
+    Training findByDescription(String description);
 }

@@ -9,14 +9,14 @@ public class Training {
     private String id;
     private String name;
     private String level;
-    private String descriptipon;
+    private String description;
 
     public Training() {}
 
-    public Training(String name, String level, String descriptipon) {
+    public Training(String name, String level, String description) {
         this.name = name;
         this.level = level;
-        this.descriptipon = descriptipon;
+        this.description = description;
     }
 
     public Training(String name, String level) {
@@ -48,16 +48,16 @@ public class Training {
         this.level = level;
     }
 
-    public String getDescriptipon() {
-        return descriptipon;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptipon(String descriptipon) {
-        this.descriptipon = descriptipon;
+    public void setDescription(String descriptipon) {
+        this.description = descriptipon;
     }
 
     @Override
     public String toString() {
-        return "Name: " + name + ", Level: " + level + ", Description: " + descriptipon;
+        return "Name: " + name + ", Level: " + level + ", Description: " + description;
     }
 }
