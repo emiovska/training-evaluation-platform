@@ -6,9 +6,9 @@
       <input matInput placeholder="Training name" [(ngModel)]="training.name" value="{{training.name}}">
     </mat-form-field>
 
-    <mat-select placeholder="Training level" [(ngModel)]="training.level.value">
-      <mat-option *ngFor="let level of levels" [value]="level.value">
-        {{level.viewValue }}
+    <mat-select placeholder="Training level" [(ngModel)]="training.level">
+      <mat-option *ngFor="let level of levels" [value]="level">
+        {{level }}
       </mat-option>
     </mat-select>
     <mat-form-field>
