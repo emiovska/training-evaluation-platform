@@ -8,6 +8,7 @@ import training.evaluation.training.model.Training;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping(value = "/api")
 public class TrainingResource {
 
     @Autowired
@@ -24,12 +25,24 @@ public class TrainingResource {
         return repository.findAll();
     }
 
-
     @RequestMapping(method=RequestMethod.DELETE, value="/training/{id}")
     public String delete(@PathVariable String id) {
         Training training = repository.findById(id).get();
         repository.delete(training);
 
         return "Product deleted";
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/training/{id}")
+    public Training update(@PathVariable String id, @RequestBody Training training) {
+        Training tr = repository.findById(id).get();
+        if(training.getName() != null)
+            tr.setName(training.getName());
+        if(training.getDescription() != null)
+            tr.setDescription(training.getDescription());
+        if(training.getLevel() != null)
+            tr.setLevel(training.getLevel());
+        repository.save(tr);
+        return tr;
     }
 }
