@@ -1,10 +1,7 @@
 package training.evaluation.training.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import training.evaluation.training.repository.TrainingRepository;
 import training.evaluation.training.model.Training;
 
@@ -25,5 +22,14 @@ public class TrainingResource {
     @RequestMapping(value="/trainings", method=RequestMethod.GET)
     public Iterable<Training> trainings() {
         return repository.findAll();
+    }
+
+
+    @RequestMapping(method=RequestMethod.DELETE, value="/training/{id}")
+    public String delete(@PathVariable String id) {
+        Training training = repository.findById(id).get();
+        repository.delete(training);
+
+        return "Product deleted";
     }
 }
