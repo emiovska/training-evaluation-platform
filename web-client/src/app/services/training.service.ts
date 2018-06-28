@@ -8,7 +8,7 @@ import { Training } from '../models/training';
 @Injectable()
 export class TrainingService {
 
-  private trainingUrl = 'http://localhost:8080/api';
+  private trainingUrl = '/api';
 
   constructor(private http: HttpClient) { }
 
