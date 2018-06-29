@@ -1,0 +1,23 @@
+<mat-card class="training-card">
+  <mat-card-header>
+    <mat-icon color="primary">developer_board</mat-icon>
+    <span>{{training.name}}</span>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader>
+        <mat-icon>show_chart</mat-icon>
+        <span> Level:</span> {{training.level}}
+      </h3>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="basic" class="action-btn" (click)="previewDetails()">
+      <mat-icon>add</mat-icon> Details</button>
+    <button mat-raised-button color="primary" class="action-btn" (click)="editDialog()">
+      <mat-icon>create</mat-icon> Edit</button>
+    <button mat-raised-button color="warn" class="action-btn" (click)="deleteDialog()">
+      <mat-icon>delete</mat-icon> Delete</button>
+  </mat-card-actions>
+</mat-card>
