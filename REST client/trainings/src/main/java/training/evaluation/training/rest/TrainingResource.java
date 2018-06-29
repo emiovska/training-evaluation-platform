@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import training.evaluation.training.repository.TrainingRepository;
 import training.evaluation.training.model.Training;
 import org.springframework.http.ResponseEntity;
+import training.evaluation.training.service.TrainingServices;
 
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "/api")
 @Api(description = "Resource to expose all available training endpoints", tags = {"TrainingResource"})
@@ -22,6 +25,8 @@ public class TrainingResource {
 
     @Autowired
     private TrainingRepository repository;
+
+    private TrainingServices services = new TrainingServices();
 
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create new training record", notes = "The training must contain Name and Level property, Description is optional. ")
@@ -67,7 +72,7 @@ public class TrainingResource {
     @RequestMapping(method = RequestMethod.GET, value = "/training/filterByName/{name}")
     @ApiOperation(value = "Filter training by name", notes = "Filter training by name. Return existing training record with searched name")
     public List<Training> filterByName(@ApiParam(value = "Name of the record that we search for.", required = true) @PathVariable String name) {
-        return repository.findByName(name);
+        return repository.findByNameStartingWith(name);
     }
 
 
