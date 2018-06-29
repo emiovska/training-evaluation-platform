@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +22,6 @@ public class TrainingResource {
 
     @Autowired
     private TrainingRepository repository;
-
-    //TrainingServices services = new TrainingServices();
 
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create new training record", notes = "The training must contain Name and Level property, Description is optional. ")
@@ -79,28 +76,4 @@ public class TrainingResource {
     public List<Training> filterByLevel(@ApiParam(value = "Level of the record that we search for.", required = true) @PathVariable String level) {
         return repository.findByLevel(level);
     }
-
-
-
-/*
-
-
-    public void filters(){
-        System.out.println("Filter by name  Code Architecture ");
-        System.out.println( repository.findByName(" Code Architecture "));
-
-        System.out.println("....");
-        System.out.println("Filter by Level");
-        for (Training training : repository.findByLevel("SSE")) {
-            System.out.println(training);
-        }
-    }
-
-    public List<Training> filterByLevel(String level) {
-        return repository.findByLevel(level);
-    }
-
-    *//*public List<Training> filterByName(String name) {
-        return Collections.singletonList(repository.findByName(name));
-    }*/
 }
