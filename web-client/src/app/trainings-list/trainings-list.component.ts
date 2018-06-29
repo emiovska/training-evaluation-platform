@@ -17,23 +17,31 @@ export class TrainingsListComponent implements OnInit {
 
   dataSource: MatTableDataSource<Training>;
   levels;
+  trainings: Training[];
+  selectedTable: boolean;
 
   constructor(public dialog: MatDialog,
     private trainingService: TrainingService) { }
 
   ngOnInit() {
-    this.trainingService.getAllTrainings().subscribe(trainings => {
-      this.dataSource = new MatTableDataSource(trainings);
-    });
+    this.reloadTrainings();
     this.levels = levelsApi;
+    this.selectedTable = true;
   }
 
   displayedColumns = ['id', 'name', 'level', 'description', 'actions'];
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    filterValue = filterValue.toLocaleLowerCase(); // MatTableDataSource defaults to lowercase matches
+
+    this.trainingService.getAllTrainings().subscribe(Alltrainings => {
+      let filteredTrainings = <Training[]>Alltrainings.filter((t: Training) =>
+        t.name.toLocaleLowerCase().indexOf(filterValue) != -1
+      );
+      this.trainings = filteredTrainings;
+      this.dataSource.filter = filterValue;
+    });
   }
 
   previewDetailsDialog(training: Training): void {
@@ -74,6 +82,11 @@ export class TrainingsListComponent implements OnInit {
   reloadTrainings(): void {
     this.trainingService.getAllTrainings().subscribe(trainings => {
       this.dataSource = new MatTableDataSource(trainings);
+      this.trainings = trainings;
     });
+  }
+
+  viewTrainingCard() {
+    this.selectedTable = !this.selectedTable;
   }
 }

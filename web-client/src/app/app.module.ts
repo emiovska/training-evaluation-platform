@@ -12,6 +12,7 @@ import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog
 import { TrainingService } from './services/training.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TrainingCardComponent } from './training-card/training-card.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     UpdateTrainingDialogComponent,
     DeleteTrainingDialogComponent,
     TrainingItemDialogComponent,
-    AddNewTrainingDialogComponent
+    AddNewTrainingDialogComponent,
+    TrainingCardComponent
   ],
   imports: [
     BrowserModule,
