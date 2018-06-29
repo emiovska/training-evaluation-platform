@@ -19,8 +19,9 @@ export class DeleteTrainingDialogComponent {
 
   confirm(): void {
     console.log("Confirm", this.data.id);
-    this.trainingService.deleteTraining(this.data.id);
-    this.dialogRef.close(null);
+    this.trainingService.deleteTraining(this.data.id).subscribe(() => {
+      this.dialogRef.close(null);   
+    });
   }
 
 }

@@ -11,6 +11,7 @@ import { UpdateTrainingDialogComponent } from './dialogs/update-training-dialog/
 import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog/add-new-training-dialog.component';
 import { TrainingService } from './services/training.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule
   ],
   entryComponents: [
     UpdateTrainingDialogComponent,

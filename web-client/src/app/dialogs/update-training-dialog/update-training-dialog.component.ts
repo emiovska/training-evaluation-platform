@@ -27,7 +27,7 @@ export class UpdateTrainingDialogComponent {
   levels = levelsApi;
 
   save() {
-    this.trainingService.updateTraining(this.training).subscribe(training => {
+    this.trainingService.updateTraining(this.training.id, this.training).subscribe(training => {
       console.log("Update training ", training);
       this.dialogRef.close(training);
     });
