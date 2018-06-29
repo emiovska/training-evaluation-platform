@@ -31,4 +31,12 @@ export class TrainingService {
   deleteTraining(id: number): Observable<any> {
     return this.http.delete(`${this.trainingUrl}/training/${id}`, { responseType: 'text' })
   }
+
+  filterByName(name: string): Observable<Object> {
+    return this.http.get(`${this.trainingUrl}/training/filterByName/${name}`)
+  }
+
+  filterByLevel(level: string): Observable<Object> {
+    return this.http.get(`${this.trainingUrl}/training/filterByLevel/${level}`)
+  }
 }

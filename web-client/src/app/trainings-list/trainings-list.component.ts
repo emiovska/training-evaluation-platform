@@ -33,14 +33,17 @@ export class TrainingsListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLocaleLowerCase(); // MatTableDataSource defaults to lowercase matches
 
-    this.trainingService.getAllTrainings().subscribe(Alltrainings => {
-      let filteredTrainings = <Training[]>Alltrainings.filter((t: Training) =>
-        t.name.toLocaleLowerCase().indexOf(filterValue) != -1
-      );
+    this.trainingService.filterByName(filterValue).subscribe((filteredTrainings: Training[]) => {
       this.trainings = filteredTrainings;
       this.dataSource.filter = filterValue;
+    });
+  }
+
+  selectedLevel(filterLevel: string) {
+    this.trainingService.filterByLevel(filterLevel).subscribe((filteredTrainings: Training[]) => {
+      this.trainings = filteredTrainings;
+      this.dataSource = new MatTableDataSource(filteredTrainings);
     });
   }
 
@@ -54,7 +57,7 @@ export class TrainingsListComponent implements OnInit {
 
   createNewItem(): void {
     let dialogRef = this.dialog.open(AddNewTrainingDialogComponent, {
-      width: '490px',
+      width: '510px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -9,7 +9,7 @@
       </div>
       <div class="col s1">
         <mat-select placeholder="Filter by level">
-          <mat-option *ngFor="let level of levels" [value]="level">
+          <mat-option *ngFor="let level of levels" [value]="level" (click)="selectedLevel(level)">
             {{ level }}
           </mat-option>
         </mat-select>
