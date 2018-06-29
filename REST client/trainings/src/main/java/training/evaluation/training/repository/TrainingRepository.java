@@ -6,9 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import training.evaluation.training.model.Training;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface TrainingRepository  extends CrudRepository<Training,String>, MongoRepository<Training, String> {
-    Training findByName(String name);
+public interface TrainingRepository  extends  MongoRepository<Training, String> {
+    List<Training> findByName(String name);
     List<Training> findByLevel(String level);
 }
