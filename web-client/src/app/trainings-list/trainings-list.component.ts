@@ -19,6 +19,8 @@ export class TrainingsListComponent implements OnInit {
   levels;
   trainings: Training[];
   selectedTable: boolean;
+  filterByName: string;
+  filterByLevel: string;
 
   constructor(public dialog: MatDialog,
     private trainingService: TrainingService) { }
@@ -27,20 +29,23 @@ export class TrainingsListComponent implements OnInit {
     this.reloadTrainings();
     this.levels = levelsApi;
     this.selectedTable = true;
+    this.filterByName = '';
+    this.filterByLevel = '';
   }
 
   displayedColumns = ['id', 'name', 'level', 'description', 'actions'];
 
   applyFilter(filterValue: string) {
+    this.filterByLevel = '';
     filterValue = filterValue.trim(); // Remove whitespace
-
     this.trainingService.filterByName(filterValue).subscribe((filteredTrainings: Training[]) => {
       this.trainings = filteredTrainings;
-      this.dataSource.filter = filterValue;
+      this.dataSource = new MatTableDataSource(filteredTrainings);
     });
   }
 
   selectedLevel(filterLevel: string) {
+    this.filterByName = '';
     this.trainingService.filterByLevel(filterLevel).subscribe((filteredTrainings: Training[]) => {
       this.trainings = filteredTrainings;
       this.dataSource = new MatTableDataSource(filteredTrainings);
