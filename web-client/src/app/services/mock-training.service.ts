@@ -45,4 +45,12 @@ export class TrainingService {
     deleteTraining(id: number) {
         return this.trainings.splice(this.trainings.findIndex(t => t.id == id), 1);
     }
+
+    filterByName(name: string) {
+        return this.getAllTrainings().subscribe(allTrainings => {
+            return <Training[]>allTrainings.filter((t: Training) =>
+                t.name.toLocaleLowerCase().indexOf(name) != -1
+            );
+        })
+    }
 }

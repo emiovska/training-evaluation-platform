@@ -6,21 +6,23 @@
       <input matInput placeholder="Training name" [formControl]="name" [(ngModel)]="training.name" required>
       <mat-error *ngIf="name.invalid">{{getErrorMessage("name")}}</mat-error>
     </mat-form-field>
-    <mat-select placeholder="Training level"  [(ngModel)]="training.level">
+    <mat-select placeholder="Training level" [(ngModel)]="training.level">
       <mat-option *ngFor="let level of levels" [value]="level">
         {{ level }}
       </mat-option>
     </mat-select>
     <mat-form-field>
-      <textarea matInput placeholder="Enter a description"  [(ngModel)]="training.description" ></textarea>
+      <textarea matInput placeholder="Enter a description" [(ngModel)]="training.description"></textarea>
     </mat-form-field>
+
   </div>
-  <mat-dialog-actions>
-    <button mat-button color="primary" (click)="save()">
-      <mat-icon>save</mat-icon> Save
-    </button>
-    <button mat-button color="primary" (click)="dismiss()">
-      <mat-icon>cancel</mat-icon> Cancel
-    </button>
-  </mat-dialog-actions>
 </mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button color="primary" (click)="save()">
+    <mat-icon>save</mat-icon> Save
+  </button>
+  <button mat-button color="primary" (click)="dismiss()">
+    <mat-icon>cancel</mat-icon> Cancel
+  </button>
+</mat-dialog-actions>
