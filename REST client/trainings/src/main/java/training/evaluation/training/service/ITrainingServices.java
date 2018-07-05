@@ -14,4 +14,5 @@ public interface ITrainingServices {
     ResponseEntity<Training> updateTraining(String id, Training training);
     List<Training> findByNameStartingWith(String name);
     List<Training> filterByLevel(String level);
+    List<Training> findByNameStartingWithAndLevel(String name, String level);
 }

@@ -61,4 +61,9 @@ public class TrainingServicesImpl  implements ITrainingServices{
     public List<Training> filterByLevel(String level) {
         return repository.findByLevel(level);
     }
+
+
+    public List<Training> findByNameStartingWithAndLevel(String name, String level){
+        return repository.findByNameStartingWithAndLevel(name,level);
+    }
 }
