@@ -7,6 +7,9 @@ import { TrainingItemDialogComponent } from '../dialogs/training-item-dialog/tra
 import { levelsApi } from '../../api/levels/levels';
 import { AddNewTrainingDialogComponent } from '../dialogs/add-new-training-dialog/add-new-training-dialog.component';
 import { TrainingService } from '../services/training.service';
+import { Observable } from 'rxjs';
+
+const ALL_LEVELS: string = 'All levels';
 
 @Component({
   selector: 'app-trainings-list',
@@ -14,39 +17,41 @@ import { TrainingService } from '../services/training.service';
   styleUrls: ['./trainings-list.component.css']
 })
 export class TrainingsListComponent implements OnInit {
-
   dataSource: MatTableDataSource<Training>;
-  levels;
+  levels: string[];
   trainings: Training[];
   selectedTable: boolean;
-  filterByName: string;
-  filterByLevel: string;
+  nameFilter: string;
+  levelFilter: string;
+  viewTitle: string;
 
   constructor(public dialog: MatDialog,
     private trainingService: TrainingService) { }
 
   ngOnInit() {
     this.reloadTrainings();
-    this.levels = levelsApi;
+    this.levels = [ALL_LEVELS].concat(levelsApi);
     this.selectedTable = true;
-    this.filterByName = '';
-    this.filterByLevel = '';
+    this.nameFilter = '';
+    this.levelFilter = ALL_LEVELS;
+    this.viewTitle = 'View Training cards';
   }
 
   displayedColumns = ['id', 'name', 'level', 'description', 'actions'];
 
   applyFilter(filterValue: string) {
-    this.filterByLevel = '';
     filterValue = filterValue.trim(); // Remove whitespace
-    this.trainingService.filterByName(filterValue).subscribe((filteredTrainings: Training[]) => {
+
+    this.filterTrainings().subscribe((filteredTrainings: Training[]) => {
       this.trainings = filteredTrainings;
       this.dataSource = new MatTableDataSource(filteredTrainings);
     });
   }
 
   selectedLevel(filterLevel: string) {
-    this.filterByName = '';
-    this.trainingService.filterByLevel(filterLevel).subscribe((filteredTrainings: Training[]) => {
+    this.levelFilter = filterLevel;
+
+    this.filterTrainings().subscribe((filteredTrainings: Training[]) => {
       this.trainings = filteredTrainings;
       this.dataSource = new MatTableDataSource(filteredTrainings);
     });
@@ -88,7 +93,7 @@ export class TrainingsListComponent implements OnInit {
   }
 
   reloadTrainings(): void {
-    this.trainingService.getAllTrainings().subscribe(trainings => {
+    this.filterTrainings().subscribe((trainings: Training[]) => {
       this.dataSource = new MatTableDataSource(trainings);
       this.trainings = trainings;
     });
@@ -96,5 +101,23 @@ export class TrainingsListComponent implements OnInit {
 
   viewTrainingCard() {
     this.selectedTable = !this.selectedTable;
+    this.selectedTable? this.viewTitle = 'Card view of training records': this.viewTitle='Table view of training records'
   }
+
+  filterTrainings() {
+    return this.levelFilter == ALL_LEVELS ?
+      this.filterByName(this.nameFilter) :
+      this.levelFilter && this.nameFilter ?
+        this.trainingService.filterByNameAndLevel(this.nameFilter, this.levelFilter) :
+        this.filterByLevel(this.levelFilter);
+  }
+
+  private filterByLevel(filterValue: string): Observable<Training[]> {
+    return (!filterValue) ? this.trainingService.getAllTrainings() : this.trainingService.filterByLevel(filterValue);
+  }
+
+  private filterByName(filterValue: string) {
+    return (!filterValue) ? this.trainingService.getAllTrainings() : this.trainingService.filterByName(filterValue);
+  }
+
 }
