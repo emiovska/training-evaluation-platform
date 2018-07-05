@@ -39,4 +39,8 @@ export class TrainingService {
   filterByLevel(level: string): Observable<Object> {
     return this.http.get(`${this.trainingUrl}/training/filterByLevel/${level}`)
   }
+
+  filterByNameAndLevel(name: string, level:string){
+    return this.http.get(`${this.trainingUrl}/training/filterByNameAndLevel/${name}/${level}`);
+  }
 }
