@@ -59,4 +59,10 @@ public class TrainingResource {
         return services.filterByLevel(level);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/training/filterByNameAndLevel/{name}/{level}")
+    @ApiOperation(value = "Filter training by name and level", notes = "Filter training by name and level. Return list of existing training records with searched level that start with name field")
+    public List<Training> filterByNameAndLevel(@ApiParam(value = "Name of the record that we search for.", required = true) @PathVariable String name,@ApiParam(value = "Level of the record that we search for.", required = true) @PathVariable String level) {
+        return services.findByNameStartingWithAndLevel(name,level);
+    }
+
 }

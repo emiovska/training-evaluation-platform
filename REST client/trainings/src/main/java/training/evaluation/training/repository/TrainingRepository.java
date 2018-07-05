@@ -9,4 +9,5 @@ public interface TrainingRepository  extends  MongoRepository<Training, String> 
     List<Training> findByName(String name);
     List<Training> findByLevel(String level);
     List<Training> findByNameStartingWith(String starting);
+    List<Training> findByNameStartingWithAndLevel(String name, String level);
 }
