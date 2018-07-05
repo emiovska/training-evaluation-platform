@@ -1,0 +1,17 @@
+package training.evaluation.training.service;
+
+import org.springframework.http.ResponseEntity;
+import training.evaluation.training.model.Training;
+
+import java.util.List;
+
+
+public interface ITrainingServices {
+
+    Training createTraining(Training training);
+    Iterable<Training> getAllTrainings();
+    ResponseEntity<String> deleteTraining(String id);
+    ResponseEntity<Training> updateTraining(String id, Training training);
+    List<Training> findByNameStartingWith(String name);
+    List<Training> filterByLevel(String level);
+}
