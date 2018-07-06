@@ -13,6 +13,8 @@ import { TrainingService } from './services/training.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TrainingCardComponent } from './training-card/training-card.component';
+import { FilterTrainingService } from './services/filter-trainings.service';
+import { FilterTrainingsComponent } from './filter-trainings/filter-trainings.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { TrainingCardComponent } from './training-card/training-card.component';
     DeleteTrainingDialogComponent,
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
-    TrainingCardComponent
+    TrainingCardComponent,
+    FilterTrainingsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,7 @@ import { TrainingCardComponent } from './training-card/training-card.component';
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent
   ],
-  providers: [TrainingService],
+  providers: [TrainingService, FilterTrainingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

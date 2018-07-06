@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Training } from '../models/training';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { levelsApi } from '../../api/levels/levels';
 import { AddNewTrainingDialogComponent } from '../dialogs/add-new-training-dialog/add-new-training-dialog.component';
 import { TrainingToggleView } from '../interfaces/toggle-view';
@@ -14,10 +13,7 @@ const ALL_LEVELS: string = 'All levels';
   styleUrls: ['./filter-trainings.component.css']
 })
 export class FilterTrainingsComponent implements OnInit {
-  dataSource: MatTableDataSource<Training>;
   levels: string[];
-  @Input()
-  trainings: Training[];
   selectedTable: boolean;
   nameFilter: string;
   levelFilter: string;
@@ -34,8 +30,6 @@ export class FilterTrainingsComponent implements OnInit {
 
   @Output()
   nameFilterInput: EventEmitter<TrainingFilter> = new EventEmitter<TrainingFilter>();
-
-  @Input() training: Training;
 
   constructor(public dialog: MatDialog) {
     this.levels = [ALL_LEVELS].concat(levelsApi);
