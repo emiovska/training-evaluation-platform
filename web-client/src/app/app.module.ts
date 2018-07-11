@@ -11,10 +11,16 @@ import { UpdateTrainingDialogComponent } from './dialogs/update-training-dialog/
 import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog/add-new-training-dialog.component';
 import { TrainingService } from './services/training.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TrainingCardComponent } from './training-card/training-card.component';
 import { FilterTrainingService } from './services/filter-trainings.service';
 import { FilterTrainingsComponent } from './filter-trainings/filter-trainings.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './security/auth-guard';
+import { AuthenticationService } from './services/authentication.service';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { fakeBackendProvider } from './helpers/fake-backend';
+import { routing } from './app.routing';
 
 @NgModule({
   declarations: [
@@ -25,7 +31,8 @@ import { FilterTrainingsComponent } from './filter-trainings/filter-trainings.co
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
     TrainingCardComponent,
-    FilterTrainingsComponent
+    FilterTrainingsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +40,8 @@ import { FilterTrainingsComponent } from './filter-trainings/filter-trainings.co
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    routing
   ],
   entryComponents: [
     UpdateTrainingDialogComponent,
@@ -41,7 +49,14 @@ import { FilterTrainingsComponent } from './filter-trainings/filter-trainings.co
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent
   ],
-  providers: [TrainingService, FilterTrainingService],
+  providers: [
+    AuthGuard,
+    AuthenticationService,
+    TrainingService,
+    FilterTrainingService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
