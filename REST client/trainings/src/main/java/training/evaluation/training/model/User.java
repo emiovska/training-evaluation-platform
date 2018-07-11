@@ -9,6 +9,7 @@ public class User {
 
     @Id
     public ObjectId _id;
+
     public String username;
     public String password;
     public String firstname;
