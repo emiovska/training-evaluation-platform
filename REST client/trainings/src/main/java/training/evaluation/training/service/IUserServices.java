@@ -5,4 +5,5 @@ import training.evaluation.training.model.User;
 public interface IUserServices {
 
     User register(User user);
+    Iterable<User> getAllUsers();
 }
