@@ -21,6 +21,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { fakeBackendProvider } from './helpers/fake-backend';
 import { routing } from './app.routing';
+import { RegisterUserComponent } from './register-user/register-user.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { routing } from './app.routing';
     AddNewTrainingDialogComponent,
     TrainingCardComponent,
     FilterTrainingsComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterUserComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { routing } from './app.routing';
     AuthenticationService,
     TrainingService,
     FilterTrainingService,
+    UserService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],
