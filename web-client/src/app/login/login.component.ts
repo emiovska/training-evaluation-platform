@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
           data => {
             console.log('got valid: ', data);
             this.router.navigate(['/authenticated']);
-          }, (err) => {
+          }, error => {
             this.submitting = false;
-            this.showNotification("Incorect username or password !!!");
+            this.showNotification(error.message);
           }
         );
     }

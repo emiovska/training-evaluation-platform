@@ -54,7 +54,9 @@ export class RegisterUserComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error => {
-          this.showNotification('User with same username already exists!!!');
+          console.log("Log error", error);
+          console.log("Register error:",error.message);
+          this.showNotification(error.message);
           this.registerForm.reset();
         }
       );
