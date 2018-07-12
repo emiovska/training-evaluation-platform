@@ -12,7 +12,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"${origins}"})
 @RestController
 @RequestMapping(value = "/api")
 @Api(description = "Resource to expose all available training endpoints", tags = {"TrainingResource"})
