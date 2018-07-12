@@ -30,6 +30,31 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return throwError({ error: { message: 'Username or password is incorreect' } });
                 }
             }
+
+            // register user
+            if (request.url.endsWith('/users/register') && request.method === 'POST') {
+                // get new user object from post body
+                let newUser = request.body;
+                console.log("New user:", newUser);
+
+                // validation
+                let duplicateUser = users.filter(user => { return user.username === newUser.username; }).length;
+                if (duplicateUser) {
+                    return throwError({ error: { message: 'Username "' + newUser.username + '" is already taken' } });
+                }
+
+                // save new user
+                newUser.id = users.length + 1;
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                console.log("Users:",localStorage.getItem('users'));
+
+                // respond 200 OK
+                return of(new HttpResponse({ status: 200 }));
+            }
+
+
             // pass through any requests not handled above
             return next.handle(request);
         }))
