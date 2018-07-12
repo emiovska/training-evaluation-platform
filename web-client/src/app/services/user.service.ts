@@ -9,4 +9,12 @@ export class UserService {
     register(user: User) {
         return this.http.post(`/users/register`, user);
     }
+
+    getAllUsers() {
+        return this.http.get(`/users`);
+    }
+
+    getById(id: string) {
+        return this.http.get(`/users/${id}`);
+    }
 }

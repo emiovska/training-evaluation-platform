@@ -23,6 +23,7 @@ import { fakeBackendProvider } from './helpers/fake-backend';
 import { routing } from './app.routing';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { UserService } from './services/user.service';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { UserService } from './services/user.service';
     TrainingCardComponent,
     FilterTrainingsComponent,
     LoginComponent,
-    RegisterUserComponent
+    RegisterUserComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

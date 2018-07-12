@@ -4,11 +4,13 @@ import { TrainingsListComponent } from "./trainings-list/trainings-list.componen
 import { AuthGuard } from "./security/auth-guard";
 import { LoginComponent } from "./login/login.component";
 import { RegisterUserComponent } from "./register-user/register-user.component";
+import { UsersComponent } from "./users/users.component";
 
 const appRoutes: Routes = [
     { path: '', component: TrainingsListComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterUserComponent },
+    { path: 'users', component: UsersComponent },
 
     { path: '**', redirectTo: '' }
 ];
