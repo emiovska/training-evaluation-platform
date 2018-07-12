@@ -21,4 +21,10 @@ public class UserResource {
         return services.register(user);
     }
 
+    @RequestMapping(value = "/allusers", method = RequestMethod.GET)
+    public Iterable<User> getAllUsers() {
+
+        return services.getAllUsers();
+    }
+
 }
