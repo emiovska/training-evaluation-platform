@@ -1,30 +1,30 @@
 package training.evaluation.training.rest;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 import training.evaluation.training.model.User;
 import training.evaluation.training.service.IUserServices;
-import org.springframework.beans.factory.annotation.Autowired;
-import javax.validation.Valid;
+import training.evaluation.training.service.impl.UserServicesImpl;
 
+import java.util.List;
+
+@CrossOrigin(origins = {"${origins}"})
 @RestController
 @RequestMapping(value="/users")
 public class UserResource {
-
     @Autowired
-    IUserServices services;
+    private IUserServices userServices;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public User registerUser(@Valid @RequestBody User user) {
-        return services.register(user);
+    @PostMapping("/register")
+    public User signUp(@RequestBody User user) {
+        System.out.println("Rest register");
+       return userServices.register(user);
     }
 
-    @RequestMapping(value = "/allusers", method = RequestMethod.GET)
-    public Iterable<User> getAllUsers() {
 
-        return services.getAllUsers();
+    @GetMapping("/")
+    public List<User> getAll() {
+        return userServices.getAllUsers();
     }
-
 }
