@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = {"${origins}"})
 @RestController
-@RequestMapping(value="/users")
+@RequestMapping(value = "/users")
 public class UserResource {
     @Autowired
     private IUserServices userServices;
@@ -19,12 +19,17 @@ public class UserResource {
     @PostMapping("/register")
     public User signUp(@RequestBody User user) {
         System.out.println("Rest register");
-       return userServices.register(user);
+        return userServices.register(user);
     }
 
 
     @GetMapping("/")
     public List<User> getAll() {
         return userServices.getAllUsers();
+    }
+
+    @GetMapping("/byUsername/{username}")
+    public User getByUsername(@PathVariable String username) {
+        return userServices.getByUsername(username);
     }
 }
