@@ -1,10 +1,8 @@
 package training.evaluation.training.rest;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import training.evaluation.training.model.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import training.evaluation.training.model.Users;
 import training.evaluation.training.service.IUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.Valid;
@@ -17,14 +15,16 @@ public class UserResource {
     IUserServices services;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public User registerUser(@Valid @RequestBody User user) {
+    public Users registerUser(@Valid @RequestBody Users user) {
         return services.register(user);
     }
 
     @RequestMapping(value = "/allusers", method = RequestMethod.GET)
-    public Iterable<User> getAllUsers() {
-
+    public @ResponseBody Iterable<Users> getAllUsers() {
+        System.out.println("all users");
         return services.getAllUsers();
     }
+
+
 
 }
