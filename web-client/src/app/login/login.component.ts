@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
-import { first } from '../../../node_modules/rxjs/operators';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '../../../node_modules/@angular/material';
+import { HttpResponse } from '../../../node_modules/@angular/common/http';
+import { Observable } from '../../../node_modules/rxjs';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +26,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private userService: UserService,
     public snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -34,17 +38,37 @@ export class LoginComponent implements OnInit {
     if (signInForm.valid) {
       this.submitting = true;
 
-      this.authenticationService.login(signInForm.value.username, signInForm.value.password)
-        .pipe(first()).subscribe(
-          data => {
-            console.log('got valid: ', data);
-            this.router.navigate(['/authenticated']);
-          }, error => {
-            this.submitting = false;
-            this.showNotification(error.message);
-          }
-        );
+      return this.authenticationService.login(signInForm.value.username, signInForm.value.password)
+        .subscribe((response: HttpResponse<any>) => {
+          const authToken = this.getAuthToken(response);
+          this.saveUserToStorage(signInForm.value.username, authToken);
+        }, error => {
+          this.submitting = false;
+          this.showNotification(error.message);
+        });
     }
+  }
+
+
+  getAuthToken(response: HttpResponse<any>) {
+    return response.headers.get('Authorization');
+  }
+
+  saveUserToStorage(username: string, token: string) {
+    return this.userService.getByUsername(username, token).subscribe((user: User) => {
+      user.token = token;
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.router.navigate(['/authenticated']);
+    });
+  }
+
+  extractData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
+  handleErrorObservable(error: Response | any) {
+    console.error(error.message || error);
+    return Observable.throw(error.message || error);
   }
 
   showNotification(message: string) {

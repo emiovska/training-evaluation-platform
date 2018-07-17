@@ -40,63 +40,63 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // authenticate
-            if (request.url.endsWith('/users/authenticate') && this.isPOST(request)) {
-                console.log("Fake backend = Authenticate user ...");
-                let filteredUsers = users.filter(user => {
-                    return user.username === request.body.username && user.password === request.body.password;
-                });
+            // if (request.url.endsWith('/users/authenticate') && this.isPOST(request)) {
+            //     console.log("Fake backend = Authenticate user ...");
+            //     let filteredUsers = users.filter(user => {
+            //         return user.username === request.body.username && user.password === request.body.password;
+            //     });
 
-                if (filteredUsers.length) {
-                    let user = filteredUsers[0];
-                    const { id, username, firstName, lastName } = user;
-                    let body = {
-                        id, username, firstName, lastName, token: 'fake-jwt-token'
-                    };
-                    return of(new HttpResponse({ status: 200, body }));
-                } else {
-                    return throwError({ message: 'Username or password is incorreect!' });
-                }
-            }
+            //     if (filteredUsers.length) {
+            //         let user = filteredUsers[0];
+            //         const { id, username, firstName, lastName } = user;
+            //         let body = {
+            //             id, username, firstName, lastName, token: 'fake-jwt-token'
+            //         };
+            //         return of(new HttpResponse({ status: 200, body }));
+            //     } else {
+            //         return throwError({ message: 'Username or password is incorreect!' });
+            //     }
+            // }
 
             // register user
-            if (request.url.endsWith('/users/register') && this.isPOST(request)) {
-                // get new user object from post body
-                let newUser = request.body;
-                // validation
-                if (this.checkIsDuplicateUser(users, newUser)) {
-                    return throwError({ message: 'Username "' + newUser.username + '" is already taken' });
-                }
-                this.registerNewUser(users, newUser);
+            // if (request.url.endsWith('/users/register') && this.isPOST(request)) {
+            //     // get new user object from post body
+            //     let newUser = request.body;
+            //     // validation
+            //     if (this.checkIsDuplicateUser(users, newUser)) {
+            //         return throwError({ message: 'Username "' + newUser.username + '" is already taken' });
+            //     }
+            //     this.registerNewUser(users, newUser);
 
-                // respond 200 OK
-                return of(new HttpResponse({ status: 200 }));
-            }
+            //     // respond 200 OK
+            //     return of(new HttpResponse({ status: 200 }));
+            // }
 
             // get users
-            if (request.url.endsWith('/users') && this.isGET(request)) {
-                // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
-                if (!this.checkAuthorizationHeader(request)) {
-                    // return 401 not authorised if token is null or invalid
-                    return throwError({ error: { message: 'Unauthorised' } });
-                }
-                return of(new HttpResponse({ status: 200, body: users }));
-            }
+            // if (request.url.endsWith('/users') && this.isGET(request)) {
+            //     // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
+            //     if (!this.checkAuthorizationHeader(request)) {
+            //         // return 401 not authorised if token is null or invalid
+            //         return throwError({ error: { message: 'Unauthorised' } });
+            //     }
+            //     return of(new HttpResponse({ status: 200, body: users }));
+            // }
 
             // get user by id
-            if (request.url.match(/\/users\/\d+$/) && this.isGET(request)) {
-                if (!this.checkAuthorizationHeader(request)) {
-                    // return 401 not authorised if token is null or invalid
-                    return throwError({ error: { message: 'Unauthorised' } });
-                }
+            // if (request.url.match(/\/users\/\d+$/) && this.isGET(request)) {
+            //     if (!this.checkAuthorizationHeader(request)) {
+            //         // return 401 not authorised if token is null or invalid
+            //         return throwError({ error: { message: 'Unauthorised' } });
+            //     }
 
-                // find user by id in users array
-                let urlParts = request.url.split('/');
-                let id = parseInt(urlParts[urlParts.length - 1]);
-                let matchedUsers = users.filter(user => { return user.id === id; });
-                let user = matchedUsers.length ? matchedUsers[0] : null;
+            //     // find user by id in users array
+            //     let urlParts = request.url.split('/');
+            //     let id = parseInt(urlParts[urlParts.length - 1]);
+            //     let matchedUsers = users.filter(user => { return user.id === id; });
+            //     let user = matchedUsers.length ? matchedUsers[0] : null;
 
-                return of(new HttpResponse({ status: 200, body: user }));
-            }
+            //     return of(new HttpResponse({ status: 200, body: user }));
+            // }
 
             // pass through any requests not handled above
             return next.handle(request);
