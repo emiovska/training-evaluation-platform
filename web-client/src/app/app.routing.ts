@@ -10,7 +10,7 @@ const appRoutes: Routes = [
     { path: '', component: TrainingsListComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterUserComponent },
-    { path: 'users', component: UsersComponent },
+    { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '' }
 ];
