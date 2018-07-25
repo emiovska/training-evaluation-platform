@@ -1,0 +1,15 @@
+{
+    "Title": "Translation example",
+    "pageTitle": "Training evaluation platform",
+    "TrainingRecords": "Trainings Records",
+    "RegisteredUsers": "Registered users",
+    "Logout": "Logout",
+    "FilterTrainingItems": "Filter training items",
+    "CreateNew": "Create new",
+    "Details": "Details",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "ViewTraining": "View Training records",
+    "CardView": "Card view of training records",
+    "TableView": "Table view of training records"
+}
