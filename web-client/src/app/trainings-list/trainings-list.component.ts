@@ -8,11 +8,13 @@ import { FilterTrainingService } from '../services/filter-trainings.service';
 import { TrainingFilter } from '../interfaces/filter';
 import { TrainingToggleView } from '../interfaces/toggle-view';
 import { DialogWidth } from '../interfaces/dialog-width';
+import { ENTER_LEAVE_ANIMATION } from '../animations/enter-leave.animation';
 
 @Component({
   selector: 'app-trainings-list',
   templateUrl: './trainings-list.component.html',
-  styleUrls: ['./trainings-list.component.css']
+  styleUrls: ['./trainings-list.component.css'],
+  animations: [ENTER_LEAVE_ANIMATION]
 })
 export class TrainingsListComponent implements OnInit {
   dataSource: MatTableDataSource<Training>;
@@ -21,7 +23,7 @@ export class TrainingsListComponent implements OnInit {
   selectedTable: boolean;
   nameFilter: string;
   levelFilter: string;
-  viewTitle: string;
+  viewTitle: string; 
 
   constructor(public dialog: MatDialog,
     private filterTrainingService: FilterTrainingService) { }
