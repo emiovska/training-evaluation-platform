@@ -36,6 +36,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             training.evaluation.training.model.User creds = new ObjectMapper()
                     .readValue(req.getInputStream(), training.evaluation.training.model.User.class);
 
+            System.out.println("Attemp Authentication "+creds.getUsername()+" pass "+creds.getPassword());
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
@@ -58,7 +59,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();
-        System.out.println("Token"+ token);
+        System.out.println("Successful Authentication Token ="+ token);
 
         res.addHeader("Access-Control-Expose-Headers", "Authorization");
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);

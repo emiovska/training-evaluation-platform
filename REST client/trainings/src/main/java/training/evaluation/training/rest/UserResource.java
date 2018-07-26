@@ -30,6 +30,7 @@ public class UserResource {
 
     @GetMapping("/byUsername/{username}")
     public User getByUsername(@PathVariable String username) {
+        System.out.println("By username "+username);
         return userServices.getByUsername(username);
     }
 }
