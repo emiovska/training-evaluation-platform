@@ -32,7 +32,6 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 
     private Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
-        System.out.println("getAuthentication token  =-"+token);
         if (token != null) {
             // parse the token.
 
@@ -41,7 +40,6 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-            System.out.println("User  =-"+user);
             return user != null ?
                     new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
                     null;

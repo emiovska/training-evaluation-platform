@@ -16,21 +16,18 @@ public class UserResource {
     @Autowired
     private IUserServices userServices;
 
-    @PostMapping("/register")
+    @PostMapping("/sign-up")
     public User signUp(@RequestBody User user) {
-        System.out.println("Rest register");
         return userServices.register(user);
     }
 
-
-    @GetMapping("/")
+    @GetMapping("/allusers")
     public List<User> getAll() {
         return userServices.getAllUsers();
     }
 
     @GetMapping("/byUsername/{username}")
     public User getByUsername(@PathVariable String username) {
-        System.out.println("By username "+username);
         return userServices.getByUsername(username);
     }
 }
