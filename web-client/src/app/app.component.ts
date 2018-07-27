@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './services/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent implements OnInit {
   pageTitle = 'Training evaluation platform';
+
   defaultLanguage = 'en';
 
   constructor(private authService: AuthenticationService,

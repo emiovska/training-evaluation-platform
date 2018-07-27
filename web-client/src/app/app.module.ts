@@ -26,6 +26,8 @@ import { UserService } from './services/user.service';
 import { UsersComponent } from './users/users.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     FilterTrainingsComponent,
     LoginComponent,
     RegisterUserComponent,
-    UsersComponent
+    UsersComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgbModule.forRoot()
   ],
   entryComponents: [
     UpdateTrainingDialogComponent,
