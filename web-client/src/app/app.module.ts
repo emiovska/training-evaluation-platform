@@ -11,7 +11,7 @@ import { UpdateTrainingDialogComponent } from './dialogs/update-training-dialog/
 import { AddNewTrainingDialogComponent } from './dialogs/add-new-training-dialog/add-new-training-dialog.component';
 import { TrainingService } from './services/training.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TrainingCardComponent } from './training-card/training-card.component';
 import { FilterTrainingService } from './services/filter-trainings.service';
 import { FilterTrainingsComponent } from './filter-trainings/filter-trainings.component';
@@ -24,6 +24,8 @@ import { routing } from './app.routing';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { UserService } from './services/user.service';
 import { UsersComponent } from './users/users.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,14 @@ import { UsersComponent } from './users/users.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    routing
+    routing,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   entryComponents: [
     UpdateTrainingDialogComponent,
@@ -66,3 +75,7 @@ import { UsersComponent } from './users/users.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
