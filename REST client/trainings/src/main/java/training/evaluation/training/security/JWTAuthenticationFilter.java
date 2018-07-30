@@ -35,12 +35,12 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         if (token != null) {
             // parse the token.
 
-            String Users= Jwts.parser()
+            String user= Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-            return Users!= null ?
+            return user != null ?
                     new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
                     null;
         }
