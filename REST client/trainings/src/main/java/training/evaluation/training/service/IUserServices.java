@@ -1,9 +1,10 @@
 package training.evaluation.training.service;
 
-import training.evaluation.training.model.User;
+import training.evaluation.training.model.Users;
+
 
 public interface IUserServices {
 
-    User register(User user);
-    Iterable<User> getAllUsers();
+    Users register(Users user);
+    Iterable<Users> getAllUsers();
 }
