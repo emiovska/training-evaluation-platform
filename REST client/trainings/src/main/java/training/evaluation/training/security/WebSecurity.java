@@ -18,6 +18,7 @@ import static training.evaluation.training.security.SecurityConstants.SIGN_UP_UR
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 

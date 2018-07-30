@@ -21,6 +21,7 @@ import java.util.Date;
 
 import static training.evaluation.training.security.SecurityConstants.*;
 
+
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     public JWTLoginFilter(String url, AuthenticationManager authManager) {

@@ -8,6 +8,7 @@ import java.util.List;
 public interface UserRepository extends MongoRepository<Users, String> {
     Users findByUsername(String username);
 
+
     @Override
     List<Users> findAll();
 }
