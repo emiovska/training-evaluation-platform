@@ -5,9 +5,9 @@ import training.evaluation.training.model.Users;
 
 import java.util.List;
 
-public interface UserRepository extends MongoRepository<User, String> {
-    UsersfindByUsername(String username);
+public interface UserRepository extends MongoRepository<Users, String> {
+    Users findByUsername(String username);
 
     @Override
-    List<User> findAll();
+    List<Users> findAll();
 }

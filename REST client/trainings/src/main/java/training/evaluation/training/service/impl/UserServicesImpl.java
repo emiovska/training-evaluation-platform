@@ -17,6 +17,7 @@ public class UserServicesImpl implements IUserServices {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
     @Override
     public Users register(Users user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

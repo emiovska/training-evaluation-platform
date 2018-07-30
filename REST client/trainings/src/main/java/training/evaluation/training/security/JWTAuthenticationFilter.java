@@ -16,6 +16,7 @@ import java.io.IOException;
 import static java.util.Collections.emptyList;
 import static training.evaluation.training.security.SecurityConstants.*;
 
+
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
     @Override
