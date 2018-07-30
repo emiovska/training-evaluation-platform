@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.ITrainingServices;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
