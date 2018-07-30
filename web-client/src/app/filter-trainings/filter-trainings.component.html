@@ -1,5 +1,5 @@
 <mat-card>
-  <h4 mat-subheader>{{ 'FilterTrainingItems' | translate }}</h4>
+  <h4 mat-subheader>Filter training items</h4>
   <div class="row">
     <div class="col s1">
       <mat-form-field class="example-full-width">
@@ -15,10 +15,10 @@
     </div>
     <div class="col s1">
       <button mat-raised-button color="accent" (click)="createNewItem()">
-        <mat-icon>add</mat-icon>{{ 'CreateNew' | translate}}</button>
+        <mat-icon>add</mat-icon> Create new</button>
     </div>
     <div class="col s1">
-      <mat-slide-toggle (click)="viewTrainingCard()">{{ viewTitle | translate }}</mat-slide-toggle>
+      <mat-slide-toggle (click)="viewTrainingCard()">{{ viewTitle }}</mat-slide-toggle>
     </div>
   </div>
 </mat-card>

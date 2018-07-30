@@ -1,32 +1,20 @@
 <div>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" routerLinkActive="active" routerLink="/">{{ pageTitle | translate }}</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand">{{ pageTitle }}</a> |
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item active" *ngIf="isAuthenticated()">
-          <a class="nav-link" routerLinkActive="active" routerLink="/">{{ 'TrainingRecords' | translate }}
-            <span class="sr-only">(current)</span>
-          </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link active" routerLinkActive="active" routerLink="/">Training records</a>
         </li>
-        <li class="nav-item" *ngIf="isAuthenticated()">
-          <a class="nav-link" routerLinkActive="active" routerLink="/users">{{ 'RegisteredUsers' | translate }}</a>
+        <li class="nav-item active">
+          <a class="nav-link active" routerLinkActive="active" routerLink="/users">Registered Users</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/login" (click)="logout()">{{ 'Logout' | translate }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="language" (click)="switchLanguage('en')">
-            <img src="http://www.animatedimages.org/data/media/771/animated-great-britain-flag-image-0018.gif" alt="English" width="27"
-              height="20" />
-          </a>
-          <a class="language" (click)="switchLanguage('mk')">
-            <img src="assets/images/mkd.gif" alt="Macedonian" width="27" height="20" />
-          </a>
+        <li class="nav-item active">
+          <a class="nav-link" routerLinkActive="active" routerLink="/login">Logout</a>
         </li>
       </ul>
     </div>

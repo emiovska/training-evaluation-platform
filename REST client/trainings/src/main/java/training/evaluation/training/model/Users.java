@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Document(collection = "users")
 public class Users {
 
+
     @Id
     private ObjectId id;
     private String username;
@@ -25,6 +26,7 @@ public class Users {
         this.firstname = firstname;
         this.lastname = lastname;
     }
+
 
     public ObjectId getId() {
         return id;

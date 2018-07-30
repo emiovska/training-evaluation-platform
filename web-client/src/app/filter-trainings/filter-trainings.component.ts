@@ -36,7 +36,7 @@ export class FilterTrainingsComponent implements OnInit {
     this.selectedTable = true;
     this.nameFilter = '';
     this.levelFilter = ALL_LEVELS;
-    this.viewTitle = 'ViewTraining';
+    this.viewTitle = 'View Training cards';
   }
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class FilterTrainingsComponent implements OnInit {
 
   viewTrainingCard() {
     this.selectedTable = !this.selectedTable;
-    this.selectedTable ? this.viewTitle = 'CardView' : this.viewTitle = 'TableView';
+    this.selectedTable ? this.viewTitle = 'Card view of training records' : this.viewTitle = 'Table view of training records';
     this.toogleBtnClicked.emit({ selectedTable: this.selectedTable, viewTitle: this.viewTitle })
   }
 
