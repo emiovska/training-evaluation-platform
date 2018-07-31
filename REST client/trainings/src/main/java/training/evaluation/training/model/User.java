@@ -1,15 +1,11 @@
 package training.evaluation.training.model;
 
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Document(collection = "users")
-public class Users {
-
+public class User {
 
     @Id
     private ObjectId id;
@@ -18,15 +14,14 @@ public class Users {
     private String firstname;
     private String lastname;
 
-    public Users() {}
+    public User() {}
 
-    public Users(String username, String password, String firstname, String lastname) {
+    public User(String username, String password, String firstname, String lastname) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
     }
-
 
     public ObjectId getId() {
         return id;
@@ -49,7 +44,7 @@ public class Users {
     }
 
     public void setPassword(String password) {
-        this.password=password;
+        this.password = password;
     }
 
     public String getFirstname() {

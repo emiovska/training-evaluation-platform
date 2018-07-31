@@ -1,13 +1,9 @@
 package training.evaluation.training.service;
 
-import training.evaluation.training.model.Users;
-
-import java.util.List;
+import training.evaluation.training.model.User;
 
 public interface IUserServices {
 
-    Users register(Users user);
-    List<Users> getAllUsers();
-    Users getByUsername(String username);
-
+    User register(User user);
+    Iterable<User> getAllUsers();
 }
