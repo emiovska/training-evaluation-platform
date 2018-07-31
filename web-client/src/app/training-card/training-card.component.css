@@ -1,8 +1,5 @@
 .training-card {
     margin: 5px;
     max-width: 400px;
-    border-left-color: teal;
-    border-left-width: 6px;
-    border-left-style: solid;
-
+    background-color: rgb(150, 193, 248)
 }

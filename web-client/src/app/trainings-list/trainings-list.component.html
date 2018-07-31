@@ -8,13 +8,6 @@
   </div>
 
   <div *ngIf="trainings">
-    <div class="row">
-      <mat-chip-list class="container color-light" [@trainingState]="trainings.length">
-        <mat-chip color="primary" selected *ngFor="let training of trainings; let i = index" (click)="removeItem(i)">
-          {{ training.name }}
-        </mat-chip>
-      </mat-chip-list>
-    </div>
     <div class="row" *ngIf="selectedTable">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="id">

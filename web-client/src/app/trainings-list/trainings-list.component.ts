@@ -8,13 +8,11 @@ import { FilterTrainingService } from '../services/filter-trainings.service';
 import { TrainingFilter } from '../interfaces/filter';
 import { TrainingToggleView } from '../interfaces/toggle-view';
 import { DialogWidth } from '../interfaces/dialog-width';
-import { ENTER_LEAVE_ANIMATION } from '../animations/enter-leave.animation';
 
 @Component({
   selector: 'app-trainings-list',
   templateUrl: './trainings-list.component.html',
-  styleUrls: ['./trainings-list.component.css'],
-  animations: [ENTER_LEAVE_ANIMATION]
+  styleUrls: ['./trainings-list.component.css']
 })
 export class TrainingsListComponent implements OnInit {
   dataSource: MatTableDataSource<Training>;
@@ -23,7 +21,7 @@ export class TrainingsListComponent implements OnInit {
   selectedTable: boolean;
   nameFilter: string;
   levelFilter: string;
-  viewTitle: string; 
+  viewTitle: string;
 
   constructor(public dialog: MatDialog,
     private filterTrainingService: FilterTrainingService) { }
@@ -31,7 +29,7 @@ export class TrainingsListComponent implements OnInit {
   ngOnInit() {
     this.reloadTrainings();
     this.selectedTable = true;
-    this.viewTitle = 'View Training cards';  
+    this.viewTitle = 'View Training cards';
   }
 
   displayedColumns = ['id', 'name', 'level', 'description', 'actions'];
