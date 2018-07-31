@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Document(collection = "users")
-public class Users {
+public class User {
 
 
     @Id
@@ -18,9 +18,9 @@ public class Users {
     private String firstname;
     private String lastname;
 
-    public Users() {}
+    public User() {}
 
-    public Users(String username, String password, String firstname, String lastname) {
+    public User(String username, String password, String firstname, String lastname) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;

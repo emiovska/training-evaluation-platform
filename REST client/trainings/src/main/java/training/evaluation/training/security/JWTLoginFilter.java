@@ -34,8 +34,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            training.evaluation.training.model.Users creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), training.evaluation.training.model.Users.class);
+            training.evaluation.training.model.User creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), training.evaluation.training.model.User.class);
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),

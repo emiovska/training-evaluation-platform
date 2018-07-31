@@ -1,10 +1,10 @@
 /*
 package training.evaluation.training.service;
 
-import training.evaluation.training.model.Users;
+import training.evaluation.training.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.Users;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +22,8 @@ public class MongoUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users Users= repository.findByUsername(username);
-        if(Users== null) {
+        User User= repository.findByUsername(username);
+        if(User== null) {
             throw new UsernameNotFoundException("Usersnot found");
         }
         List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));

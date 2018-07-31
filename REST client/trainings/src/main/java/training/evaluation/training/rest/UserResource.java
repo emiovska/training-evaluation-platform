@@ -5,9 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import training.evaluation.training.model.Users;
+import training.evaluation.training.model.User;
 import training.evaluation.training.service.IUserServices;
-import training.evaluation.training.service.impl.UserServicesImpl;
 
 import java.util.List;
 
