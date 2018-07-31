@@ -7,8 +7,7 @@ import java.util.List;
 public interface IUserServices {
 
     User register(User user);
-
     List<User> getAllUsers();
-
     User getByUsername(String username);
+
 }

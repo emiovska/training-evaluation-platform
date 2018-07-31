@@ -5,9 +5,12 @@ import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Document(collection = "users")
 public class User {
+
 
     @Id
     private ObjectId id;
@@ -25,6 +28,7 @@ public class User {
         this.firstname = firstname;
         this.lastname = lastname;
     }
+
 
     public ObjectId getId() {
         return id;
@@ -47,7 +51,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password=password;
     }
 
     public String getFirstname() {

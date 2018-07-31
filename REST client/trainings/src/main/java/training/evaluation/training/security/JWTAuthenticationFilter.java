@@ -16,6 +16,7 @@ import java.io.IOException;
 import static java.util.Collections.emptyList;
 import static training.evaluation.training.security.SecurityConstants.*;
 
+
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
     @Override
@@ -30,12 +31,13 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         filterChain.doFilter(request, response);
     }
 
+
     private Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
 
-            String user = Jwts.parser()
+            String user= Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()

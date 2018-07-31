@@ -15,8 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static training.evaluation.training.security.SecurityConstants.SIGN_UP_URL;
 
+
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 

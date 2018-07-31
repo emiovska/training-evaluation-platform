@@ -8,6 +8,7 @@ import training.evaluation.training.service.IUserServices;
 
 import java.util.List;
 
+
 @org.springframework.stereotype.Service
 public class UserServicesImpl implements IUserServices {
 
@@ -16,6 +17,7 @@ public class UserServicesImpl implements IUserServices {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public User register(User user) {
