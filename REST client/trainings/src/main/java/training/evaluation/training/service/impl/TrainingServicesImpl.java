@@ -1,17 +1,15 @@
-package training.evaluation.training.service.impl;
+package training.evaluation.training.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import training.evaluation.training.model.Training;
 import training.evaluation.training.repository.TrainingRepository;
-import training.evaluation.training.service.ITrainingServices;
-
 import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class TrainingServicesImpl  implements ITrainingServices {
+public class TrainingServicesImpl  implements ITrainingServices{
 
     @Autowired
     private TrainingRepository repository;
