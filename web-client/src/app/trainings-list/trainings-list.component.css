@@ -23,3 +23,12 @@ table {
     margin-left: 40%;
     margin-top: 15%;
 }
+
+.JEChip{
+    background-color: rgb(42, 207, 42);
+    color: aliceblue;
+}
+
+.SSEChip {
+    background-color: orange;
+}

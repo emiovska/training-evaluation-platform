@@ -11,8 +11,20 @@
 
     <div>
       <mat-card-subtitle>
-        <mat-icon>show_chart</mat-icon> {{ 'trainings.level' | translate }}
-        <mat-chip color="primary" selected>{{ training.level }}</mat-chip>
+        <div class="row">
+          <div class="col-md-1">
+            <mat-icon>show_chart</mat-icon>
+          </div>
+          <div class="col-md-3">
+            {{ 'trainings.level' | translate }}
+          </div>
+          <div class="col-md-5">
+            <mat-chip *ngIf="training.level == 'JE'" class="JEChip" matTooltip="Junior Software Engineer">{{ training.level }}</mat-chip>
+            <mat-chip *ngIf="training.level == 'SE'" color="primary" matTooltip="Software Engineer" selected>{{ training.level }}</mat-chip>
+            <mat-chip *ngIf="training.level == 'SSE'" class="SSEChip" matTooltip="Senior Software Engineer">{{ training.level }}</mat-chip>
+            <mat-chip *ngIf="training.level == 'TL'" color="accent" matTooltip="Team Lead" selected>{{ training.level }}</mat-chip>
+          </div>
+        </div>
       </mat-card-subtitle>
     </div>
 

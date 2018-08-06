@@ -1,5 +1,5 @@
 export namespace DialogWidth {
-    export const previewDialog = '400px';
+    export const previewDialog = '650px';
     export const editDialog = '600px';
     export const deleteDialog = '410px';
 } 

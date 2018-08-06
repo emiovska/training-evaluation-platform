@@ -14,3 +14,17 @@
 .trainingTitle{
     margin-left: 10px;
 }
+
+.JEChip{
+    background-color: rgb(42, 207, 42);
+    color: aliceblue;
+}
+
+.SSEChip {
+    background-color: orange;
+    color: aliceblue;
+}
+
+.levelChips{
+    margin-left: 5px;
+}
