@@ -2,13 +2,18 @@ package training.evaluation.training.model;
 
 import org.bson.types.Binary;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.File;
 import java.util.List;
 
 @Document(collection = "users")
 public class User {
+
 
     @Id
     private ObjectId id;
@@ -114,8 +119,7 @@ public class User {
     public Binary getPicture() {
         return picture;
     }
-
-    public void setPicture(Binary picture) {
+    public void setLevel(Binary picture) {
         this.picture = picture;
     }
 }
