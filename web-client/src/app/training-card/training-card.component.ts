@@ -18,6 +18,9 @@ export class TrainingCardComponent implements OnInit {
   @Output()
   deleteBtnClick: EventEmitter<Number> = new EventEmitter<Number>();
 
+  @Output()
+  sendRequestBtnClick: EventEmitter<Training> = new EventEmitter<Training>();
+
   constructor() { }
 
   ngOnInit() {
@@ -33,6 +36,14 @@ export class TrainingCardComponent implements OnInit {
 
   deleteDialog() {
     this.deleteBtnClick.emit(this.training.id);
+  }
+
+  sendRequest() {
+    this.sendRequestBtnClick.emit(this.training);
+  }
+
+  isAdmin(): boolean {
+    return false;
   }
 
 }

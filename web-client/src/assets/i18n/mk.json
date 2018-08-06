@@ -17,5 +17,16 @@
         "AchieveGoals": "Постигни ги своите цели",
         "GainExperience": "Стекни се со практично искуство",
         "ImproveKnowledge": "Подобри го твоето знаење"
+    },
+    "trainings": {
+        "sendRequest": "Испрати барање",
+        "delete": "Избриши",
+        "edit": "Уреди",
+        "details": "Детали",
+        "action": "Акции",
+        "number": "Број",
+        "name": "Име",
+        "level": "Ниво на тренинг",
+        "description": "Краток опис"
     }
 }
