@@ -1,59 +1,38 @@
 package training.evaluation.training.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "trainings")
 public class Training {
     @Id
-    private String id;
-    private String name;
-    private String level;
-    private String description;
+    @Getter private String id;
+    @Getter @Setter private String name;
+    @Getter @Setter private String level;
+    @Getter @Setter private String description;
+    @Getter @Setter private Binary imageFile;
+    @Getter @Setter private String trainer;
+    @Getter @Setter private List<String> skills;
 
     public Training() {}
 
-    public Training(String name, String level, String description) {
+    public Training(String name, String level, String description, Binary imageFile, String trainer, List<String> skills) {
         this.name = name;
         this.level = level;
         this.description = description;
+        this.imageFile = imageFile;
+        this.trainer = trainer;
+        this.skills = skills;
     }
 
     public Training(String name, String level) {
         this.name = name;
         this.level = level;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String descriptipon) {
-        this.description = descriptipon;
     }
 
     @Override

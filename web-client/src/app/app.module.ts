@@ -26,6 +26,7 @@ import { UserService } from './services/user.service';
 import { UsersComponent } from './users/users.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
 import { StarRatingModule } from 'angular-star-rating';
@@ -34,6 +35,7 @@ import { ToastNotificationService } from './services/toast-notification.service'
 import { FileSelectDirective } from 'ng2-file-upload';
 import { SelfProfileComponent } from './self-profile/self-profile.component';
 import { UploaderService } from './services/uploader.service';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { UploaderService } from './services/uploader.service';
         deps: [HttpClient]
       }
     }),
+
     StarRatingModule.forRoot(),
+
     NgbModule.forRoot()
   ],
   entryComponents: [
