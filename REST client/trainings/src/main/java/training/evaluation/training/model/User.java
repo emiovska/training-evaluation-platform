@@ -1,8 +1,6 @@
 package training.evaluation.training.model;
 
 import org.bson.types.Binary;
-import org.bson.types.ObjectId;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,6 +25,7 @@ public class User {
     @Getter @Setter private List<String> skills;
     @Getter @Setter private List<String> trainingRatings;
     @Getter @Setter private Binary picture;
+
 
     public User() {}
 
