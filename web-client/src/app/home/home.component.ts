@@ -14,6 +14,7 @@ interface Image {
 export class HomeComponent implements OnInit {
 
   images: Array<Image>;
+
   skills: string[];
   numStars: number;
   onRatingChangeResult: RatingChangeEvent;
@@ -29,7 +30,6 @@ export class HomeComponent implements OnInit {
     ];
 
     this.skills = ['Html', 'Saas', 'Java script', 'Java8', 'Relational database'];
-
     this.numStars = 3;
   }
 
