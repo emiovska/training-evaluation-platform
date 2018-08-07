@@ -13,6 +13,7 @@ interface Image {
 export class HomeComponent implements OnInit {
 
   images: Array<Image>;
+
   skills: string[];
   constructor() { }
 
@@ -25,5 +26,6 @@ export class HomeComponent implements OnInit {
     ];
 
     this.skills = ['Html', 'Saas', 'Java script', 'Java8', 'Relational database'];
+
   }
 }

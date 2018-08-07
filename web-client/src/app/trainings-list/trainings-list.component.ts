@@ -9,7 +9,9 @@ import { TrainingFilter } from '../interfaces/filter';
 import { TrainingToggleView } from '../interfaces/toggle-view';
 import { DialogWidth } from '../interfaces/dialog-width';
 import { ENTER_LEAVE_ANIMATION } from '../animations/enter-leave.animation';
+
 import { SendRequestDialogComponent } from '../dialogs/send-request-dialog/send-request-dialog.component';
+
 
 @Component({
   selector: 'app-trainings-list',

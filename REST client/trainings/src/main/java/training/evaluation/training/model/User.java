@@ -1,24 +1,32 @@
 package training.evaluation.training.model;
 
+import org.bson.types.Binary;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Document(collection = "users")
 public class User {
 
-
     @Id
-    private ObjectId id;
+    @Getter private String id;
     @Indexed(unique=true)
-    private String username;
-    private String password;
-    private String firstname;
-    private String lastname;
+    @Getter @Setter private String username;
+    @Getter @Setter private String password;
+    @Getter @Setter private String firstname;
+    @Getter @Setter private String lastname;
+    @Getter @Setter private String type;                            //ADMIN, TRAINER, USER
+    @Getter @Setter private String level;                           // JSE, SE, SSE, TL
+    @Getter @Setter private List<String> skills;
+    @Getter @Setter private List<String> trainingRatings;
+    @Getter @Setter private Binary picture;
 
     public User() {}
 
@@ -29,44 +37,4 @@ public class User {
         this.lastname = lastname;
     }
 
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password=password;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 }
