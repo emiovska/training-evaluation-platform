@@ -6,6 +6,7 @@ import { LoginComponent } from "./login/login.component";
 import { RegisterUserComponent } from "./register-user/register-user.component";
 import { UsersComponent } from "./users/users.component";
 import { HomeComponent } from "./home/home.component";
+import { SelfProfileComponent } from "./self-profile/self-profile.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterUserComponent },
     { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+    { path: 'self-profile', component: SelfProfileComponent },
 
     { path: '**', redirectTo: '' }
 ];
