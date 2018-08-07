@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { RatingChangeEvent } from 'angular-star-rating';
 
 
 interface Image {
@@ -15,6 +16,9 @@ export class HomeComponent implements OnInit {
   images: Array<Image>;
 
   skills: string[];
+  numStars: number;
+  onRatingChangeResult: RatingChangeEvent;
+ 
   constructor() { }
 
   ngOnInit() {
@@ -26,6 +30,12 @@ export class HomeComponent implements OnInit {
     ];
 
     this.skills = ['Html', 'Saas', 'Java script', 'Java8', 'Relational database'];
-
+    this.numStars = 3;
   }
+
+  onRatingChange = ($event: RatingChangeEvent) => {
+    console.log('onRatingUpdated $event: ', $event);
+    this.numStars = $event.rating;
+    this.onRatingChangeResult = $event;
+  };
 }

@@ -32,6 +32,8 @@ import { HomeComponent } from './home/home.component';
 import { StarRatingModule } from 'angular-star-rating';
 import { SendRequestDialogComponent } from './dialogs/send-request-dialog/send-request-dialog.component';
 import { ToastNotificationService } from './services/toast-notification.service';
+import { FileSelectDirective } from 'ng2-file-upload';
+import { SelfProfileComponent } from './self-profile/self-profile.component';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { ToastNotificationService } from './services/toast-notification.service'
     LoginComponent,
     RegisterUserComponent,
     UsersComponent,
-    HomeComponent
+    HomeComponent,
+    FileSelectDirective,
+    SelfProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -16,9 +16,9 @@ export class BackendMethots {
 
         if (filteredUsers.length) {
             let user = filteredUsers[0];
-            const { id, username, firstName, lastName } = user;
+            const { id, username, firstname, lastname } = user;
             let body = {
-                id, username, firstName, lastName, token: 'fake-jwt-token'
+                id, username, firstname, lastname, token: 'fake-jwt-token'
             };
             return of(new HttpResponse({ status: 200, body }));
         } else {
