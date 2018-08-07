@@ -26,6 +26,7 @@ public class User {
     @Getter @Setter private List<String> trainingRatings;
     @Getter @Setter private Binary picture;
 
+
     public User() {}
 
     public User(String username, String password, String firstname, String lastname) {
