@@ -11,5 +11,6 @@ public interface IUserServices {
     List<User> getAllUsers();
     User getByUsername(String username);
     User setProfilePicture(MultipartFile multipart,String username);
+    User getProfilePicture(String username);
 
 }

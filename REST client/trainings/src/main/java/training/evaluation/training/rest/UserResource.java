@@ -48,4 +48,8 @@ public class UserResource {
         return userServices.setProfilePicture(multipart,username);
     }
 
+    @PostMapping("/retrieve/{username}")
+    public User retrieveFile(@PathVariable("username") String username) {
+        return  userServices.getProfilePicture(username);
+    }
 }
