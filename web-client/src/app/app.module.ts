@@ -33,6 +33,7 @@ import { SendRequestDialogComponent } from './dialogs/send-request-dialog/send-r
 import { ToastNotificationService } from './services/toast-notification.service';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { SelfProfileComponent } from './self-profile/self-profile.component';
+import { UploaderService } from './services/uploader.service';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { SelfProfileComponent } from './self-profile/self-profile.component';
     FilterTrainingService,
     UserService,
     ToastNotificationService,
+    UploaderService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],
