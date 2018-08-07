@@ -8,6 +8,8 @@ import training.evaluation.training.model.User;
 import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.IUserServices;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -41,6 +43,30 @@ public class UserServicesImpl implements IUserServices {
             userRepository.save(user);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public User getProfilePicture(String username) {
+        User user = userRepository.findByUsername(username);
+        Binary document = user.getPicture();
+        if(document != null) {
+            FileOutputStream fileOuputStream = null;
+            try {
+                fileOuputStream = new FileOutputStream( "prof_pic.jpg");
+                fileOuputStream.write(document.getData());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fileOuputStream != null) {
+                    try {
+                        fileOuputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         return user;
     }
