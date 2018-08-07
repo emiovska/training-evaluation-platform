@@ -29,4 +29,3 @@ export const ENTER_LEAVE_ANIMATION =
                 ]))]), { optional: true })
         ])
     ]);
-    

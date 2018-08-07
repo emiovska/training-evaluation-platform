@@ -13,6 +13,7 @@ interface Image {
 export class HomeComponent implements OnInit {
 
   images: Array<Image>;
+  skills: string[];
   constructor() { }
 
   ngOnInit() {
@@ -22,5 +23,7 @@ export class HomeComponent implements OnInit {
       { src: 'assets/images/training6.jpg', text: 'home.GainExperience' },
       { src: 'assets/images/training4.jpg', text: 'home.ImproveKnowledge' }
     ];
+
+    this.skills = ['Html', 'Saas', 'Java script', 'Java8', 'Relational database'];
   }
 }

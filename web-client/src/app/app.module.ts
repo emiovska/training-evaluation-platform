@@ -26,8 +26,11 @@ import { UserService } from './services/user.service';
 import { UsersComponent } from './users/users.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
+import { StarRatingModule } from 'angular-star-rating';
+import { SendRequestDialogComponent } from './dialogs/send-request-dialog/send-request-dialog.component';
+import { ToastNotificationService } from './services/toast-notification.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { HomeComponent } from './home/home.component';
     DeleteTrainingDialogComponent,
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
+    SendRequestDialogComponent,
     TrainingCardComponent,
     FilterTrainingsComponent,
     LoginComponent,
@@ -59,13 +63,15 @@ import { HomeComponent } from './home/home.component';
         deps: [HttpClient]
       }
     }),
+    StarRatingModule.forRoot(),
     NgbModule.forRoot()
   ],
   entryComponents: [
     UpdateTrainingDialogComponent,
     DeleteTrainingDialogComponent,
     TrainingItemDialogComponent,
-    AddNewTrainingDialogComponent
+    AddNewTrainingDialogComponent,
+    SendRequestDialogComponent
   ],
   providers: [
     AuthGuard,
@@ -73,6 +79,7 @@ import { HomeComponent } from './home/home.component';
     TrainingService,
     FilterTrainingService,
     UserService,
+    ToastNotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],
