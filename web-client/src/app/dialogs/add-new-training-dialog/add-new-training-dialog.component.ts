@@ -1,9 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent } from '@angular/material';
 import { levelsApi } from '../../../api/levels/levels';
 import { TrainingService } from '../../services/training.service';
 import { Training } from '../../models/training';
 import { FormControl, Validators } from '@angular/forms';
+import { Skill } from '../../models/skill';
+import { skillsApi } from '../../../api/skills/skills';
 
 @Component({
   selector: 'app-add-new-training-dialog',
@@ -13,22 +16,31 @@ import { FormControl, Validators } from '@angular/forms';
 export class AddNewTrainingDialogComponent implements OnInit {
 
   training: Training;
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
   constructor(private dialogRef: MatDialogRef<AddNewTrainingDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private trainingService: TrainingService) { }
 
-  levels = levelsApi;
+  levels: string[];
+  skills: Skill[];
 
   ngOnInit(): void {
     this.training = new Training();
+    this.skills = skillsApi;
+    this.levels = levelsApi;
   }
 
-   
+
   name = new FormControl('', [Validators.required]);
   level = new FormControl('', [Validators.required]);
 
-  getErrorMessage(paramName: string){
-    return this.name.hasError('required') ? `You must enter a ${paramName}`: '';
+  getErrorMessage(paramName: string) {
+    return this.name.hasError('required') ? `You must enter a ${paramName}` : '';
   }
 
   save() {
@@ -42,4 +54,27 @@ export class AddNewTrainingDialogComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
+  //skill select combo
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our skill
+    if ((value || '').trim()) {
+      this.skills.push({ name: value.trim() });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(skill: Skill): void {
+    const index = this.skills.indexOf(skill);
+
+    if (index >= 0) {
+      this.skills.splice(index, 1);
+    }
+  }
 }

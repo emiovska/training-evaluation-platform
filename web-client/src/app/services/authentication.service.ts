@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { map, catchError } from "../../../node_modules/rxjs/operators";
-import { Observable } from "../../../node_modules/rxjs";
+import { map, catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class AuthenticationService {

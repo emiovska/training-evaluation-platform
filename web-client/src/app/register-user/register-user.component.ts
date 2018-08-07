@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { UserService } from '../services/user.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '../../../node_modules/@angular/material';
+import { ToastNotificationService } from '../services/toast-notification.service';
+
 
 @Component({
   selector: 'app-register-user',
@@ -15,15 +16,11 @@ export class RegisterUserComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
-  //for snack bar toast notification position
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private userService: UserService,
-    public snackBar: MatSnackBar) { }
+    private toastNotificationService: ToastNotificationService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -55,18 +52,10 @@ export class RegisterUserComponent implements OnInit {
         },
         error => {
           console.log("Log error", error);
-          console.log("Register error:",error.message);
-          this.showNotification(error.message);
+          console.log("Register error:", error.message);
+          this.toastNotificationService.showNotification(error.message);
           this.registerForm.reset();
         }
       );
-  }
-
-  showNotification(message: string) {
-    this.snackBar.open(message, "Close", {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
   }
 }
