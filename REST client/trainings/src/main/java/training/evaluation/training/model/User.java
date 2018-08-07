@@ -4,11 +4,13 @@ import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 
 @Document(collection = "users")
 public class User {
@@ -17,7 +19,7 @@ public class User {
     @Getter private String id;
     @Indexed(unique=true)
     @Getter @Setter private String username;
-    @Getter @Setter private String password;
+    @Getter private String password;
     @Getter @Setter private String firstname;
     @Getter @Setter private String lastname;
     @Getter @Setter private String type;                            //ADMIN, TRAINER, USER
@@ -36,4 +38,24 @@ public class User {
         this.lastname = lastname;
     }
 
+    public void setPassword(String password) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.password = (bCryptPasswordEncoder.encode(password));
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", type='" + type + '\'' +
+                ", level='" + level + '\'' +
+                ", skills=" + skills +
+                ", trainingRatings=" + trainingRatings +
+                ", picture=" + picture +
+                '}';
+    }
 }

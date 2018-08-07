@@ -3,11 +3,16 @@ package training.evaluation.training.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.User;
 import training.evaluation.training.service.IUserServices;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin(origins = {"${origins}"})
@@ -37,4 +42,11 @@ public class UserResource {
     public User getByUsername(@ApiParam(value = "Username of the user that we search for as a path variable.", required = true) @PathVariable String username) {
         return userServices.getByUsername(username);
     }
+
+    @PostMapping("/uploadPicture/{username}")
+    @ApiOperation(value = "Upload profile picture to user by username", notes = "Find user by username and upload profile picture")
+    public User singleFileUpload(@ApiParam(value = "File to upload", required = true)  @RequestParam("file") MultipartFile multipart, @ApiParam(value = "Username of the user that we need to upload profile picture", required = true) @PathVariable("username") String username) {
+        return userServices.setProfilePicture(multipart,username);
+    }
+
 }
