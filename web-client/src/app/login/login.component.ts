@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '../../../node_modules/@angular/material';
-import { HttpResponse } from '../../../node_modules/@angular/common/http';
-import { Observable } from '../../../node_modules/rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { ToastNotificationService } from '../services/toast-notification.service';
 
 @Component({
   selector: 'app-login',
@@ -17,17 +17,13 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   submitting = false;
 
-  //for snack bar toast notification position
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    public snackBar: MatSnackBar) { }
+    private toastNotificationService: ToastNotificationService) { }
 
   ngOnInit() {
     this.authenticationService.logout();
@@ -44,7 +40,7 @@ export class LoginComponent implements OnInit {
           this.saveUserToStorage(signInForm.value.username, authToken);
         }, error => {
           this.submitting = false;
-          this.showNotification(error.message);
+          this.toastNotificationService.showNotification(error.message);
         });
     }
   }
@@ -71,11 +67,4 @@ export class LoginComponent implements OnInit {
     return Observable.throw(error.message || error);
   }
 
-  showNotification(message: string) {
-    this.snackBar.open(message, "Close", {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
 }

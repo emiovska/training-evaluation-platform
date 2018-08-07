@@ -17,5 +17,16 @@
         "AchieveGoals": "Achieve your goals",
         "GainExperience": "Gain with practical experience",
         "ImproveKnowledge": "Improve your knowledge"
+    },
+    "trainings": {
+        "sendRequest": "Send Request",
+        "delete": "Delete",
+        "edit": "Edit",
+        "details": "Details",
+        "action": "Action",
+        "number": "No.",
+        "name": "Name",
+        "level": "Level",
+        "description": "Description"
     }
 }

@@ -10,6 +10,9 @@ import { TrainingToggleView } from '../interfaces/toggle-view';
 import { DialogWidth } from '../interfaces/dialog-width';
 import { ENTER_LEAVE_ANIMATION } from '../animations/enter-leave.animation';
 
+import { SendRequestDialogComponent } from '../dialogs/send-request-dialog/send-request-dialog.component';
+
+
 @Component({
   selector: 'app-trainings-list',
   templateUrl: './trainings-list.component.html',
@@ -89,5 +92,17 @@ export class TrainingsListComponent implements OnInit {
   viewTrainingCard(tr: TrainingToggleView) {
     this.selectedTable = tr.selectedTable;
     this.viewTitle = tr.viewTitle;
+  }
+
+  sendRequestForTraining(training: Training) {
+    let dialogRef = this.dialog.open(SendRequestDialogComponent, {
+      width: DialogWidth.deleteDialog,
+      data: { name: training.name }
+    });
+    dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
+  }
+
+  isAdmin(): boolean {
+    return false;
   }
 }
