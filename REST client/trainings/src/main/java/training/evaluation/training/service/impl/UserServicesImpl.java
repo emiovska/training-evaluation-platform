@@ -1,15 +1,12 @@
 package training.evaluation.training.service.impl;
 
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.User;
+import training.evaluation.training.repository.CommonRepository;
 import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.IUserServices;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 
@@ -18,6 +15,9 @@ public class UserServicesImpl implements IUserServices {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    CommonRepository functions;
 
     @Override
     public User register(User user) {
@@ -36,39 +36,13 @@ public class UserServicesImpl implements IUserServices {
 
     @Override
     public User setProfilePicture(MultipartFile multipart, String username) {
-        User user = userRepository.findByUsername(username);
-        try {
-            Binary binaryPic = new Binary(BsonBinarySubType.BINARY, multipart.getBytes());
-            user.setPicture(binaryPic);
-            userRepository.save(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
+        return functions.uploadUserPicture(multipart,username);
     }
 
     @Override
     public User getProfilePicture(String username) {
-        User user = userRepository.findByUsername(username);
-        Binary document = user.getPicture();
-        if(document != null) {
-            FileOutputStream fileOuputStream = null;
-            try {
-                fileOuputStream = new FileOutputStream( "prof_pic.jpg");
-                fileOuputStream.write(document.getData());
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (fileOuputStream != null) {
-                    try {
-                        fileOuputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        return user;
+        return functions.retrieveUserPicture(username);
+
     }
 
 }
