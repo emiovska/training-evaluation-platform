@@ -34,6 +34,7 @@ import { SendRequestDialogComponent } from './dialogs/send-request-dialog/send-r
 import { ToastNotificationService } from './services/toast-notification.service';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { SelfProfileComponent } from './self-profile/self-profile.component';
+import { UploaderService } from './services/uploader.service';
 import { TrainingRequestService } from './services/training-request.service';
 import { TrainingRequestCardComponent } from './training-request-card/training-request-card.component';
 import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
@@ -95,6 +96,7 @@ import { ApprovedTrainingRequestsComponent } from './approved-training-requests/
     FilterTrainingService,
     UserService,
     ToastNotificationService,
+    UploaderService,
     TrainingRequestService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider

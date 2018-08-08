@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
-import { ToastNotificationService } from '../services/toast-notification.service';
+import { UploaderService } from '../services/uploader.service';
 
-const URL = 'http://localhost:8080/api/upload';
+
 
 @Component({
   selector: 'app-self-profile',
@@ -12,19 +11,13 @@ const URL = 'http://localhost:8080/api/upload';
 })
 export class SelfProfileComponent implements OnInit {
 
-  constructor(private toastNotificationService: ToastNotificationService) { }
   currentUser: User;
-  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
-
+  constructor(private uploadService: UploaderService) { }
 
   ngOnInit() {
     this.currentUser = this.getCurrentUser();
 
-    //uploader
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      this.toastNotificationService.showNotification(`File ${item.file.name} is successfuly upload!`);
-    };
+    this.uploadService.uploadImage(this.currentUser.username, this.currentUser.token);
   }
 
   getCurrentUser() {
