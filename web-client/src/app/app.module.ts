@@ -34,7 +34,10 @@ import { SendRequestDialogComponent } from './dialogs/send-request-dialog/send-r
 import { ToastNotificationService } from './services/toast-notification.service';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { SelfProfileComponent } from './self-profile/self-profile.component';
-
+import { TrainingRequestService } from './services/training-request.service';
+import { TrainingRequestCardComponent } from './training-request-card/training-request-card.component';
+import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
+import { ApprovedTrainingRequestsComponent } from './approved-training-requests/approved-training-requests.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { SelfProfileComponent } from './self-profile/self-profile.component';
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
     SendRequestDialogComponent,
+    CheckProgressOfTrainingDialogComponent,
     TrainingCardComponent,
     FilterTrainingsComponent,
     LoginComponent,
@@ -52,7 +56,9 @@ import { SelfProfileComponent } from './self-profile/self-profile.component';
     UsersComponent,
     HomeComponent,
     FileSelectDirective,
-    SelfProfileComponent
+    SelfProfileComponent,
+    ApprovedTrainingRequestsComponent,
+    TrainingRequestCardComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +85,8 @@ import { SelfProfileComponent } from './self-profile/self-profile.component';
     DeleteTrainingDialogComponent,
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
-    SendRequestDialogComponent
+    SendRequestDialogComponent,
+    CheckProgressOfTrainingDialogComponent
   ],
   providers: [
     AuthGuard,
@@ -88,6 +95,7 @@ import { SelfProfileComponent } from './self-profile/self-profile.component';
     FilterTrainingService,
     UserService,
     ToastNotificationService,
+    TrainingRequestService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],

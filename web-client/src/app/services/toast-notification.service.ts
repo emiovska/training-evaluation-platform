@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "../../../node_modules/@angular/material";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material";
 
 
 @Injectable()
