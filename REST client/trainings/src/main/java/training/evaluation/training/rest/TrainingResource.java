@@ -5,9 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.User;
 import training.evaluation.training.service.ITrainingServices;
 import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import javax.validation.Valid;
 
@@ -43,7 +46,7 @@ public class TrainingResource {
     @RequestMapping(method = RequestMethod.POST, value = "/training/{id}")
     @ApiOperation(value = "Update training record", notes = "Update training by ID, as a path variable. Request body is training in JSON format with new values - Name and Level are required, Description is optional")
     public ResponseEntity<Training> updateTraining(@ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "Training object in JSON format with Name and Level as a required fields, Description field is optional", required = true) @RequestBody Training training) {
-       return services.updateTraining(id, training);
+        return services.updateTraining(id, training);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/training/filterByName/{name}")
@@ -61,8 +64,13 @@ public class TrainingResource {
 
     @RequestMapping(method = RequestMethod.GET, value = "/training/filterByNameAndLevel/{name}/{level}")
     @ApiOperation(value = "Filter training by name and level", notes = "Filter training by name and level. Return list of existing training records with searched level that start with name field")
-    public List<Training> filterByNameAndLevel(@ApiParam(value = "Name of the record that we search for.", required = true) @PathVariable String name,@ApiParam(value = "Level of the record that we search for.", required = true) @PathVariable String level) {
-        return services.findByNameStartingWithAndLevel(name,level);
+    public List<Training> filterByNameAndLevel(@ApiParam(value = "Name of the record that we search for.", required = true) @PathVariable String name, @ApiParam(value = "Level of the record that we search for.", required = true) @PathVariable String level) {
+        return services.findByNameStartingWithAndLevel(name, level);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/uploadPicture/{name}")
+    @ApiOperation(value = "Upload picture to training by name", notes = "Find training by name and upload picture")
+    public Training singleFileUpload(@ApiParam(value = "File to upload", required = true) @RequestParam("file") MultipartFile multipart, @ApiParam(value = "Name of the training that we need to upload picture", required = true) @PathVariable("name") String name) {
+        return services.setTrainingPicture(multipart, name);
+    }
 }
