@@ -73,4 +73,10 @@ public class TrainingResource {
     public Training singleFileUpload(@ApiParam(value = "File to upload", required = true) @RequestParam("file") MultipartFile multipart, @ApiParam(value = "Name of the training that we need to upload picture", required = true) @PathVariable("name") String name) {
         return services.setTrainingPicture(multipart, name);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/retrieve/{name}")
+    @ApiOperation(value = "Retrieve picture to training by name", notes = "Find training by name and retrieve picture")
+    public Training retrieveFile(@ApiParam(value = "Name of the training that we need to retrieve picture", required = true) @PathVariable("name") String name) {
+        return services.getTrainingPicture(name);
+    }
 }
