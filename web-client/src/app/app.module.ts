@@ -35,7 +35,10 @@ import { ToastNotificationService } from './services/toast-notification.service'
 import { FileSelectDirective } from 'ng2-file-upload';
 import { SelfProfileComponent } from './self-profile/self-profile.component';
 import { UploaderService } from './services/uploader.service';
-
+import { TrainingRequestService } from './services/training-request.service';
+import { TrainingRequestCardComponent } from './training-request-card/training-request-card.component';
+import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
+import { ApprovedTrainingRequestsComponent } from './approved-training-requests/approved-training-requests.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,7 @@ import { UploaderService } from './services/uploader.service';
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
     SendRequestDialogComponent,
+    CheckProgressOfTrainingDialogComponent,
     TrainingCardComponent,
     FilterTrainingsComponent,
     LoginComponent,
@@ -53,7 +57,9 @@ import { UploaderService } from './services/uploader.service';
     UsersComponent,
     HomeComponent,
     FileSelectDirective,
-    SelfProfileComponent
+    SelfProfileComponent,
+    ApprovedTrainingRequestsComponent,
+    TrainingRequestCardComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +86,8 @@ import { UploaderService } from './services/uploader.service';
     DeleteTrainingDialogComponent,
     TrainingItemDialogComponent,
     AddNewTrainingDialogComponent,
-    SendRequestDialogComponent
+    SendRequestDialogComponent,
+    CheckProgressOfTrainingDialogComponent
   ],
   providers: [
     AuthGuard,
@@ -90,6 +97,7 @@ import { UploaderService } from './services/uploader.service';
     UserService,
     ToastNotificationService,
     UploaderService,
+    TrainingRequestService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],

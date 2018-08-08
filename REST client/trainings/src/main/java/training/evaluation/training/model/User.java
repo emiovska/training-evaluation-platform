@@ -4,9 +4,7 @@ import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,4 +34,19 @@ public class User {
         this.lastname = lastname;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", type='" + type + '\'' +
+                ", level='" + level + '\'' +
+                ", skills=" + skills +
+                ", trainingRatings=" + trainingRatings +
+                ", picture=" + picture +
+                '}';
+    }
 }
