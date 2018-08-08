@@ -27,6 +27,8 @@
         "number": "No.",
         "name": "Name",
         "level": "Level",
-        "description": "Description"
+        "description": "Description",
+        "status": "Status",
+        "progress": "Check progress"
     }
 }

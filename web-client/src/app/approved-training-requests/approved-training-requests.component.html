@@ -1,0 +1,12 @@
+<div class="container">
+  <h2 class="training-title">
+    <mat-icon>check_circle</mat-icon>
+    <span>Approved Training requests by trainer</span>
+  </h2>
+  <hr>
+  <div class="row">
+    <div *ngFor="let tr of trainingRequests">
+      <app-training-request-card [trainingRequest]='tr' (previewDetailsClick)="previewDetailsDialog($event)" (giveProgressBtnClick)="giveProgressOfTraining($event)"></app-training-request-card>
+    </div>
+  </div>
+</div>
