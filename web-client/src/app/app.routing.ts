@@ -8,6 +8,7 @@ import { UsersComponent } from "./users/users.component";
 import { HomeComponent } from "./home/home.component";
 import { SelfProfileComponent } from "./self-profile/self-profile.component";
 import { ApprovedTrainingRequestsComponent } from "./approved-training-requests/approved-training-requests.component";
+import { TrainingRequestsListComponent } from "./training-requests-list/training-requests-list.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -16,7 +17,8 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterUserComponent },
     { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
     { path: 'self-profile', component: SelfProfileComponent },
-    { path: 'training-requests', component: ApprovedTrainingRequestsComponent },
+    { path: 'training-requests', component: ApprovedTrainingRequestsComponent, canActivate: [AuthGuard] },
+    { path: 'requests-list', component: TrainingRequestsListComponent, canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '' }
 ];

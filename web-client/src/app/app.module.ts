@@ -39,6 +39,7 @@ import { TrainingRequestService } from './services/training-request.service';
 import { TrainingRequestCardComponent } from './training-request-card/training-request-card.component';
 import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
 import { ApprovedTrainingRequestsComponent } from './approved-training-requests/approved-training-requests.component';
+import { TrainingRequestsListComponent } from './training-requests-list/training-requests-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ApprovedTrainingRequestsComponent } from './approved-training-requests/
     FileSelectDirective,
     SelfProfileComponent,
     ApprovedTrainingRequestsComponent,
-    TrainingRequestCardComponent
+    TrainingRequestCardComponent,
+    TrainingRequestsListComponent
   ],
   imports: [
     BrowserModule,

@@ -30,5 +30,12 @@
         "description": "Description",
         "status": "Status",
         "progress": "Check progress"
+    },
+    "request": {
+        "number": "Number",
+        "users": "Users",
+        "trainingName": "Training name",
+        "details": "Details",
+        "action": "Action"
     }
 }
