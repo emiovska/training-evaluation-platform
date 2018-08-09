@@ -79,4 +79,8 @@ public class TrainingServicesImpl  implements ITrainingServices {
         return functions.uploadTrainingPicture(multipart,trainingName);
     }
 
+    @Override
+    public Training getTrainingPicture(String trainingName) {
+        return functions.retrieveTrainingPicture(trainingName);
+    }
 }

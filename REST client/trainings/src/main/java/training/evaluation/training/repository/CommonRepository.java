@@ -62,13 +62,14 @@ public class CommonRepository {
     }
 
     public void commonRetrieve(String type, Binary document, String name) {
-        File folder = new File("temp");
+        String path = "C://Users//"+System.getProperty("user.name")+"//Downloads"+"//temp";
+        File folder = new File(path);
         if (document != null) {
             FileOutputStream fileOuputStream = null;
             try {
                 createIfNotExist(folder);
                 if (type.equals("user")) {
-                    folder = new File("temp//user");
+                    folder = new File(path+"//user");
                     if (!createIfNotExist(folder)) {
                         if (folder.isDirectory()) {
                             for (File f : folder.listFiles()) {
@@ -77,7 +78,7 @@ public class CommonRepository {
                         }
                     }
                 } else if (type.equals("training")) {
-                    folder = new File("temp//training");
+                    folder = new File(path + "//training");
                     createIfNotExist(folder);
                 }
                 fileOuputStream = new FileOutputStream(folder.getPath() + "//" + name + "_picture.jpg");
