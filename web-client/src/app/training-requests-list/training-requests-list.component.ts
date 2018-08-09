@@ -23,10 +23,15 @@ export class TrainingRequestsListComponent implements OnInit {
     private trainingRequestService: TrainingRequestService) { }
 
   displayedColumns = ['id', 'user', 'training', 'details', 'actions'];
+  requestIcon: string;
+  requestTitle: string;
+
 
   ngOnInit() {
     const trainingRequests = this.trainingRequestService.getAllTrainingRequestByUser();
     this.dataSource = new MatTableDataSource(trainingRequests);
+    this.requestIcon = 'more_horiz';
+    this.requestTitle = 'Approved / Canceled Training requests records!';
   }
 
   approveRequest(trainingRequest: TrainingRequest) {

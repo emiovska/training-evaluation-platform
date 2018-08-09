@@ -1,3 +1,24 @@
+
+.titleHeader{
+    padding: 20px;
+}
+
+.titleCardH{
+    border-left-color: teal;
+    border-left-width: 8px;
+    border-left-style: solid;
+    border-right-color: teal;
+    border-right-width: 8px;
+    border-right-style: solid;
+    border-top-color: teal;
+    border-top-width: 2px;
+    border-top-style: solid;
+    text-align: center;
+    background-color: #bbf7f4;
+    color: teal;
+    font-weight: bold;
+}
+
 #selfProfileTitles{
     margin-top: 25px;
     margin-bottom: 25px;

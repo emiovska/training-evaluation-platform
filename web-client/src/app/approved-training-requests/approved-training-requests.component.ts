@@ -14,11 +14,15 @@ import { TrainingItemDialogComponent } from '../dialogs/training-item-dialog/tra
 export class ApprovedTrainingRequestsComponent implements OnInit {
 
   trainingRequests: TrainingRequest[];
+  approveIcon: string;
+  approveTitle: string;
   constructor(public dialog: MatDialog,
     private trainingRequestSevice: TrainingRequestService) { }
 
   ngOnInit() {
     this.trainingRequests = this.trainingRequestSevice.getTrainingRequestsByUser();
+    this.approveIcon = "check_circle";
+    this.approveTitle = "Approved Training requests by trainer";
   }
 
   previewDetailsDialog(trainingRequest: TrainingRequest): void {

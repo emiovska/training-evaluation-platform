@@ -1,15 +1,35 @@
 <div class="container">
-  <img src="assets/images/profile.png" class="upBanner">
-  <div *ngIf="currentUser">
-    {{ currentUser.firstname }} {{ currentUser.lastname}} {{ currentUser.username}}
-  </div>
-
-  <!-- Upload file -->
-  <div>
-    <input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
-    <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-      Upload an Image
-    </button>
+  <!-- <div class="row" class="titleHeader">
+    <div class="col-md-12">
+      <mat-card class="titleCardH">
+        <h2>
+          <mat-icon>person_pin</mat-icon>Self profile</h2>
+      </mat-card>
+    </div>
+  </div> -->
+  <app-header-title [icon]='selfIcon' [title]='selfTitle'></app-header-title>
+ 
+  <div class="row">
+    <div class="col-md-4">
+      <img src="assets/images/profile.png" class="rounded-circle">
+      <!-- Upload file -->
+      <hr>
+      <div>
+        <input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
+        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+          Upload an Image
+        </button>
+      </div>
+    </div>
+    <div class="col-md-8" *ngIf="currentUser" style="text-align: center">
+      <h2>{{ currentUser.firstname }} {{ currentUser.lastname}}</h2>
+      <hr>
+      <h4 style="margin-left: 40%">
+        <mat-chip-list>
+          <mat-chip>{{ currentUser.username}}</mat-chip>
+        </mat-chip-list>
+      </h4>
+    </div>
   </div>
   <div class="row" id="selfProfileTitles">
     <div class="col-md-4">

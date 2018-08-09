@@ -11,11 +11,15 @@ import { MatTableDataSource } from '@angular/material';
 export class UsersComponent implements OnInit {
   dataSource: MatTableDataSource<User>;
   displayedColumns = ['id', 'username', 'firstName', 'lastName'];
+  usersIcon: string;
+  usersTitle: string;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.reloadUsers();
+    this.usersIcon = "people";
+    this.usersTitle = "All registered users";
   }
 
   reloadUsers() {

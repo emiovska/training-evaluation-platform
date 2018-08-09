@@ -1,8 +1,5 @@
 <div class="container">
-  <h2 class="training-title">
-    <mat-icon>more_horiz</mat-icon>
-    <span>Approved / Canceled Training requests records!</span>
-  </h2>
+  <app-header-title [icon]='requestIcon' [title]='requestTitle'></app-header-title>
 
   <div class="row">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

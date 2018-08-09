@@ -41,6 +41,7 @@ import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progrees
 import { ApprovedTrainingRequestsComponent } from './approved-training-requests/approved-training-requests.component';
 import { TrainingRequestsListComponent } from './training-requests-list/training-requests-list.component';
 import { TrainingRatingService } from './services/training-rating.service';
+import { HeaderTitleComponent } from './header-title/header-title.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { TrainingRatingService } from './services/training-rating.service';
     SelfProfileComponent,
     ApprovedTrainingRequestsComponent,
     TrainingRequestCardComponent,
-    TrainingRequestsListComponent
+    TrainingRequestsListComponent,
+    HeaderTitleComponent
   ],
   imports: [
     BrowserModule,
