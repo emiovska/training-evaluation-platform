@@ -14,11 +14,8 @@ interface Image {
 export class HomeComponent implements OnInit {
 
   images: Array<Image>;
-
   skills: string[];
-  numStars: number;
-  onRatingChangeResult: RatingChangeEvent;
- 
+
   constructor() { }
 
   ngOnInit() {
@@ -28,14 +25,7 @@ export class HomeComponent implements OnInit {
       { src: 'assets/images/training6.jpg', text: 'home.GainExperience' },
       { src: 'assets/images/training4.jpg', text: 'home.ImproveKnowledge' }
     ];
-
     this.skills = ['Html', 'Saas', 'Java script', 'Java8', 'Relational database'];
-    this.numStars = 3;
   }
 
-  onRatingChange = ($event: RatingChangeEvent) => {
-    console.log('onRatingUpdated $event: ', $event);
-    this.numStars = $event.rating;
-    this.onRatingChangeResult = $event;
-  };
 }

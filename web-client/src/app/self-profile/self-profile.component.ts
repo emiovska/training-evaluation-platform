@@ -1,8 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { UploaderService } from '../services/uploader.service';
-
-
+import { TrainingRatingService } from '../services/training-rating.service';
+import { TrainingRating } from '../models/training-rate';
 
 @Component({
   selector: 'app-self-profile',
@@ -12,12 +13,17 @@ import { UploaderService } from '../services/uploader.service';
 export class SelfProfileComponent implements OnInit {
 
   currentUser: User;
-  constructor(private uploadService: UploaderService) { }
+  trainingRate: TrainingRating[];
+
+  constructor(private uploadService: UploaderService,
+    private trainingRatingService: TrainingRatingService) { }
 
   ngOnInit() {
     this.currentUser = this.getCurrentUser();
 
     this.uploadService.uploadImage(this.currentUser.username, this.currentUser.token);
+    this.trainingRate = this.trainingRatingService.getAllTrainingRatings();
+    console.log("Self training rate", this.trainingRate);
   }
 
   getCurrentUser() {
