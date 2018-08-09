@@ -24,4 +24,10 @@ public class TrainingRequestResource {
         trainingRequest.setCompleted(false);
         return services.createTrainingRequest(trainingRequest);
     }
+
+    @PostMapping("/approveTrainingRequest/{trainingRequestId}")
+    @ApiOperation(value = "Approve training request", notes = "Set status to approved of the training request requested by id. ")
+    public TrainingRequest approveTrainingRequest(@ApiParam(value = "Training request id as a path variable.", required = true) @PathVariable("trainingRequestId") String trainingRequestId) {
+        return services.approveTrainingRequest(trainingRequestId);
+    }
 }

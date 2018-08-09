@@ -1,5 +1,6 @@
 package training.evaluation.training.service.impl;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class TrainingServicesImpl  implements ITrainingServices {
+public class TrainingServicesImpl implements ITrainingServices {
 
     @Autowired
     private TrainingRepository repository;
@@ -38,12 +39,10 @@ public class TrainingServicesImpl  implements ITrainingServices {
 
     public ResponseEntity<String> deleteTraining(String id) {
         Optional<Training> training = repository.findById(id);
-        if(training.isPresent()) {
+        if (training.isPresent()) {
             repository.delete(training.get());
             return new ResponseEntity<>("Training deleted", HttpStatus.OK);
-        }
-        else
-        {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -51,16 +50,13 @@ public class TrainingServicesImpl  implements ITrainingServices {
     public ResponseEntity<Training> updateTraining(String id, Training training) {
         Optional<Training> trainingData = repository.findById(id);
 
-        if(trainingData.isPresent())
-        {
+        if (trainingData.isPresent()) {
             Training tr = trainingData.get();
             tr.setName(training.getName());
             tr.setLevel(training.getLevel());
             tr.setDescription(training.getDescription());
             return new ResponseEntity<>(repository.save(tr), HttpStatus.OK);
-        }
-        else
-        {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -76,13 +72,13 @@ public class TrainingServicesImpl  implements ITrainingServices {
     }
 
 
-    public List<Training> findByNameStartingWithAndLevel(String name, String level){
-        return repository.findByNameStartingWithAndLevel(name,level);
+    public List<Training> findByNameStartingWithAndLevel(String name, String level) {
+        return repository.findByNameStartingWithAndLevel(name, level);
     }
 
     @Override
     public Training setTrainingPicture(MultipartFile multipart, String trainingName) {
-        return functions.uploadTrainingPicture(multipart,trainingName);
+        return functions.uploadTrainingPicture(multipart, trainingName);
     }
 
     @Override
@@ -91,12 +87,19 @@ public class TrainingServicesImpl  implements ITrainingServices {
     }
 
 
-
-
     //training request
     @Override
     public TrainingRequest createTrainingRequest(TrainingRequest trainingRequest) {
         trainingRequestRepository.save(trainingRequest);
         return trainingRequest;
     }
+
+    @Override
+    public TrainingRequest approveTrainingRequest(String id) {
+        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
+        trainingRequest.setStatus("APPROVED");
+        trainingRequestRepository.save(trainingRequest);
+        return trainingRequest;
+    }
+
 }
