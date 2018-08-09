@@ -40,6 +40,8 @@ import { TrainingRequestCardComponent } from './training-request-card/training-r
 import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
 import { ApprovedTrainingRequestsComponent } from './approved-training-requests/approved-training-requests.component';
 import { TrainingRequestsListComponent } from './training-requests-list/training-requests-list.component';
+import { TrainingRatingListComponent } from './training-rating-list/training-rating-list.component';
+import { TrainingRatingService } from './services/training-rating.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { TrainingRequestsListComponent } from './training-requests-list/training
     SelfProfileComponent,
     ApprovedTrainingRequestsComponent,
     TrainingRequestCardComponent,
-    TrainingRequestsListComponent
+    TrainingRequestsListComponent,
+    TrainingRatingListComponent
   ],
   imports: [
     BrowserModule,
@@ -100,6 +103,7 @@ import { TrainingRequestsListComponent } from './training-requests-list/training
     ToastNotificationService,
     UploaderService,
     TrainingRequestService,
+    TrainingRatingService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],
