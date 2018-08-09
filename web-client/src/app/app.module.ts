@@ -40,8 +40,13 @@ import { TrainingRequestCardComponent } from './training-request-card/training-r
 import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
 import { ApprovedTrainingRequestsComponent } from './approved-training-requests/approved-training-requests.component';
 import { TrainingRequestsListComponent } from './training-requests-list/training-requests-list.component';
+<<<<<<< HEAD
 import { TrainingRatingService } from './services/training-rating.service';
 import { HeaderTitleComponent } from './header-title/header-title.component';
+=======
+import { TrainingRatingListComponent } from './training-rating-list/training-rating-list.component';
+import { TrainingRatingService } from './services/training-rating.service';
+>>>>>>> master
 
 @NgModule({
   declarations: [
@@ -64,7 +69,11 @@ import { HeaderTitleComponent } from './header-title/header-title.component';
     ApprovedTrainingRequestsComponent,
     TrainingRequestCardComponent,
     TrainingRequestsListComponent,
+<<<<<<< HEAD
     HeaderTitleComponent
+=======
+    TrainingRatingListComponent
+>>>>>>> master
   ],
   imports: [
     BrowserModule,
