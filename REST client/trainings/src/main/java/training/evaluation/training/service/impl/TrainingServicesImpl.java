@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRequest;
 import training.evaluation.training.repository.CommonRepository;
 import training.evaluation.training.repository.TrainingRepository;
+import training.evaluation.training.repository.TrainingRequestRepository;
 import training.evaluation.training.service.ITrainingServices;
 
 import java.util.List;
@@ -17,6 +19,10 @@ public class TrainingServicesImpl  implements ITrainingServices {
 
     @Autowired
     private TrainingRepository repository;
+
+    @Autowired
+    private TrainingRequestRepository trainingRequestRepository;
+
 
     @Autowired
     CommonRepository functions;
@@ -82,5 +88,15 @@ public class TrainingServicesImpl  implements ITrainingServices {
     @Override
     public Training getTrainingPicture(String trainingName) {
         return functions.retrieveTrainingPicture(trainingName);
+    }
+
+
+
+
+    //training request
+    @Override
+    public TrainingRequest createTrainingRequest(TrainingRequest trainingRequest) {
+        trainingRequestRepository.save(trainingRequest);
+        return trainingRequest;
     }
 }

@@ -3,6 +3,7 @@ package training.evaluation.training.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRequest;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface ITrainingServices {
     List<Training> findByNameStartingWithAndLevel(String name, String level);
     Training setTrainingPicture(MultipartFile multipart, String trainingName);
     Training getTrainingPicture(String trainingName);
+
+    //training request
+    TrainingRequest createTrainingRequest(TrainingRequest trainingRequest);
 }

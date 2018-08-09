@@ -2,7 +2,6 @@ package training.evaluation.training.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,17 +10,28 @@ public class TrainingRequest {
 
     @Id
     @Getter private String Id;
-    @Getter @Setter private Id trainingId;
-    @Getter @Setter private Id userId;
+    @Getter @Setter private String trainingId;
+    @Getter @Setter private String userId;
     @Getter @Setter private boolean isCompleted;
     @Getter @Setter private String status;          // APPROVED, PENDING, CANCELED
 
     public TrainingRequest() { }
 
-    public TrainingRequest(String id, Id trainingId, Id userId, boolean isCompleted, String status) {
+    public TrainingRequest(String trainingId, String userId, boolean isCompleted, String status) {
         this.trainingId = trainingId;
         this.userId = userId;
         this.isCompleted = isCompleted;
-        this.status = "PENDING";
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "TrainingRequest{" +
+                "Id='" + Id + '\'' +
+                ", trainingId='" + trainingId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", isCompleted=" + isCompleted +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
