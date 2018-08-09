@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
 import training.evaluation.training.service.IUserServices;
+
 import java.util.List;
 
 @CrossOrigin(origins = {"${origins}"})
@@ -44,12 +46,13 @@ public class UserResource {
 
     @PostMapping("/uploadPicture/{username}")
     @ApiOperation(value = "Upload profile picture to user by username", notes = "Find user by username and upload profile picture")
-    public User singleFileUpload(@ApiParam(value = "File to upload", required = true)  @RequestParam("file") MultipartFile multipart, @ApiParam(value = "Username of the user that we need to upload profile picture", required = true) @PathVariable("username") String username) {
-        return userServices.setProfilePicture(multipart,username);
+    public User singleFileUpload(@ApiParam(value = "File to upload", required = true) @RequestParam("file") MultipartFile multipart, @ApiParam(value = "Username of the user that we need to upload profile picture", required = true) @PathVariable("username") String username) {
+        return userServices.setProfilePicture(multipart, username);
     }
 
     @PostMapping("/retrieve/{username}")
-    public User retrieveFile(@PathVariable("username") String username) {
-        return  userServices.getProfilePicture(username);
+    @ApiOperation(value = "Retrieve picture to training by name", notes = "Find training by name and retrieve picture")
+    public User retrieveFile(@ApiParam(value = "Name of the user that we need to retrieve picture", required = true) @PathVariable("username") String username) {
+        return userServices.getProfilePicture(username);
     }
 }
