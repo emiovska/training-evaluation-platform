@@ -3,7 +3,9 @@ package training.evaluation.training.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.repository.CommonRepository;
 import training.evaluation.training.repository.TrainingRepository;
 import training.evaluation.training.service.ITrainingServices;
 
@@ -15,6 +17,9 @@ public class TrainingServicesImpl  implements ITrainingServices {
 
     @Autowired
     private TrainingRepository repository;
+
+    @Autowired
+    CommonRepository functions;
 
     public Training createTraining(Training training) {
         repository.save(training);
@@ -68,4 +73,10 @@ public class TrainingServicesImpl  implements ITrainingServices {
     public List<Training> findByNameStartingWithAndLevel(String name, String level){
         return repository.findByNameStartingWithAndLevel(name,level);
     }
+
+    @Override
+    public Training setTrainingPicture(MultipartFile multipart, String trainingName) {
+        return functions.uploadTrainingPicture(multipart,trainingName);
+    }
+
 }
