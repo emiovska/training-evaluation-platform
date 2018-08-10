@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TrainingRequest {
 
     @Id
-    @Getter private String Id;
+    @Getter private String id;
     @Getter @Setter private String trainingId;
     @Getter @Setter private String userId;
     @Getter @Setter private boolean isCompleted;
@@ -27,7 +27,7 @@ public class TrainingRequest {
     @Override
     public String toString() {
         return "TrainingRequest{" +
-                "Id='" + Id + '\'' +
+                "Id='" + id + '\'' +
                 ", trainingId='" + trainingId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", isCompleted=" + isCompleted +

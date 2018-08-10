@@ -22,4 +22,5 @@ public interface ITrainingServices {
 
     //training request
     TrainingRequest createTrainingRequest(TrainingRequest trainingRequest);
+    TrainingRequest approveTrainingRequest(String id);
 }
