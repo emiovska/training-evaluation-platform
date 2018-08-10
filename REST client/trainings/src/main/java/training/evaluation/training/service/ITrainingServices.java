@@ -3,6 +3,7 @@ package training.evaluation.training.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRating;
 import training.evaluation.training.model.TrainingRequest;
 
 import java.util.List;
@@ -25,4 +26,8 @@ public interface ITrainingServices {
     TrainingRequest approveTrainingRequest(String id);
     TrainingRequest cancelTrainingRequest(String id);
     TrainingRequest completeTrainingRequest(String id);
+
+    //training rating
+    Iterable<TrainingRating> getAllTrainingRatings();
+
 }
