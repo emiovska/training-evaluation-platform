@@ -143,4 +143,13 @@ public class TrainingServicesImpl implements ITrainingServices {
         return trainingRatingRepository.findByUserId(userId);
     }
 
+    @Override
+    public TrainingRating rateTraining(String id, int rating) {
+        TrainingRating trainingRating = trainingRatingRepository.findById(id).get();
+        trainingRating.setRating(rating);
+        if(rating>=4)
+            trainingRating.setCup(true);
+        return trainingRating;
+    }
+
 }
