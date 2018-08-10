@@ -40,7 +40,7 @@ public class UserServicesImpl implements IUserServices {
     }
 
     @Override
-    public User getProfilePicture(String username) {
+    public String getProfilePicture(String username) {
         return functions.retrieveUserPicture(username);
 
     }

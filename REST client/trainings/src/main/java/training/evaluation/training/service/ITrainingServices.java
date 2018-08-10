@@ -18,9 +18,11 @@ public interface ITrainingServices {
     List<Training> filterByLevel(String level);
     List<Training> findByNameStartingWithAndLevel(String name, String level);
     Training setTrainingPicture(MultipartFile multipart, String trainingName);
-    Training getTrainingPicture(String trainingName);
+    String getTrainingPicture(String trainingName);
 
     //training request
     TrainingRequest createTrainingRequest(TrainingRequest trainingRequest);
     TrainingRequest approveTrainingRequest(String id);
+    TrainingRequest cancelTrainingRequest(String id);
+
 }

@@ -1,11 +1,11 @@
 package training.evaluation.training.service.impl;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRating;
 import training.evaluation.training.model.TrainingRequest;
 import training.evaluation.training.repository.CommonRepository;
 import training.evaluation.training.repository.TrainingRepository;
@@ -82,7 +82,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     @Override
-    public Training getTrainingPicture(String trainingName) {
+    public String getTrainingPicture(String trainingName) {
         return functions.retrieveTrainingPicture(trainingName);
     }
 
@@ -98,6 +98,14 @@ public class TrainingServicesImpl implements ITrainingServices {
     public TrainingRequest approveTrainingRequest(String id) {
         TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
         trainingRequest.setStatus("APPROVED");
+        trainingRequestRepository.save(trainingRequest);
+        return trainingRequest;
+    }
+
+    @Override
+    public TrainingRequest cancelTrainingRequest(String id) {
+        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
+        trainingRequest.setStatus("CANCELED");
         trainingRequestRepository.save(trainingRequest);
         return trainingRequest;
     }

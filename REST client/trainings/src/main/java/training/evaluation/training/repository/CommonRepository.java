@@ -46,22 +46,20 @@ public class CommonRepository {
         return null;
     }
 
-    public User retrieveUserPicture(String username) {
+    public String retrieveUserPicture(String username) {
         User user = userRepository.findByUsername(username);
         Binary document = user.getPicture();
-        commonRetrieve("user", document, username);
-        return user;
+        return commonRetrieve("user", document, username);
     }
 
 
-    public Training retrieveTrainingPicture(String trainingName) {
+    public String retrieveTrainingPicture(String trainingName) {
         Training training = trainingRepository.findByName(trainingName).get(0);
         Binary document = training.getPicture();
-        commonRetrieve("training", document, trainingName);
-        return training;
+        return  commonRetrieve("training", document, trainingName);
     }
 
-    public void commonRetrieve(String type, Binary document, String name) {
+    public String commonRetrieve(String type, Binary document, String name) {
         String path = "C://Users//"+System.getProperty("user.name")+"//Downloads"+"//temp";
         File folder = new File(path);
         if (document != null) {
@@ -95,6 +93,8 @@ public class CommonRepository {
                 }
             }
         }
+
+        return path;
     }
 
     public boolean createIfNotExist(File folder) {

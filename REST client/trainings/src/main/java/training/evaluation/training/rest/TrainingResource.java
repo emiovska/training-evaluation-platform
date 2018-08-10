@@ -76,7 +76,7 @@ public class TrainingResource {
 
     @RequestMapping(method = RequestMethod.POST, value = "/retrieve/{name}")
     @ApiOperation(value = "Retrieve picture to training by name", notes = "Find training by name and retrieve picture")
-    public Training retrieveFile(@ApiParam(value = "Name of the training that we need to retrieve picture", required = true) @PathVariable("name") String name) {
+    public String retrieveFile(@ApiParam(value = "Name of the training that we need to retrieve picture", required = true) @PathVariable("name") String name) {
         return services.getTrainingPicture(name);
     }
 }
