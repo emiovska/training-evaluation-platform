@@ -7,9 +7,5 @@ import java.util.Optional;
 
 
 public interface TrainingRequestRepository extends MongoRepository<TrainingRequest, String> {
-    //TrainingRequest findAllById(String id);
-
     Optional<TrainingRequest> findById(String id);
-
-
 }
