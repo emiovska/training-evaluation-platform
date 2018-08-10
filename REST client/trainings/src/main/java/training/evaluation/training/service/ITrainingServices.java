@@ -29,5 +29,6 @@ public interface ITrainingServices {
 
     //training rating
     Iterable<TrainingRating> getAllTrainingRatings();
+    Iterable<TrainingRating> getAllTrainingRatingsByUserId(String userId);
 
 }
