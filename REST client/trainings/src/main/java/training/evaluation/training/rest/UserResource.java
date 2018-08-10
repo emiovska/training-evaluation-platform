@@ -51,8 +51,8 @@ public class UserResource {
     }
 
     @PostMapping("/retrieve/{username}")
-    @ApiOperation(value = "Retrieve picture to training by name", notes = "Find training by name and retrieve picture")
-    public User retrieveFile(@ApiParam(value = "Name of the user that we need to retrieve picture", required = true) @PathVariable("username") String username) {
+    @ApiOperation(value = "Retrieve picture to training by name. Return location of the downloaded file", notes = "Find training by name and retrieve picture")
+    public String retrieveFile(@ApiParam(value = "Name of the user that we need to retrieve picture", required = true) @PathVariable("username") String username) {
         return userServices.getProfilePicture(username);
     }
 }
