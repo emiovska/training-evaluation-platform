@@ -79,4 +79,14 @@ public class TrainingResource {
     public String retrieveFile(@ApiParam(value = "Name of the training that we need to retrieve picture", required = true) @PathVariable("name") String name) {
         return services.getTrainingPicture(name);
     }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/training/filterByUserLevel/{level}")
+    @ApiOperation(value = "Filter training by logged user level", notes = "Filter training by level. Return list of existing training records with level of the logged")
+    public List<Training> filterByUserLevel(@ApiParam(value = "Level of the record that we search for.", required = true) @PathVariable String level) {
+        //get level by user logged in - from JWT token
+
+
+        return services.filterByLevel(level);
+    }
 }

@@ -93,6 +93,11 @@ public class TrainingServicesImpl implements ITrainingServices {
         return functions.retrieveTrainingPicture(trainingName);
     }
 
+    @Override
+    public List<Training> getAllTrainingsByUserLevel(String level) {
+        return repository.findByLevel(level);
+    }
+
 
     //training request
     @Override
