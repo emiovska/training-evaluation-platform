@@ -8,6 +8,7 @@ import training.evaluation.training.model.Training;
 import training.evaluation.training.model.TrainingRating;
 import training.evaluation.training.model.TrainingRequest;
 import training.evaluation.training.repository.CommonRepository;
+import training.evaluation.training.repository.TrainingRatingRepository;
 import training.evaluation.training.repository.TrainingRepository;
 import training.evaluation.training.repository.TrainingRequestRepository;
 import training.evaluation.training.service.ITrainingServices;
@@ -17,12 +18,18 @@ import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class TrainingServicesImpl implements ITrainingServices {
+    public static final String PENDING = "PENDING";
+    public static final String APPROVED = "APPROVED";
+    public static final String CANCELED = "CANCELED";
 
     @Autowired
     private TrainingRepository repository;
 
     @Autowired
     private TrainingRequestRepository trainingRequestRepository;
+
+    @Autowired
+    private TrainingRatingRepository trainingRatingRepository;
 
 
     @Autowired
@@ -90,6 +97,8 @@ public class TrainingServicesImpl implements ITrainingServices {
     //training request
     @Override
     public TrainingRequest createTrainingRequest(TrainingRequest trainingRequest) {
+        trainingRequest.setStatus(PENDING);
+        trainingRequest.setCompleted(false);
         trainingRequestRepository.save(trainingRequest);
         return trainingRequest;
     }
@@ -97,7 +106,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     @Override
     public TrainingRequest approveTrainingRequest(String id) {
         TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
-        trainingRequest.setStatus("APPROVED");
+        trainingRequest.setStatus(APPROVED);
         trainingRequestRepository.save(trainingRequest);
         return trainingRequest;
     }
@@ -105,8 +114,22 @@ public class TrainingServicesImpl implements ITrainingServices {
     @Override
     public TrainingRequest cancelTrainingRequest(String id) {
         TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
-        trainingRequest.setStatus("CANCELED");
+        trainingRequest.setStatus(CANCELED);
         trainingRequestRepository.save(trainingRequest);
+        return trainingRequest;
+    }
+
+    @Override
+    public TrainingRequest completeTrainingRequest(String id) {
+        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
+        if (trainingRequest.getStatus().equals(APPROVED))
+        {
+            trainingRequest.setCompleted(true);
+            trainingRequestRepository.save(trainingRequest);
+
+            TrainingRating trainingRating = new TrainingRating(trainingRequest.getTrainingId(), trainingRequest.getUserId(), 0, false);
+            trainingRatingRepository.save(trainingRating);
+        }
         return trainingRequest;
     }
 

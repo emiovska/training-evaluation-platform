@@ -24,5 +24,5 @@ public interface ITrainingServices {
     TrainingRequest createTrainingRequest(TrainingRequest trainingRequest);
     TrainingRequest approveTrainingRequest(String id);
     TrainingRequest cancelTrainingRequest(String id);
-
+    TrainingRequest completeTrainingRequest(String id);
 }
