@@ -1,20 +1,26 @@
-import { Injectable } from "@angular/core";
-import { ToastNotificationService } from "./toast-notification.service";
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class UploaderService {
-    private uploadUrl: string = 'http://localhost:8080/users/uploadPicture';
-    public uploader: FileUploader;
+export class UploadFileService {
 
-    constructor(private toastNotificationService: ToastNotificationService) { };
+  constructor(private http: HttpClient) { }
 
-    uploadImage(username: string, token: string) {
-        const URL = `${this.uploadUrl}/${username}`;
-        this.uploader = new FileUploader({ url: URL, headers: [{ name: "Authorization", value: token }], itemAlias: 'file' });
-        this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            this.toastNotificationService.showNotification(`File ${item.file.name} is successfuly upload!`);
-        };
-    }
+  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST', 'http://localhost:8080/post', formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
+  getFiles(): Observable<any> {
+    return this.http.get('http://localhost:8080/getallfiles');
+  }
 }

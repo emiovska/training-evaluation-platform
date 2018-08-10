@@ -34,7 +34,7 @@ import { SendRequestDialogComponent } from './dialogs/send-request-dialog/send-r
 import { ToastNotificationService } from './services/toast-notification.service';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { SelfProfileComponent } from './self-profile/self-profile.component';
-import { UploaderService } from './services/uploader.service';
+import { UploadFileService } from './services/uploader.service';
 import { TrainingRequestService } from './services/training-request.service';
 import { TrainingRequestCardComponent } from './training-request-card/training-request-card.component';
 import { CheckProgressOfTrainingDialogComponent } from './dialogs/check-progreess-of-training-dialog/check-progreess-of-training-dialog.component';
@@ -43,6 +43,9 @@ import { TrainingRequestsListComponent } from './training-requests-list/training
 import { TrainingRatingService } from './services/training-rating.service';
 import { HeaderTitleComponent } from './header-title/header-title.component';
 import { TrainingRatingListComponent } from './training-rating-list/training-rating-list.component';
+import { ListUploadComponent } from './list-upload/list-upload.component';
+import { DetailsUploadComponent } from './details-upload/details-upload.component';
+import { FormUploadComponent } from './form-upload/form-upload.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import { TrainingRatingListComponent } from './training-rating-list/training-rat
     TrainingRequestCardComponent,
     TrainingRequestsListComponent,
     HeaderTitleComponent,
-    TrainingRatingListComponent
+    TrainingRatingListComponent,
+    ListUploadComponent,
+    DetailsUploadComponent,
+    FormUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -103,9 +109,9 @@ import { TrainingRatingListComponent } from './training-rating-list/training-rat
     FilterTrainingService,
     UserService,
     ToastNotificationService,
-    UploaderService,
     TrainingRequestService,
     TrainingRatingService,
+    UploadFileService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     fakeBackendProvider
   ],

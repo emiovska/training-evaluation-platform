@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
-import { UploaderService } from '../services/uploader.service';
 import { TrainingRatingService } from '../services/training-rating.service';
 import { TrainingRating } from '../models/training-rate';
 import { FileUploader } from '../../../node_modules/ng2-file-upload';

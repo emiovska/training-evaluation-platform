@@ -2,6 +2,13 @@
     <img src="assets/images/training2.jpg" width="100%" height="150px" class="upBanner">
     <hr>
 
+    <form-upload></form-upload>
+
+    <br/>
+    <br/>
+
+    <list-upload></list-upload>
+
     <ngb-carousel *ngIf="images">
         <ng-template *ngFor="let img of images" ngbSlide>
             <img [src]="img.src" width="100%" height="450px" alt="Random first slide">
