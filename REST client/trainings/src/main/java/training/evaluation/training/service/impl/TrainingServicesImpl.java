@@ -1,6 +1,5 @@
 package training.evaluation.training.service.impl;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +97,14 @@ public class TrainingServicesImpl implements ITrainingServices {
     public TrainingRequest approveTrainingRequest(String id) {
         TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
         trainingRequest.setStatus("APPROVED");
+        trainingRequestRepository.save(trainingRequest);
+        return trainingRequest;
+    }
+
+    @Override
+    public TrainingRequest cancelTrainingRequest(String id) {
+        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
+        trainingRequest.setStatus("CANCELED");
         trainingRequestRepository.save(trainingRequest);
         return trainingRequest;
     }

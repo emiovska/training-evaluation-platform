@@ -30,4 +30,10 @@ public class TrainingRequestResource {
     public TrainingRequest approveTrainingRequest(@ApiParam(value = "Training request id as a path variable.", required = true) @PathVariable("trainingRequestId") String trainingRequestId) {
         return services.approveTrainingRequest(trainingRequestId);
     }
+
+    @PostMapping("/cancelTrainingRequest/{trainingRequestId}")
+    @ApiOperation(value = "Cancel training request", notes = "Set status to canceled of the training request requested by id. ")
+    public TrainingRequest cancelTrainingRequest(@ApiParam(value = "Training request id as a path variable.", required = true) @PathVariable("trainingRequestId") String trainingRequestId) {
+        return services.cancelTrainingRequest(trainingRequestId);
+    }
 }
