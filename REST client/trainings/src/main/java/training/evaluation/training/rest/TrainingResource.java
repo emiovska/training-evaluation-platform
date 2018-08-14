@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
-import training.evaluation.training.model.User;
 import training.evaluation.training.service.ITrainingServices;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import javax.validation.Valid;
-
 
 @CrossOrigin(origins = {"${origins}"})
 @RestController
@@ -80,13 +78,9 @@ public class TrainingResource {
         return services.getTrainingPicture(name);
     }
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "/training/filterByUserLevel/{level}")
+    @RequestMapping(method = RequestMethod.GET, value = "/training/filterByUserLevel")
     @ApiOperation(value = "Filter training by logged user level", notes = "Filter training by level. Return list of existing training records with level of the logged")
-    public List<Training> filterByUserLevel(@ApiParam(value = "Level of the record that we search for.", required = true) @PathVariable String level) {
-        //get level by user logged in - from JWT token
-
-
-        return services.filterByLevel(level);
+    public List<Training> filterByUserLevel(@ApiParam(value = "Level of the record that we search for.", required = true) @RequestHeader(value = "Authorization") String authorizationValue) {
+        return services.getAllTrainingsByUserLevel(authorizationValue);
     }
 }

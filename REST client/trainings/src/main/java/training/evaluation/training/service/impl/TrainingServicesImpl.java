@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import training.evaluation.training.model.Training;
-import training.evaluation.training.model.TrainingRating;
-import training.evaluation.training.model.TrainingRequest;
-import training.evaluation.training.repository.CommonRepository;
-import training.evaluation.training.repository.TrainingRatingRepository;
-import training.evaluation.training.repository.TrainingRepository;
-import training.evaluation.training.repository.TrainingRequestRepository;
+import training.evaluation.training.model.*;
+import training.evaluation.training.repository.*;
+import training.evaluation.training.security.JwtTokenUtil;
 import training.evaluation.training.service.ITrainingServices;
 
 import java.util.List;
@@ -26,6 +22,9 @@ public class TrainingServicesImpl implements ITrainingServices {
     private TrainingRepository repository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private TrainingRequestRepository trainingRequestRepository;
 
     @Autowired
@@ -34,6 +33,10 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     @Autowired
     CommonRepository functions;
+
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public Training createTraining(Training training) {
         repository.save(training);
@@ -94,8 +97,37 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     @Override
-    public List<Training> getAllTrainingsByUserLevel(String level) {
-        return repository.findByLevel(level);
+    public List<Training> getAllTrainingsByUserLevel(String authorizationValue) {
+        List<Training> listOfTraining = null;
+        if (authorizationValue != null || authorizationValue.startsWith("Bearer ")) {
+
+            String token = authorizationValue.substring(14);
+            String username = jwtTokenUtil.getUsernameFromToken(token);
+            User user = userRepository.findByUsername(username);
+            String level = user.getLevel();
+
+            //add to list lower levels
+            listOfTraining = repository.findByLevel(level);
+            if (level.equals(Levels.JSE)) {
+                return listOfTraining;
+
+            } else if (level.equals(Levels.SE)) {
+                listOfTraining.addAll(repository.findByLevel(Levels.JSE));
+
+            } else if (level.equals(Levels.SSE)) {
+                listOfTraining.addAll(repository.findByLevel(Levels.SE));
+                listOfTraining.addAll(repository.findByLevel(Levels.JSE));
+
+            } else if (level.equals(Levels.TL)) {
+                listOfTraining.addAll(repository.findByLevel(Levels.SSE));
+                listOfTraining.addAll(repository.findByLevel(Levels.SE));
+                listOfTraining.addAll(repository.findByLevel(Levels.JSE));
+
+            }
+
+
+        }
+        return listOfTraining;
     }
 
 
@@ -127,8 +159,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     @Override
     public TrainingRequest completeTrainingRequest(String id) {
         TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
-        if (trainingRequest.getStatus().equals(APPROVED))
-        {
+        if (trainingRequest.getStatus().equals(APPROVED)) {
             trainingRequest.setCompleted(true);
             trainingRequestRepository.save(trainingRequest);
 
@@ -152,7 +183,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     public TrainingRating rateTraining(String id, int rating) {
         TrainingRating trainingRating = trainingRatingRepository.findById(id).get();
         trainingRating.setRating(rating);
-        if(rating>=4)
+        if (rating >= 4)
             trainingRating.setCup(true);
         return trainingRating;
     }
