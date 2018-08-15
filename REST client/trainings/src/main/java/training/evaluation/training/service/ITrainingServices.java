@@ -11,26 +11,26 @@ import java.util.List;
 
 public interface ITrainingServices {
 
-    Training createTraining(Training training);
-    Iterable<Training> getAllTrainings();
+    ResponseEntity<Training> createTraining(Training training);
+    ResponseEntity<Iterable<Training>> getAllTrainings();
     ResponseEntity<String> deleteTraining(String id);
     ResponseEntity<Training> updateTraining(String id, Training training);
-    List<Training> findByNameStartingWith(String name);
-    List<Training> filterByLevel(String level);
-    List<Training> findByNameStartingWithAndLevel(String name, String level);
-    Training setTrainingPicture(MultipartFile multipart, String trainingName);
-    String getTrainingPicture(String trainingName);
-    List<Training> getAllTrainingsByUserLevel(String authorizationValue);
+    ResponseEntity<List<Training>> findByNameStartingWith(String name);
+    ResponseEntity<List<Training>> filterByLevel(String level);
+    ResponseEntity<List<Training>> findByNameStartingWithAndLevel(String name, String level);
+    ResponseEntity<Training> setTrainingPicture(MultipartFile multipart, String trainingName);
+    ResponseEntity<String> getTrainingPicture(String trainingName);
+    ResponseEntity<List<Training>> getAllTrainingsByUserLevel(String authorizationValue);
 
     //training request
-    TrainingRequest createTrainingRequest(TrainingRequest trainingRequest);
-    TrainingRequest approveTrainingRequest(String id);
-    TrainingRequest cancelTrainingRequest(String id);
-    TrainingRequest completeTrainingRequest(String id);
+    ResponseEntity<TrainingRequest> createTrainingRequest(TrainingRequest trainingRequest);
+    ResponseEntity<TrainingRequest> approveTrainingRequest(String id);
+    ResponseEntity<TrainingRequest> cancelTrainingRequest(String id);
+    ResponseEntity<TrainingRequest> completeTrainingRequest(String id);
 
     //training rating
-    Iterable<TrainingRating> getAllTrainingRatings();
-    Iterable<TrainingRating> getAllTrainingRatingsByUserId(String userId);
-    TrainingRating rateTraining(String id, int rating);
+    ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings();
+    ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatingsByUserId(String userId);
+    ResponseEntity<TrainingRating> rateTraining(String id, int rating);
 
 }

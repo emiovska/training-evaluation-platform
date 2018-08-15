@@ -1,5 +1,6 @@
 package training.evaluation.training.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.User;
 
@@ -7,10 +8,10 @@ import java.util.List;
 
 public interface IUserServices {
 
-    User register(User user);
-    List<User> getAllUsers();
-    User getByUsername(String username);
-    User setProfilePicture(MultipartFile multipart,String username);
-    String getProfilePicture(String username);
+    ResponseEntity<User> register(User user);
+    ResponseEntity<List<User>> getAllUsers();
+    ResponseEntity<User> getByUsername(String username);
+    ResponseEntity<User> setProfilePicture(MultipartFile multipart,String username);
+    ResponseEntity<String> getProfilePicture(String username);
 
 }
