@@ -18,7 +18,7 @@ public class User {
     @Getter @Setter private String password;
     @Getter @Setter private String firstname;
     @Getter @Setter private String lastname;
-    @Getter @Setter private String type;                            //ADMIN, TRAINER, USER
+    @Getter @Setter private String role;                            //ADMIN, TRAINER, USER
     @Getter @Setter private String level;                           // JSE, SE, SSE, TL
     @Getter @Setter private List<String> skills;
     @Getter @Setter private List<String> trainingRatings;
@@ -41,7 +41,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", type='" + type + '\'' +
+                ", role='" + role + '\'' +
                 ", level='" + level + '\'' +
                 ", skills=" + skills +
                 ", trainingRatings=" + trainingRatings +
