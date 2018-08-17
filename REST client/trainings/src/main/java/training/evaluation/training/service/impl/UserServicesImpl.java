@@ -1,9 +1,10 @@
 package training.evaluation.training.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.User;
-import training.evaluation.training.repository.CommonRepository;
 import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.IUserServices;
 
@@ -17,31 +18,26 @@ public class UserServicesImpl implements IUserServices {
     private UserRepository userRepository;
 
     @Autowired
-    CommonRepository functions;
+    CommonServices functions;
 
-    @Override
-    public User register(User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> register(User user) {
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
-    @Override
-    public User getByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public ResponseEntity<User> getByUsername(String username) {
+        return new ResponseEntity<>(userRepository.findByUsername(username), HttpStatus.OK);
     }
 
-    @Override
-    public User setProfilePicture(MultipartFile multipart, String username) {
-        return functions.uploadUserPicture(multipart,username);
+    public ResponseEntity<User> setProfilePicture(MultipartFile multipart, String username) {
+        return new ResponseEntity<>(functions.uploadUserPicture(multipart,username), HttpStatus.OK);
     }
 
-    @Override
-    public String getProfilePicture(String username) {
-        return functions.retrieveUserPicture(username);
+    public ResponseEntity<String> getProfilePicture(String username) {
+        return new ResponseEntity<>(functions.retrieveUserPicture(username), HttpStatus.OK);
 
     }
 

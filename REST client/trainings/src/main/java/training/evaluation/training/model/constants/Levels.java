@@ -1,4 +1,4 @@
-package training.evaluation.training.model;
+package training.evaluation.training.model.constants;
 
 public class Levels {
     public static final String JSE="JSE";

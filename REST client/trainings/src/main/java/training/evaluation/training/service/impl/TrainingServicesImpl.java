@@ -12,11 +12,11 @@ import training.evaluation.training.service.ITrainingServices;
 import java.util.List;
 import java.util.Optional;
 
+import static training.evaluation.training.model.constants.Levels.*;
+import static training.evaluation.training.model.constants.Status.*;
+
 @org.springframework.stereotype.Service
 public class TrainingServicesImpl implements ITrainingServices {
-    public static final String PENDING = "PENDING";
-    public static final String APPROVED = "APPROVED";
-    public static final String CANCELED = "CANCELED";
 
     @Autowired
     private TrainingRepository repository;
@@ -32,19 +32,20 @@ public class TrainingServicesImpl implements ITrainingServices {
 
 
     @Autowired
-    CommonRepository functions;
+    CommonServices functions;
 
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public Training createTraining(Training training) {
+    public ResponseEntity<Training> createTraining(Training training) {
         repository.save(training);
-        return training;
+        return new ResponseEntity<>(training, HttpStatus.OK);
     }
 
-    public Iterable<Training> getAllTrainings() {
-        return repository.findAll();
+
+    public ResponseEntity<Iterable<Training>> getAllTrainings() {
+        return new ResponseEntity<>(repository.findAll(),HttpStatus.OK);
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
@@ -72,32 +73,27 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
 
-    public List<Training> findByNameStartingWith(String name) {
-        return repository.findByNameStartingWith(name);
+    public  ResponseEntity<List<Training>> findByNameStartingWith(String name) {
+        return new ResponseEntity<>(repository.findByNameStartingWith(name),HttpStatus.OK);
     }
 
-
-    public List<Training> filterByLevel(String level) {
-        return repository.findByLevel(level);
+    public  ResponseEntity<List<Training>> filterByLevel(String level) {
+        return  new ResponseEntity<>(repository.findByLevel(level),HttpStatus.OK);
     }
 
-
-    public List<Training> findByNameStartingWithAndLevel(String name, String level) {
-        return repository.findByNameStartingWithAndLevel(name, level);
+    public ResponseEntity<List<Training>> findByNameStartingWithAndLevel(String name, String level) {
+        return new ResponseEntity<>(repository.findByNameStartingWithAndLevel(name, level),HttpStatus.OK);
     }
 
-    @Override
-    public Training setTrainingPicture(MultipartFile multipart, String trainingName) {
-        return functions.uploadTrainingPicture(multipart, trainingName);
+    public ResponseEntity<Training> setTrainingPicture(MultipartFile multipart, String trainingName) {
+        return new ResponseEntity<>(functions.uploadTrainingPicture(multipart, trainingName), HttpStatus.OK);
     }
 
-    @Override
-    public String getTrainingPicture(String trainingName) {
-        return functions.retrieveTrainingPicture(trainingName);
+    public ResponseEntity<String> getTrainingPicture(String trainingName) {
+        return new ResponseEntity<>(functions.retrieveTrainingPicture(trainingName), HttpStatus.OK);
     }
 
-    @Override
-    public List<Training> getAllTrainingsByUserLevel(String authorizationValue) {
+    public ResponseEntity<List<Training>> getAllTrainingsByUserLevel(String authorizationValue) {
         List<Training> listOfTraining = null;
         if (authorizationValue != null || authorizationValue.startsWith("Bearer ")) {
 
@@ -108,84 +104,88 @@ public class TrainingServicesImpl implements ITrainingServices {
 
             //add to list lower levels
             listOfTraining = repository.findByLevel(level);
-            if (level.equals(Levels.JSE)) {
-                return listOfTraining;
 
-            } else if (level.equals(Levels.SE)) {
-                listOfTraining.addAll(repository.findByLevel(Levels.JSE));
+            if (level.equals(SE)) {
+                listOfTraining.addAll(repository.findByLevel(JSE));
 
-            } else if (level.equals(Levels.SSE)) {
-                listOfTraining.addAll(repository.findByLevel(Levels.SE));
-                listOfTraining.addAll(repository.findByLevel(Levels.JSE));
+            } else if (level.equals(SSE)) {
+                listOfTraining.addAll(repository.findByLevel(SE));
+                listOfTraining.addAll(repository.findByLevel(JSE));
 
-            } else if (level.equals(Levels.TL)) {
-                listOfTraining.addAll(repository.findByLevel(Levels.SSE));
-                listOfTraining.addAll(repository.findByLevel(Levels.SE));
-                listOfTraining.addAll(repository.findByLevel(Levels.JSE));
+            } else if (level.equals(TL)) {
+                listOfTraining.addAll(repository.findByLevel(SSE));
+                listOfTraining.addAll(repository.findByLevel(SE));
+                listOfTraining.addAll(repository.findByLevel(JSE));
 
             }
 
 
         }
-        return listOfTraining;
+        return new ResponseEntity<>(listOfTraining,HttpStatus.OK);
     }
 
 
     //training request
-    @Override
-    public TrainingRequest createTrainingRequest(TrainingRequest trainingRequest) {
+    public ResponseEntity<TrainingRequest> createTrainingRequest(TrainingRequest trainingRequest) {
         trainingRequest.setStatus(PENDING);
         trainingRequest.setCompleted(false);
         trainingRequestRepository.save(trainingRequest);
-        return trainingRequest;
+        return new ResponseEntity<>(trainingRequest, HttpStatus.OK);
     }
 
-    @Override
-    public TrainingRequest approveTrainingRequest(String id) {
-        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
-        trainingRequest.setStatus(APPROVED);
-        trainingRequestRepository.save(trainingRequest);
-        return trainingRequest;
+    public ResponseEntity<TrainingRequest> approveTrainingRequest(String id) {
+        return changeStatus(id, APPROVED);
     }
 
-    @Override
-    public TrainingRequest cancelTrainingRequest(String id) {
-        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
-        trainingRequest.setStatus(CANCELED);
-        trainingRequestRepository.save(trainingRequest);
-        return trainingRequest;
+    public ResponseEntity<TrainingRequest> cancelTrainingRequest(String id) {
+        return changeStatus(id, CANCELED);
     }
 
-    @Override
-    public TrainingRequest completeTrainingRequest(String id) {
-        TrainingRequest trainingRequest = trainingRequestRepository.findById(id).get();
-        if (trainingRequest.getStatus().equals(APPROVED)) {
-            trainingRequest.setCompleted(true);
-            trainingRequestRepository.save(trainingRequest);
-
-            TrainingRating trainingRating = new TrainingRating(trainingRequest.getTrainingId(), trainingRequest.getUserId(), 0, false);
-            trainingRatingRepository.save(trainingRating);
+    public ResponseEntity<TrainingRequest> changeStatus(String id, String status) {
+        Optional<TrainingRequest> trainingRequest = trainingRequestRepository.findById(id);
+        if (trainingRequest.isPresent()) {
+            trainingRequest.get().setStatus(status);
+            trainingRequestRepository.save(trainingRequest.get());
+            return new ResponseEntity<>(trainingRequest.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return trainingRequest;
     }
 
-    @Override
-    public Iterable<TrainingRating> getAllTrainingRatings() {
-        return trainingRatingRepository.findAll();
+    public ResponseEntity<TrainingRequest> completeTrainingRequest(String id) {
+        Optional<TrainingRequest> trainingRequest = trainingRequestRepository.findById(id);
+        if (trainingRequest.isPresent()) {
+            if (trainingRequest.get().getStatus().equals(APPROVED)) {
+                trainingRequest.get().setCompleted(true);
+                trainingRequestRepository.save(trainingRequest.get());
+
+                TrainingRating trainingRating = new TrainingRating(trainingRequest.get().getTrainingId(), trainingRequest.get().getUserId(), 0, false);
+                trainingRatingRepository.save(trainingRating);
+            }
+            return new ResponseEntity<>(trainingRequest.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @Override
-    public Iterable<TrainingRating> getAllTrainingRatingsByUserId(String userId) {
-        return trainingRatingRepository.findByUserId(userId);
+    public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
+        return new ResponseEntity<>(trainingRatingRepository.findAll(), HttpStatus.OK);
     }
 
-    @Override
-    public TrainingRating rateTraining(String id, int rating) {
-        TrainingRating trainingRating = trainingRatingRepository.findById(id).get();
-        trainingRating.setRating(rating);
-        if (rating >= 4)
-            trainingRating.setCup(true);
-        return trainingRating;
+    public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatingsByUserId(String userId) {
+        return new ResponseEntity<>(trainingRatingRepository.findByUserId(userId), HttpStatus.OK);
+    }
+
+    public ResponseEntity<TrainingRating> rateTraining(String id, int rating) {
+        Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
+        if (trainingRating.isPresent()) {
+            trainingRating.get().setRating(rating);
+            if (rating >= 4)
+                trainingRating.get().setCup(true);
+            return new ResponseEntity<TrainingRating>(trainingRating.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package training.evaluation.training.repository;
+package training.evaluation.training.service.impl;
 
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
+import training.evaluation.training.repository.TrainingRepository;
+import training.evaluation.training.repository.UserRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +16,7 @@ import java.io.IOException;
 
 
 @Repository
-public class CommonRepository {
+public class CommonServices {
 
     @Autowired
     private UserRepository userRepository;
@@ -103,5 +105,9 @@ public class CommonRepository {
             return true;
         }
         return false;
+    }
+
+    public String getType(User user){
+        return user.getType();
     }
 }
