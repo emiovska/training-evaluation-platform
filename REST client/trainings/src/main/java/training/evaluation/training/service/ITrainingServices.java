@@ -20,6 +20,7 @@ public interface ITrainingServices {
     List<Training> findByNameStartingWithAndLevel(String name, String level);
     Training setTrainingPicture(MultipartFile multipart, String trainingName);
     String getTrainingPicture(String trainingName);
+    List<Training> getAllTrainingsByUserLevel(String authorizationValue);
 
     //training request
     TrainingRequest createTrainingRequest(TrainingRequest trainingRequest);
