@@ -6,17 +6,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.*;
 import training.evaluation.training.repository.*;
-import training.evaluation.training.security.JwtTokenUtil;
 import training.evaluation.training.service.ITrainingServices;
 
 import java.util.List;
 import java.util.Optional;
 
 import static training.evaluation.training.model.constants.Levels.*;
+import static training.evaluation.training.model.constants.Roles.*;
 import static training.evaluation.training.model.constants.Status.*;
 
 @org.springframework.stereotype.Service
 public class TrainingServicesImpl implements ITrainingServices {
+
+    private String loggedUsername = CommonServices.loggedUsername;
 
     @Autowired
     private TrainingRepository repository;
@@ -35,54 +37,74 @@ public class TrainingServicesImpl implements ITrainingServices {
     CommonServices functions;
 
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
     public ResponseEntity<Training> createTraining(Training training) {
+        /*if(loggedUsername.equals(ADMIN))
+        {*/
         repository.save(training);
         return new ResponseEntity<>(training, HttpStatus.OK);
+      /*  }
+        else
+        {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }*/
     }
 
 
     public ResponseEntity<Iterable<Training>> getAllTrainings() {
-        return new ResponseEntity<>(repository.findAll(),HttpStatus.OK);
+        Iterable<Training> listOfTrainings = null;
+
+        if (loggedUsername.equals(ADMIN)) {
+            listOfTrainings = repository.findAll();
+            return new ResponseEntity<>(listOfTrainings, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
-        Optional<Training> training = repository.findById(id);
-        if (training.isPresent()) {
-            repository.delete(training.get());
-            return new ResponseEntity<>("Training deleted", HttpStatus.OK);
+        if (loggedUsername.equals(ADMIN)) {
+            Optional<Training> training = repository.findById(id);
+            if (training.isPresent()) {
+                repository.delete(training.get());
+                return new ResponseEntity<>("Training deleted", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
     public ResponseEntity<Training> updateTraining(String id, Training training) {
-        Optional<Training> trainingData = repository.findById(id);
+        if (loggedUsername.equals(ADMIN)) {
+            Optional<Training> trainingData = repository.findById(id);
 
-        if (trainingData.isPresent()) {
-            Training tr = trainingData.get();
-            tr.setName(training.getName());
-            tr.setLevel(training.getLevel());
-            tr.setDescription(training.getDescription());
-            return new ResponseEntity<>(repository.save(tr), HttpStatus.OK);
+            if (trainingData.isPresent()) {
+                Training tr = trainingData.get();
+                tr.setName(training.getName());
+                tr.setLevel(training.getLevel());
+                tr.setDescription(training.getDescription());
+                return new ResponseEntity<>(repository.save(tr), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
     }
 
 
-    public  ResponseEntity<List<Training>> findByNameStartingWith(String name) {
-        return new ResponseEntity<>(repository.findByNameStartingWith(name),HttpStatus.OK);
+    public ResponseEntity<List<Training>> findByNameStartingWith(String name) {
+        return new ResponseEntity<>(repository.findByNameStartingWith(name), HttpStatus.OK);
     }
 
-    public  ResponseEntity<List<Training>> filterByLevel(String level) {
-        return  new ResponseEntity<>(repository.findByLevel(level),HttpStatus.OK);
+    public ResponseEntity<List<Training>> filterByLevel(String level) {
+        return new ResponseEntity<>(repository.findByLevel(level), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Training>> findByNameStartingWithAndLevel(String name, String level) {
-        return new ResponseEntity<>(repository.findByNameStartingWithAndLevel(name, level),HttpStatus.OK);
+        return new ResponseEntity<>(repository.findByNameStartingWithAndLevel(name, level), HttpStatus.OK);
     }
 
     public ResponseEntity<Training> setTrainingPicture(MultipartFile multipart, String trainingName) {
@@ -95,33 +117,27 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     public ResponseEntity<List<Training>> getAllTrainingsByUserLevel(String authorizationValue) {
         List<Training> listOfTraining = null;
-        if (authorizationValue != null || authorizationValue.startsWith("Bearer ")) {
+        User user = functions.getUserFromToken(authorizationValue);
+        String level = user.getLevel();
 
-            String token = authorizationValue.substring(14);
-            String username = jwtTokenUtil.getUsernameFromToken(token);
-            User user = userRepository.findByUsername(username);
-            String level = user.getLevel();
+        //add to list lower levels
+        listOfTraining = repository.findByLevel(level);
 
-            //add to list lower levels
-            listOfTraining = repository.findByLevel(level);
+        if (level.equals(SE)) {
+            listOfTraining.addAll(repository.findByLevel(JSE));
 
-            if (level.equals(SE)) {
-                listOfTraining.addAll(repository.findByLevel(JSE));
+        } else if (level.equals(SSE)) {
+            listOfTraining.addAll(repository.findByLevel(SE));
+            listOfTraining.addAll(repository.findByLevel(JSE));
 
-            } else if (level.equals(SSE)) {
-                listOfTraining.addAll(repository.findByLevel(SE));
-                listOfTraining.addAll(repository.findByLevel(JSE));
-
-            } else if (level.equals(TL)) {
-                listOfTraining.addAll(repository.findByLevel(SSE));
-                listOfTraining.addAll(repository.findByLevel(SE));
-                listOfTraining.addAll(repository.findByLevel(JSE));
-
-            }
-
+        } else if (level.equals(TL)) {
+            listOfTraining.addAll(repository.findByLevel(SSE));
+            listOfTraining.addAll(repository.findByLevel(SE));
+            listOfTraining.addAll(repository.findByLevel(JSE));
 
         }
-        return new ResponseEntity<>(listOfTraining,HttpStatus.OK);
+
+        return new ResponseEntity<>(listOfTraining, HttpStatus.OK);
     }
 
 

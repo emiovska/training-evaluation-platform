@@ -1,10 +1,12 @@
 package training.evaluation.training.security;
 
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
+import training.evaluation.training.service.impl.CommonServices;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,6 +20,9 @@ import static training.evaluation.training.security.SecurityConstants.*;
 
 
 public class JWTAuthenticationFilter extends GenericFilterBean {
+
+    @Autowired
+    CommonServices commonServices;
 
     @Override
     public void doFilter(ServletRequest request,
@@ -36,16 +41,18 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-
             String user= Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
+            commonServices.loggedUsername =user;
             return user != null ?
                     new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
                     null;
         }
         return null;
     }
+
+
 }
