@@ -10,8 +10,8 @@ import training.evaluation.training.service.ITrainingServices;
 
 @CrossOrigin(origins = {"${origins}"})
 @RestController
-@RequestMapping(value = "/training")
-@Api(description = "Resource to expose all available training endpoints", tags = {"TrainingResource"})
+@RequestMapping(value = "/trainingRequest")
+@Api(description = "Resource to expose all available training request endpoints", tags = {"TrainingResource"})
 public class TrainingRequestResource {
 
     @Autowired

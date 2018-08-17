@@ -133,4 +133,9 @@ public class TrainingServicesImpl implements ITrainingServices {
         return trainingRequest;
     }
 
+    @Override
+    public Iterable<TrainingRating> getAllTrainingRatings() {
+        return trainingRatingRepository.findAll();
+    }
+
 }
