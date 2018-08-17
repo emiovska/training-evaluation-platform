@@ -138,4 +138,9 @@ public class TrainingServicesImpl implements ITrainingServices {
         return trainingRatingRepository.findAll();
     }
 
+    @Override
+    public Iterable<TrainingRating> getAllTrainingRatingsByUserId(String userId) {
+        return trainingRatingRepository.findByUserId(userId);
+    }
+
 }
