@@ -12,6 +12,8 @@ public interface IUserServices {
 
     ResponseEntity<User> update(String id, User user);
 
+    ResponseEntity<String> delete(String id);
+
     ResponseEntity<List<User>> getAllUsers();
 
     ResponseEntity<User> getByUsername(String username);

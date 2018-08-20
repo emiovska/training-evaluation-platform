@@ -36,8 +36,14 @@ public class UserResource {
 
     @PostMapping("/update/{id}")
     @ApiOperation(value = "Update user record", notes = "Update user by ID, as a path variable. Request body is user in JSON format with new values - username and password are required")
-    public ResponseEntity<User> updateTraining(@ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "User object in JSON format with username and password as a required fields", required = true) @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "User object in JSON format with username and password as a required fields", required = true) @RequestBody User user) {
         return userServices.update(id, user);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "Delete user record", notes = "Delete user by ID, as a path variable.")
+    public ResponseEntity<String> deleteUser(@ApiParam(value = "ID of the record that we need to delete.", required = true) @PathVariable String id) {
+        return userServices.delete(id);
     }
 
     @GetMapping("/all")
