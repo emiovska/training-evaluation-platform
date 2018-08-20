@@ -9,6 +9,7 @@ import java.util.List;
 public interface IUserServices {
 
     ResponseEntity<User> register(User user);
+    ResponseEntity<User> update(String id, User user);
     ResponseEntity<List<User>> getAllUsers();
     ResponseEntity<User> getByUsername(String username);
     ResponseEntity<User> setProfilePicture(MultipartFile multipart,String username);

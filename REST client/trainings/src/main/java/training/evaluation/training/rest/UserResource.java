@@ -34,6 +34,12 @@ public class UserResource {
         return userServices.register(user);
     }
 
+    @PostMapping("/update/{id}")
+    @ApiOperation(value = "Update user record", notes = "Update user by ID, as a path variable. Request body is user in JSON format with new values - username and password are required")
+    public ResponseEntity<User> updateTraining(@ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "User object in JSON format with username and password as a required fields", required = true) @RequestBody User user) {
+        return userServices.update(id,user);
+    }
+
     @GetMapping("/all")
     @ApiOperation(value = "Get all registered users", notes = "Return list of registered users. User must be previously logged in (Baerer Authorization with JWT token needed). ")
     public ResponseEntity<List<User>> getAll() {
