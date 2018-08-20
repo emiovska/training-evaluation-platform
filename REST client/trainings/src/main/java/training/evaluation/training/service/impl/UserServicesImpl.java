@@ -35,7 +35,6 @@ public class UserServicesImpl implements IUserServices {
             User usr = userData.get();
             usr.setUsername(user.getUsername());
             usr.setPassword(user.getPassword());
-
             return new ResponseEntity<>(userRepository.save(usr), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
