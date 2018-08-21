@@ -32,15 +32,21 @@ public class TrainingServicesImpl implements ITrainingServices {
 
 
     public ResponseEntity<Training> createTraining(Training training) {
-        repository.save(training);
-        return new ResponseEntity<>(training, HttpStatus.OK);
-
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
+        if (role.equals(TRAINER)) {
+            training.setTrainer(username);
+            repository.save(training);
+            return new ResponseEntity<>(training, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
 
     public ResponseEntity<Iterable<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN)) {
+        if (role.equals(ADMIN) || role.equals(TRAINER)) {
             return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -50,8 +56,11 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     public ResponseEntity<String> deleteTraining(String id) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN)) {
-            Optional<Training> training = repository.findById(id);
+        String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
+        Optional<Training> training = repository.findById(id);
+
+        if (role.equals(ADMIN) || (role.equals(TRAINER) && training.get().getTrainer().equals(username))) {
+
             if (training.isPresent()) {
                 repository.delete(training.get());
                 return new ResponseEntity<>("Training deleted", HttpStatus.OK);
@@ -65,15 +74,24 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     public ResponseEntity<Training> updateTraining(String id, Training training) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN)) {
-            Optional<Training> trainingData = repository.findById(id);
+        String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
+        Optional<Training> trainingData = repository.findById(id);
+        String trainer;
 
+        if ((role.equals(ADMIN)) || (role.equals(TRAINER) && trainingData.get().getTrainer().equals(username))) {
             if (trainingData.isPresent()) {
                 Training tr = trainingData.get();
                 tr.setName(training.getName());
                 tr.setLevel(training.getLevel());
                 tr.setDescription(training.getDescription());
-                tr.setTrainer(training.getTrainer());
+
+                if (training.getTrainer() != null) {
+                    trainer = training.getTrainer();
+                } else {
+                    trainer = username;
+                }
+
+                tr.setTrainer(trainer);
                 return new ResponseEntity<>(repository.save(tr), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -182,15 +200,23 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     public ResponseEntity<TrainingRating> rateTraining(String id, int rating) {
-        Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
-        if (trainingRating.isPresent()) {
-            trainingRating.get().setRating(rating);
-            if (rating >= 4)
-                trainingRating.get().setCup(true);
-            return new ResponseEntity<TrainingRating>(trainingRating.get(), HttpStatus.OK);
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(TRAINER)) {
+
+            Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
+            if (trainingRating.isPresent()) {
+                trainingRating.get().setRating(rating);
+                if (rating >= 4)
+                    trainingRating.get().setCup(true);
+                return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
     }
 
 }

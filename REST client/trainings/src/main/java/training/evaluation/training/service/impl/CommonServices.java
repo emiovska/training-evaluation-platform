@@ -3,7 +3,6 @@ package training.evaluation.training.service.impl;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
@@ -15,15 +14,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static training.evaluation.training.model.constants.Roles.ADMIN;
-
 @org.springframework.stereotype.Service
 public class CommonServices {
 
-    public static  String token;
-
-    public static  String loggedUsername;
-
+    public static String token;
 
     @Autowired
     private UserRepository userRepository;
@@ -117,10 +111,6 @@ public class CommonServices {
         return false;
     }
 
-   /* public String getUserRole(User user) {
-        return user.getRole();
-    }*/
-
     public User getUserFromToken(String authorizationValue) {
         User user = null;
         if (authorizationValue != null || authorizationValue.startsWith("Bearer ")) {
@@ -132,20 +122,13 @@ public class CommonServices {
         return user;
     }
 
-  /*  public String setUserRole(String user){
-        System.out.println(user);
-        User userData = userRepository.findByUsername(user);
-        System.out.println(userData);
-        String level =userData.getLevel();
-        System.out.println(level);
+    public String getUsernameFromLoggedUser(String authorization) {
+        String token = authorization.substring(14);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return username;
+    }
 
-        return  level;
-        *//*CommonServices.loggedUserLevel=level;
-        System.out.println(level);*//*
-    }*/
-
-    public String getRoleFromLoggedUser(String authorization)
-    {
+    public String getRoleFromLoggedUser(String authorization) {
         String token = authorization.substring(14);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByUsername(username);

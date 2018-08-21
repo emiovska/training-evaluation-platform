@@ -33,8 +33,11 @@ public class UserServicesImpl implements IUserServices {
 
     public ResponseEntity<User> update(String id, User user) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN)) {
-            Optional<User> userData = userRepository.findById(id);
+        String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
+        Optional<User> userData = userRepository.findById(id);
+
+        if (role.equals(ADMIN) || (role.equals(TRAINER) && userData.get().getUsername().equals(username))) {
+
             if (userData.isPresent()) {
                 User usr = userData.get();
                 usr.setUsername(user.getUsername());
@@ -69,7 +72,7 @@ public class UserServicesImpl implements IUserServices {
 
     public ResponseEntity<List<User>> getAllUsers() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN)) {
+        if (role.equals(ADMIN) || role.equals(TRAINER)) {
             return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
