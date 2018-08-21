@@ -3,6 +3,7 @@ package training.evaluation.training.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
+import training.evaluation.training.repository.UserRepository;
+import training.evaluation.training.security.JwtTokenUtil;
 import training.evaluation.training.service.IUserServices;
+import training.evaluation.training.service.impl.CommonServices;
 
+import javax.ws.rs.HeaderParam;
 import java.util.List;
 
 @CrossOrigin(origins = {"${origins}"})
@@ -25,7 +30,13 @@ public class UserResource {
     private IUserServices userServices;
 
     @Autowired
+    CommonServices commonServices;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/sign-up")
     @ApiOperation(value = "New user registration", notes = "The user must contain username, password, firstname and lastname fields. ")
@@ -36,19 +47,22 @@ public class UserResource {
 
     @PostMapping("/update/{id}")
     @ApiOperation(value = "Update user record", notes = "Update user by ID, as a path variable. Request body is user in JSON format with new values - username and password are required")
-    public ResponseEntity<User> updateUser(@ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "User object in JSON format with username and password as a required fields", required = true) @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestHeader("Authorization") String authorisation, @ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "User object in JSON format with username and password as a required fields", required = true) @RequestBody User user) {
+        CommonServices.token=authorisation;
         return userServices.update(id, user);
     }
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "Delete user record", notes = "Delete user by ID, as a path variable.")
-    public ResponseEntity<String> deleteUser(@ApiParam(value = "ID of the record that we need to delete.", required = true) @PathVariable String id) {
+    public ResponseEntity<String> deleteUser(@RequestHeader("Authorization") String authorisation, @ApiParam(value = "ID of the record that we need to delete.", required = true) @PathVariable String id) {
+        CommonServices.token=authorisation;
         return userServices.delete(id);
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all registered users", notes = "Return list of registered users. User must be previously logged in (Baerer Authorization with JWT token needed). ")
-    public ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<List<User>> getAll(@RequestHeader("Authorization") String authorisation) {
+        CommonServices.token=authorisation;
         return userServices.getAllUsers();
     }
 

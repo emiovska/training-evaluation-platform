@@ -18,13 +18,8 @@ import static training.evaluation.training.model.constants.Status.*;
 @org.springframework.stereotype.Service
 public class TrainingServicesImpl implements ITrainingServices {
 
-    private String loggedUsername = CommonServices.loggedUsername;
-
     @Autowired
     private TrainingRepository repository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private TrainingRequestRepository trainingRequestRepository;
@@ -32,37 +27,30 @@ public class TrainingServicesImpl implements ITrainingServices {
     @Autowired
     private TrainingRatingRepository trainingRatingRepository;
 
-
     @Autowired
-    CommonServices functions;
+    CommonServices commonServices;
 
 
     public ResponseEntity<Training> createTraining(Training training) {
-        /*if(loggedUsername.equals(ADMIN))
-        {*/
         repository.save(training);
         return new ResponseEntity<>(training, HttpStatus.OK);
-      /*  }
-        else
-        {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }*/
+
     }
 
 
     public ResponseEntity<Iterable<Training>> getAllTrainings() {
-        Iterable<Training> listOfTrainings = null;
-
-        if (loggedUsername.equals(ADMIN)) {
-            listOfTrainings = repository.findAll();
-            return new ResponseEntity<>(listOfTrainings, HttpStatus.OK);
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(ADMIN)) {
+            return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
-        if (loggedUsername.equals(ADMIN)) {
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(ADMIN)) {
             Optional<Training> training = repository.findById(id);
             if (training.isPresent()) {
                 repository.delete(training.get());
@@ -76,7 +64,8 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     public ResponseEntity<Training> updateTraining(String id, Training training) {
-        if (loggedUsername.equals(ADMIN)) {
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(ADMIN)) {
             Optional<Training> trainingData = repository.findById(id);
 
             if (trainingData.isPresent()) {
@@ -84,6 +73,7 @@ public class TrainingServicesImpl implements ITrainingServices {
                 tr.setName(training.getName());
                 tr.setLevel(training.getLevel());
                 tr.setDescription(training.getDescription());
+                tr.setTrainer(training.getTrainer());
                 return new ResponseEntity<>(repository.save(tr), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -91,7 +81,6 @@ public class TrainingServicesImpl implements ITrainingServices {
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
     }
 
 
@@ -108,16 +97,16 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     public ResponseEntity<Training> setTrainingPicture(MultipartFile multipart, String trainingName) {
-        return new ResponseEntity<>(functions.uploadTrainingPicture(multipart, trainingName), HttpStatus.OK);
+        return new ResponseEntity<>(commonServices.uploadTrainingPicture(multipart, trainingName), HttpStatus.OK);
     }
 
     public ResponseEntity<String> getTrainingPicture(String trainingName) {
-        return new ResponseEntity<>(functions.retrieveTrainingPicture(trainingName), HttpStatus.OK);
+        return new ResponseEntity<>(commonServices.retrieveTrainingPicture(trainingName), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Training>> getAllTrainingsByUserLevel(String authorizationValue) {
         List<Training> listOfTraining = null;
-        User user = functions.getUserFromToken(authorizationValue);
+        User user = commonServices.getUserFromToken(authorizationValue);
         String level = user.getLevel();
 
         //add to list lower levels

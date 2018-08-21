@@ -3,8 +3,8 @@ package training.evaluation.training.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
-import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
 import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.IUserServices;
@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class UserServicesImpl implements IUserServices {
-    private String loggedUsername = CommonServices.loggedUsername;
 
     @Autowired
     private UserRepository userRepository;
@@ -25,42 +24,56 @@ public class UserServicesImpl implements IUserServices {
     @Autowired
     CommonServices commonServices;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public ResponseEntity<User> register(User user) {
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
     public ResponseEntity<User> update(String id, User user) {
-        Optional<User> userData = userRepository.findById(id);
-
-        if (userData.isPresent()) {
-            User usr = userData.get();
-            usr.setUsername(user.getUsername());
-            usr.setPassword(user.getPassword());
-            return new ResponseEntity<>(userRepository.save(usr), HttpStatus.OK);
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(ADMIN)) {
+            Optional<User> userData = userRepository.findById(id);
+            if (userData.isPresent()) {
+                User usr = userData.get();
+                usr.setUsername(user.getUsername());
+                usr.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+                usr.setFirstname(user.getFirstname());
+                usr.setLastname(user.getLastname());
+                usr.setRole(user.getRole());
+                usr.setLevel(user.getLevel());
+                return new ResponseEntity<>(userRepository.save(usr), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
     }
 
     public ResponseEntity<String> delete(String id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-            return new ResponseEntity<>("User deleted", HttpStatus.OK);
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(ADMIN)) {
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                userRepository.delete(user.get());
+                return new ResponseEntity<>("User deleted", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> listOfUsers = null;
-
-        //get rights for role
-        if (loggedUsername.equals(ADMIN)) {
-            listOfUsers = userRepository.findAll();
+        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (role.equals(ADMIN)) {
+            return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
     }
 
     public ResponseEntity<User> getByUsername(String username) {
