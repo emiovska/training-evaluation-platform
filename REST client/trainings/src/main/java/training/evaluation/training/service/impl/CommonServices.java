@@ -134,4 +134,11 @@ public class CommonServices {
         User user = userRepository.findByUsername(username);
         return user.getRole();
     }
+
+    public String getLevelFromLoggedUser(String authorization) {
+        String token = authorization.substring(14);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userRepository.findByUsername(username);
+        return user.getLevel();
+    }
 }

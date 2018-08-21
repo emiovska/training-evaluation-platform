@@ -32,7 +32,7 @@ public class TrainingResource {
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all training records", notes = "Return list of training records")
-    public ResponseEntity<Iterable<Training>> getAllTrainings(@RequestHeader("Authorization") String authorisation) {
+    public ResponseEntity<List<Training>> getAllTrainings(@RequestHeader("Authorization") String authorisation) {
         CommonServices.token=authorisation;
         return services.getAllTrainings();
     }
@@ -83,7 +83,8 @@ public class TrainingResource {
 
     @GetMapping("/filterByUserLevel")
     @ApiOperation(value = "Filter training by logged user level", notes = "Filter training by level. Return list of existing training records with level of the logged")
-    public ResponseEntity<List<Training>> filterByUserLevel(@ApiParam(value = "Level of the record that we search for.", required = true) @RequestHeader(value = "Authorization") String authorizationValue) {
-        return services.getAllTrainingsByUserLevel(authorizationValue);
+    public ResponseEntity<List<Training>> filterByUserLevel(@ApiParam(value = "Level of the record that we search for.", required = true) @RequestHeader(value = "Authorization") String authorisation) {
+        CommonServices.token=authorisation;
+        return services.getAllTrainingsByUserLevel();
     }
 }
