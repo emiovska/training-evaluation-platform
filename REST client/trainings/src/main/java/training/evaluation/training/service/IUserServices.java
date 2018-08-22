@@ -22,4 +22,6 @@ public interface IUserServices {
 
     ResponseEntity<String> getProfilePicture(String username);
 
+    ResponseEntity<User> setRoleToUser(String id, String role);
+
 }
