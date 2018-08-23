@@ -21,8 +21,8 @@ public class User {
     @Getter @Setter private String password;
     @Getter @Setter private String firstname;
     @Getter @Setter private String lastname;
-    @Getter @Setter private String role;                            // USER, TRAINER, ADMIN
-    @Getter @Setter private String level;                           // JSE, SE, SSE, TL
+    @Getter @Setter private String role=USER;                            // USER, TRAINER, ADMIN
+    @Getter @Setter private String level=JSE;                           // JSE, SE, SSE, TL
     @Getter @Setter private List<String> skills;
     @Getter @Setter private List<String> trainingRatings;
     @Getter @Setter private Binary picture;
@@ -34,10 +34,6 @@ public class User {
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-
-        //default values:
-        /*this.role=USER;
-        this.level=JSE;*/
     }
 
     @Override
