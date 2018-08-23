@@ -37,4 +37,10 @@ public class TrainingRatingResource {
         CommonServices.token=authorisation;
         return services.rateTraining(id,rating);
     }
+
+    @PutMapping("/rate/{id}")
+    @ApiOperation(value = "Rate training", notes = "Save raiting. Add skills from training to user prifile")
+    public ResponseEntity<String> rate(@ApiParam(value="training rating id, whisch rateing should be saved.", required = true) String id){
+        return services.rate(id);
+    }
 }
