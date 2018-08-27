@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
 import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.IUserServices;
@@ -40,6 +41,16 @@ public class UserServicesImpl implements IUserServices {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    public ResponseEntity<String> delete(String id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return new ResponseEntity<>("User deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     public ResponseEntity<List<User>> getAllUsers() {
