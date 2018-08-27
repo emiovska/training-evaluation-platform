@@ -78,4 +78,10 @@ public class UserResource {
     public ResponseEntity<String> retrieveFile(@ApiParam(value = "Name of the user that we need to retrieve picture", required = true) @PathVariable("username") String username) {
         return userServices.getProfilePicture(username);
     }
+
+    @PutMapping("/setRoleToUser/{id}/{role}")
+    @ApiOperation(value = "Set ROLE to user", notes = "Set ROLE value to a particular user")
+    public ResponseEntity<User> setRoleToUser(@ApiParam(value = "Id of the user that we need to set role.", required = true) @PathVariable String id, @ApiParam(value = "Role value that we need to set", required = true) @PathVariable String role) {
+        return userServices.setRoleToUser(id, role);
+    }
 }

@@ -36,7 +36,7 @@ public class UserServicesImpl implements IUserServices {
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
         Optional<User> userData = userRepository.findById(id);
 
-        if (role.equals(ADMIN) || ((role.equals(TRAINER) || role.equals(USER)) && userData.get().getUsername().equals(username)) ) {
+        if (role.equals(ADMIN) || ((role.equals(TRAINER) || role.equals(USER)) && userData.get().getUsername().equals(username))) {
 
             if (userData.isPresent()) {
                 User usr = userData.get();
@@ -89,7 +89,25 @@ public class UserServicesImpl implements IUserServices {
 
     public ResponseEntity<String> getProfilePicture(String username) {
         return new ResponseEntity<>(commonServices.retrieveUserPicture(username), HttpStatus.OK);
-
     }
 
+    public ResponseEntity<User> setRoleToUser(String id, String role) {
+        String roleLoggedUser = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        if (roleLoggedUser.equals(ADMIN) || roleLoggedUser.equals(TRAINER)) {
+            if (role.equals(ADMIN) || role.equals(TRAINER) || role.equals(USER)) {
+                Optional<User> userData = userRepository.findById(id);
+                if (userData.isPresent()) {
+                    User usr = userData.get();
+                    usr.setRole(role);
+                    return new ResponseEntity<>(userRepository.save(usr), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
 }
