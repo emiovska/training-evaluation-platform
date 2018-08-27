@@ -8,8 +8,7 @@ import training.evaluation.training.model.*;
 import training.evaluation.training.repository.*;
 import training.evaluation.training.service.ITrainingServices;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static training.evaluation.training.model.constants.Levels.*;
 import static training.evaluation.training.model.constants.Roles.*;
@@ -88,7 +87,8 @@ public class TrainingServicesImpl implements ITrainingServices {
                 tr.setName(training.getName());
                 tr.setLevel(training.getLevel());
                 tr.setDescription(training.getDescription());
-
+                tr.setTrainer(training.getTrainer());
+                tr.setSkills(training.getSkills());
                 if (training.getTrainer() != null) {
                     trainer = training.getTrainer();
                 } else {
@@ -221,16 +221,18 @@ public class TrainingServicesImpl implements ITrainingServices {
         }
     }
 
-    public ResponseEntity<String> rate(String trainingRatingId){
+    public ResponseEntity<String> rate(String trainingRatingId) {
         Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(trainingRatingId);
         if (trainingRating.isPresent()) {
             trainingRating.get().setDone(true);
             String trainingId = trainingRating.get().getTrainingId();
             Training training = trainingRepository.findById(trainingId).get();
-            List<String> skills=training.getSkills();
-            String userId=trainingRating.get().getUserId();
+            List<String> skills = new ArrayList<>();
+            skills = training.getSkills();
+            String userId = trainingRating.get().getUserId();
             User user = userRepository.findById(userId).get();
             user.setSkills(skills);
+            userRepository.save(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
