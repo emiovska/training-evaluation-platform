@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import training.evaluation.training.model.TrainingRating;
 import training.evaluation.training.service.ITrainingServices;
+import training.evaluation.training.service.impl.CommonServices;
 
 @CrossOrigin(origins = {"${origins}"})
 @RestController
@@ -32,7 +33,8 @@ public class TrainingRatingResource {
 
     @PostMapping("/rateTraining/{id}/{rating}")
     @ApiOperation(value = "Rate training", notes = "Find training ratings by id and set rate value. User must be previously logged in (Baerer Authorization with JWT token needed).")
-    public ResponseEntity<TrainingRating> rateTraining(@ApiParam(value = "Training Ratings id of the object that we need to update rating", required = true) @PathVariable String id,@ApiParam(value = "Rating value that we need to set", required = true) @PathVariable int rating) {
+    public ResponseEntity<TrainingRating> rateTraining(@RequestHeader("Authorization") String authorisation, @ApiParam(value = "Training Ratings id of the object that we need to update rating", required = true) @PathVariable String id,@ApiParam(value = "Rating value that we need to set", required = true) @PathVariable int rating) {
+        CommonServices.token=authorisation;
         return services.rateTraining(id,rating);
     }
 }
