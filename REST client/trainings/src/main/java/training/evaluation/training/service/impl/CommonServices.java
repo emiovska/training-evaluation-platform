@@ -9,6 +9,7 @@ import training.evaluation.training.model.Training;
 import training.evaluation.training.model.User;
 import training.evaluation.training.repository.TrainingRepository;
 import training.evaluation.training.repository.UserRepository;
+import training.evaluation.training.security.JwtTokenUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,12 +18,18 @@ import java.io.IOException;
 
 @Repository
 public class CommonServices {
+    public static  String loggedUsername;
+
+    public static  String loggedUserLevel;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private TrainingRepository trainingRepository;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public User uploadUserPicture(MultipartFile multipart, String identificator) {
         User userRecord = userRepository.findByUsername(identificator);
@@ -58,18 +65,18 @@ public class CommonServices {
     public String retrieveTrainingPicture(String trainingName) {
         Training training = trainingRepository.findByName(trainingName).get(0);
         Binary document = training.getPicture();
-        return  commonRetrieve("training", document, trainingName);
+        return commonRetrieve("training", document, trainingName);
     }
 
     public String commonRetrieve(String type, Binary document, String name) {
-        String path = "C://Users//"+System.getProperty("user.name")+"//Downloads"+"//temp";
+        String path = "C://Users//" + System.getProperty("user.name") + "//Downloads" + "//temp";
         File folder = new File(path);
         if (document != null) {
             FileOutputStream fileOuputStream = null;
             try {
                 createIfNotExist(folder);
                 if (type.equals("user")) {
-                    folder = new File(path+"//user");
+                    folder = new File(path + "//user");
                     if (!createIfNotExist(folder)) {
                         if (folder.isDirectory()) {
                             for (File f : folder.listFiles()) {
@@ -107,7 +114,26 @@ public class CommonServices {
         return false;
     }
 
-    public String getType(User user){
-        return user.getType();
+    public String getUserRole(User user) {
+        return user.getRole();
+    }
+
+    public User getUserFromToken(String authorizationValue) {
+        User user = null;
+        if (authorizationValue != null || authorizationValue.startsWith("Bearer ")) {
+
+            String token = authorizationValue.substring(14);
+            String username = jwtTokenUtil.getUsernameFromToken(token);
+            user = userRepository.findByUsername(username);
+        }
+        return user;
+    }
+
+    public void set(String user){
+        loggedUsername =user;
+        User userData = userRepository.findByUsername(user);
+        String level =getUserRole(userData);
+        CommonServices.loggedUserLevel=level;
+        System.out.println(level);
     }
 }
