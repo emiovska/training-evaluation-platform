@@ -44,14 +44,15 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
 
-    public ResponseEntity<Iterable<Training>> getAllTrainings() {
+    public ResponseEntity<List<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         if (role.equals(ADMIN) || role.equals(TRAINER)) {
             return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+        } else if (role.equals(USER)) {
+            return getAllTrainingsByUserLevel();
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
@@ -122,9 +123,9 @@ public class TrainingServicesImpl implements ITrainingServices {
         return new ResponseEntity<>(commonServices.retrieveTrainingPicture(trainingName), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Training>> getAllTrainingsByUserLevel(String authorizationValue) {
+    public ResponseEntity<List<Training>> getAllTrainingsByUserLevel() {
         List<Training> listOfTraining = null;
-        User user = commonServices.getUserFromToken(authorizationValue);
+        User user = commonServices.getUserFromToken(CommonServices.token);
         String level = user.getLevel();
 
         //add to list lower levels

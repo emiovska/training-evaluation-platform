@@ -12,7 +12,7 @@ import java.util.List;
 public interface ITrainingServices {
 
     ResponseEntity<Training> createTraining(Training training);
-    ResponseEntity<Iterable<Training>> getAllTrainings();
+    ResponseEntity<List<Training>> getAllTrainings();
     ResponseEntity<String> deleteTraining(String id);
     ResponseEntity<Training> updateTraining(String id, Training training);
     ResponseEntity<List<Training>> findByNameStartingWith(String name);
@@ -20,7 +20,7 @@ public interface ITrainingServices {
     ResponseEntity<List<Training>> findByNameStartingWithAndLevel(String name, String level);
     ResponseEntity<Training> setTrainingPicture(MultipartFile multipart, String trainingName);
     ResponseEntity<String> getTrainingPicture(String trainingName);
-    ResponseEntity<List<Training>> getAllTrainingsByUserLevel(String authorizationValue);
+    ResponseEntity<List<Training>> getAllTrainingsByUserLevel();
 
     //training request
     ResponseEntity<TrainingRequest> createTrainingRequest(TrainingRequest trainingRequest);

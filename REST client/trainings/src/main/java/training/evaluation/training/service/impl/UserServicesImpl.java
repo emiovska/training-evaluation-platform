@@ -36,7 +36,7 @@ public class UserServicesImpl implements IUserServices {
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
         Optional<User> userData = userRepository.findById(id);
 
-        if (role.equals(ADMIN) || (role.equals(TRAINER) && userData.get().getUsername().equals(username))) {
+        if (role.equals(ADMIN) || ((role.equals(TRAINER) || role.equals(USER)) && userData.get().getUsername().equals(username)) ) {
 
             if (userData.isPresent()) {
                 User usr = userData.get();

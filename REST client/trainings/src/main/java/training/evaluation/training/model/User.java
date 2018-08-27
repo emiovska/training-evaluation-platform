@@ -37,8 +37,8 @@ public class User {
         this.lastname = lastname;
 
         //default values:
-        this.role=USER;
-        this.level=JSE;
+        /*this.role=USER;
+        this.level=JSE;*/
     }
 
     @Override
