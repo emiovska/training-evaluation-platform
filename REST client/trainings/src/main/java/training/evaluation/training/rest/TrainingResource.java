@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
 import training.evaluation.training.service.ITrainingServices;
 import org.springframework.http.ResponseEntity;
+import training.evaluation.training.service.impl.CommonServices;
 
 import java.util.List;
 import javax.validation.Valid;
@@ -30,19 +31,22 @@ public class TrainingResource {
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all training records", notes = "Return list of training records")
-    public ResponseEntity<Iterable<Training>> getAllTrainings() {
+    public ResponseEntity<Iterable<Training>> getAllTrainings(@RequestHeader("Authorization") String authorisation) {
+        CommonServices.token=authorisation;
         return services.getAllTrainings();
     }
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "Delete training record", notes = "Delete training by ID, as a path variable")
-    public ResponseEntity<String> deleteTraining(@ApiParam(value = "ID of the record that we need to delete", required = true) @PathVariable String id) {
+    public ResponseEntity<String> deleteTraining(@RequestHeader("Authorization") String authorisation, @ApiParam(value = "ID of the record that we need to delete", required = true) @PathVariable String id) {
+        CommonServices.token=authorisation;
         return services.deleteTraining(id);
     }
 
     @PostMapping("/update/{id}")
     @ApiOperation(value = "Update training record", notes = "Update training by ID, as a path variable. Request body is training in JSON format with new values - Name and Level are required, Description is optional")
-    public ResponseEntity<Training> updateTraining(@ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "Training object in JSON format with Name and Level as a required fields, Description field is optional", required = true) @RequestBody Training training) {
+    public ResponseEntity<Training> updateTraining(@RequestHeader("Authorization") String authorisation, @ApiParam(value = "ID of the record that we need to update.", required = true) @PathVariable String id, @ApiParam(value = "Training object in JSON format with Name and Level as a required fields, Description field is optional", required = true) @RequestBody Training training) {
+        CommonServices.token=authorisation;
         return services.updateTraining(id, training);
     }
 

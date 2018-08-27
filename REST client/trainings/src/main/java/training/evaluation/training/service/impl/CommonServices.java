@@ -15,12 +15,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static training.evaluation.training.model.constants.Roles.ADMIN;
 
-@Repository
+@org.springframework.stereotype.Service
 public class CommonServices {
+
+    public static  String token;
+
     public static  String loggedUsername;
 
-    public static  String loggedUserLevel;
 
     @Autowired
     private UserRepository userRepository;
@@ -114,9 +117,9 @@ public class CommonServices {
         return false;
     }
 
-    public String getUserRole(User user) {
+   /* public String getUserRole(User user) {
         return user.getRole();
-    }
+    }*/
 
     public User getUserFromToken(String authorizationValue) {
         User user = null;
@@ -129,11 +132,23 @@ public class CommonServices {
         return user;
     }
 
-    public void set(String user){
-        loggedUsername =user;
+  /*  public String setUserRole(String user){
+        System.out.println(user);
         User userData = userRepository.findByUsername(user);
-        String level =getUserRole(userData);
-        CommonServices.loggedUserLevel=level;
+        System.out.println(userData);
+        String level =userData.getLevel();
         System.out.println(level);
+
+        return  level;
+        *//*CommonServices.loggedUserLevel=level;
+        System.out.println(level);*//*
+    }*/
+
+    public String getRoleFromLoggedUser(String authorization)
+    {
+        String token = authorization.substring(14);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userRepository.findByUsername(username);
+        return user.getRole();
     }
 }

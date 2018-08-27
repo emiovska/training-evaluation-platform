@@ -8,6 +8,9 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+import static training.evaluation.training.model.constants.Levels.JSE;
+import static training.evaluation.training.model.constants.Roles.USER;
+
 @Document(collection = "users")
 public class User {
 
@@ -18,7 +21,7 @@ public class User {
     @Getter @Setter private String password;
     @Getter @Setter private String firstname;
     @Getter @Setter private String lastname;
-    @Getter @Setter private String role;                            //ADMIN, TRAINER, USER
+    @Getter @Setter private String role;                            // USER, TRAINER, ADMIN
     @Getter @Setter private String level;                           // JSE, SE, SSE, TL
     @Getter @Setter private List<String> skills;
     @Getter @Setter private List<String> trainingRatings;
@@ -32,6 +35,10 @@ public class User {
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
+
+        //default values:
+        this.role=USER;
+        this.level=JSE;
     }
 
     @Override

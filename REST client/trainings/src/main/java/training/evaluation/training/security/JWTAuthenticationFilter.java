@@ -46,7 +46,6 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-            commonServices.loggedUsername =user;
             return user != null ?
                     new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
                     null;
