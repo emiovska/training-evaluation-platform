@@ -4,17 +4,17 @@
     background:#ECECEC;
 }
 
-#left, #right { 
+#left, #right {
     margin: 30px;
 }
 
 .sliderTitle span{
-    color: white; 
-   font: bold 24px/45px Helvetica, Sans-Serif; 
-   letter-spacing: -1px;  
+    color: white;
+   font: bold 24px/45px Helvetica, Sans-Serif;
+   letter-spacing: -1px;
    background: rgb(0, 0, 0); /* fallback color */
    background: rgba(0, 0, 0, 0.7);
-   padding: 10px; 
+   padding: 10px;
 }
 
 .upBanner{
@@ -22,8 +22,4 @@
     padding-bottom: 2%;
     padding-left: 18%;
     padding-right: 18%;
-}
-
-.mat-progress-bar {
-    height: 14px;
 }
