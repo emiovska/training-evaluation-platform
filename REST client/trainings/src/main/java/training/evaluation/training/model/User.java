@@ -4,6 +4,8 @@ import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,8 @@ public class User {
     @Getter @Setter private String lastname;
     @Getter @Setter private String role=USER;                            // USER, TRAINER, ADMIN
     @Getter @Setter private String level=JSE;                           // JSE, SE, SSE, TL
+
+
     @Getter @Setter private List<String> skills;
     @Getter @Setter private List<String> trainingRatings;
     @Getter @Setter private Binary picture;

@@ -14,6 +14,7 @@ public class TrainingRating {
     @Getter @Setter private String userId;
     @Getter @Setter private int rating;  //should be between 0-5
     @Getter @Setter private boolean cup;
+    @Getter @Setter private boolean done;
 
     public TrainingRating() { }
 

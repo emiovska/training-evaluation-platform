@@ -8,8 +8,7 @@ import training.evaluation.training.model.*;
 import training.evaluation.training.repository.*;
 import training.evaluation.training.service.ITrainingServices;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static training.evaluation.training.model.constants.Levels.*;
 import static training.evaluation.training.model.constants.Roles.*;
@@ -19,13 +18,16 @@ import static training.evaluation.training.model.constants.Status.*;
 public class TrainingServicesImpl implements ITrainingServices {
 
     @Autowired
-    private TrainingRepository repository;
+    private TrainingRepository trainingRepository;
 
     @Autowired
     private TrainingRequestRepository trainingRequestRepository;
 
     @Autowired
     private TrainingRatingRepository trainingRatingRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     CommonServices commonServices;
@@ -36,7 +38,7 @@ public class TrainingServicesImpl implements ITrainingServices {
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
         if (role.equals(TRAINER)) {
             training.setTrainer(username);
-            repository.save(training);
+            trainingRepository.save(training);
             return new ResponseEntity<>(training, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -47,7 +49,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     public ResponseEntity<List<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         if (role.equals(ADMIN) || role.equals(TRAINER)) {
-            return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(trainingRepository.findAll(), HttpStatus.OK);
         } else if (role.equals(USER)) {
             return getAllTrainingsByUserLevel();
         } else {
@@ -58,12 +60,12 @@ public class TrainingServicesImpl implements ITrainingServices {
     public ResponseEntity<String> deleteTraining(String id) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
-        Optional<Training> training = repository.findById(id);
+        Optional<Training> training = trainingRepository.findById(id);
 
         if (role.equals(ADMIN) || (role.equals(TRAINER) && training.get().getTrainer().equals(username))) {
 
             if (training.isPresent()) {
-                repository.delete(training.get());
+                trainingRepository.delete(training.get());
                 return new ResponseEntity<>("Training deleted", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -76,7 +78,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     public ResponseEntity<Training> updateTraining(String id, Training training) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
-        Optional<Training> trainingData = repository.findById(id);
+        Optional<Training> trainingData = trainingRepository.findById(id);
         String trainer;
 
         if ((role.equals(ADMIN)) || (role.equals(TRAINER) && trainingData.get().getTrainer().equals(username))) {
@@ -85,7 +87,8 @@ public class TrainingServicesImpl implements ITrainingServices {
                 tr.setName(training.getName());
                 tr.setLevel(training.getLevel());
                 tr.setDescription(training.getDescription());
-
+                tr.setTrainer(training.getTrainer());
+                tr.setSkills(training.getSkills());
                 if (training.getTrainer() != null) {
                     trainer = training.getTrainer();
                 } else {
@@ -93,7 +96,7 @@ public class TrainingServicesImpl implements ITrainingServices {
                 }
 
                 tr.setTrainer(trainer);
-                return new ResponseEntity<>(repository.save(tr), HttpStatus.OK);
+                return new ResponseEntity<>(trainingRepository.save(tr), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -104,15 +107,15 @@ public class TrainingServicesImpl implements ITrainingServices {
 
 
     public ResponseEntity<List<Training>> findByNameStartingWith(String name) {
-        return new ResponseEntity<>(repository.findByNameStartingWith(name), HttpStatus.OK);
+        return new ResponseEntity<>(trainingRepository.findByNameStartingWith(name), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Training>> filterByLevel(String level) {
-        return new ResponseEntity<>(repository.findByLevel(level), HttpStatus.OK);
+        return new ResponseEntity<>(trainingRepository.findByLevel(level), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Training>> findByNameStartingWithAndLevel(String name, String level) {
-        return new ResponseEntity<>(repository.findByNameStartingWithAndLevel(name, level), HttpStatus.OK);
+        return new ResponseEntity<>(trainingRepository.findByNameStartingWithAndLevel(name, level), HttpStatus.OK);
     }
 
     public ResponseEntity<Training> setTrainingPicture(MultipartFile multipart, String trainingName) {
@@ -129,19 +132,19 @@ public class TrainingServicesImpl implements ITrainingServices {
         String level = user.getLevel();
 
         //add to list lower levels
-        listOfTraining = repository.findByLevel(level);
+        listOfTraining = trainingRepository.findByLevel(level);
 
         if (level.equals(SE)) {
-            listOfTraining.addAll(repository.findByLevel(JSE));
+            listOfTraining.addAll(trainingRepository.findByLevel(JSE));
 
         } else if (level.equals(SSE)) {
-            listOfTraining.addAll(repository.findByLevel(SE));
-            listOfTraining.addAll(repository.findByLevel(JSE));
+            listOfTraining.addAll(trainingRepository.findByLevel(SE));
+            listOfTraining.addAll(trainingRepository.findByLevel(JSE));
 
         } else if (level.equals(TL)) {
-            listOfTraining.addAll(repository.findByLevel(SSE));
-            listOfTraining.addAll(repository.findByLevel(SE));
-            listOfTraining.addAll(repository.findByLevel(JSE));
+            listOfTraining.addAll(trainingRepository.findByLevel(SSE));
+            listOfTraining.addAll(trainingRepository.findByLevel(SE));
+            listOfTraining.addAll(trainingRepository.findByLevel(JSE));
 
         }
 
@@ -193,7 +196,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
-        return new ResponseEntity<>(trainingRatingRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(trainingRatingRepository.findByDone(false), HttpStatus.OK);
     }
 
     public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatingsByUserId(String userId) {
@@ -212,12 +215,27 @@ public class TrainingServicesImpl implements ITrainingServices {
                 return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
             }
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
     }
 
+    public ResponseEntity<String> rate(String trainingRatingId) {
+        Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(trainingRatingId);
+        if (trainingRating.isPresent()) {
+            trainingRating.get().setDone(true);
+            String trainingId = trainingRating.get().getTrainingId();
+            Training training = trainingRepository.findById(trainingId).get();
+            List<String> skills = new ArrayList<>();
+            skills = training.getSkills();
+            String userId = trainingRating.get().getUserId();
+            User user = userRepository.findById(userId).get();
+            user.setSkills(skills);
+            userRepository.save(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
