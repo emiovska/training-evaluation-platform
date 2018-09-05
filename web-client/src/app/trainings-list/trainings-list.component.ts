@@ -95,9 +95,10 @@ export class TrainingsListComponent implements OnInit {
   }
 
   sendRequestForTraining(training: Training) {
+    const { id, name } = training;
     let dialogRef = this.dialog.open(SendRequestDialogComponent, {
       width: DialogWidth.deleteDialog,
-      data: { name: training.name }
+      data: { id, name }
     });
     dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
   }

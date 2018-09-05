@@ -28,8 +28,18 @@ export class SendRequestDialogComponent {
   }
 
   confirm(): void {
-    this.toastNotificationService.showNotification(`The request for training ${this.training.name} is send. Please wait for approval by trainer !`);
-    this.dialogRef.close(null);
+    const trainingRequest = {
+      trainingId: this.training.id,
+      userId: JSON.parse(localStorage.getItem('currentUser')).id,
+      isCompleted: false,
+      status: 'PENDING'
+    };
+    this.trainingRequestService.createNewTrainingRequest(trainingRequest)
+      .subscribe(data => {
+        this.toastNotificationService.showNotification(`The request for training ${this.training.name} is send. Please wait for approval by trainer !`);
+        this.dialogRef.close(null);
+      });
+
   }
 
 }

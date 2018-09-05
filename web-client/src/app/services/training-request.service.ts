@@ -21,7 +21,7 @@ export class TrainingRequestService {
         return allTrainingRequests;
     }
 
-    createNewTrainingRequest(trainingRequest: TrainingRequest): Observable<Object>{
+    createNewTrainingRequest(trainingRequest): Observable<Object>{
         return this.http.post(`${this.trainingRequestUrl}/new`, trainingRequest);
     }
 }
