@@ -200,6 +200,11 @@ public class TrainingServicesImpl implements ITrainingServices {
         return new ResponseEntity<>(trainingRequestRepository.findAll(), HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<TrainingRequest>> getAllApprovedTrainingRequests() {
+        return new ResponseEntity<>(trainingRequestRepository.findByStatus(APPROVED), HttpStatus.OK);
+    }
+
     public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
         return new ResponseEntity<>(trainingRatingRepository.findByDone(false), HttpStatus.OK);
     }

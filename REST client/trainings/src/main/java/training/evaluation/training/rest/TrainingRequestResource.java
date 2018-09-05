@@ -39,7 +39,7 @@ public class TrainingRequestResource {
     }
 
     @PostMapping("/complete/{trainingRequestId}")
-    @ApiOperation(value = "Cancel training request", notes = "Set status to canceled of the training request requested by id. ")
+    @ApiOperation(value = "Complete training request", notes = "Set status to canceled of the training request requested by id. ")
     public ResponseEntity<TrainingRequest> completeTrainingRequest(@ApiParam(value = "Training request id as a path variable.", required = true) @PathVariable("trainingRequestId") String trainingRequestId) {
         return services.completeTrainingRequest(trainingRequestId);
     }
@@ -48,5 +48,11 @@ public class TrainingRequestResource {
     @ApiOperation(value = "Get all training requests", notes = "Return list of all training requests")
     public ResponseEntity<List<TrainingRequest>> getAllTrainingRequests() {
         return services.getAllTrainingRequests();
+    }
+
+    @GetMapping("/allApproved")
+    @ApiOperation(value = "Get all approved training requests", notes = "Return list of all approved training requests")
+    public ResponseEntity<List<TrainingRequest>> getAllApprovedTrainingRequests() {
+        return services.getAllApprovedTrainingRequests();
     }
 }

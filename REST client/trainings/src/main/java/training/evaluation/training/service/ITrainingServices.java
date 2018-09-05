@@ -27,7 +27,8 @@ public interface ITrainingServices {
     ResponseEntity<TrainingRequest> approveTrainingRequest(String id);
     ResponseEntity<TrainingRequest> cancelTrainingRequest(String id);
     ResponseEntity<TrainingRequest> completeTrainingRequest(String id);
-    ResponseEntity<List<TrainingRequest>> getAllTrainingRequests();
+    ResponseEntity<List<TrainingRequest>> getAllTrainingRequests();;
+    ResponseEntity<List<TrainingRequest>> getAllApprovedTrainingRequests();
 
     //training rating
     ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings();
