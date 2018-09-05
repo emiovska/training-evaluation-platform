@@ -1,4 +1,4 @@
-enum ROLE {
+export enum ROLE {
     ADMIN,
     TRAINER,
     USER

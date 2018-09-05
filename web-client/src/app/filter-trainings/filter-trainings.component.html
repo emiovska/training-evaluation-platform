@@ -14,7 +14,7 @@
       </mat-select>
     </div>
     <div class="col s1">
-      <button mat-raised-button color="accent" (click)="createNewItem()">
+      <button mat-raised-button color="accent" *ngIf="isUserRoleTrainer()" (click)="createNewItem()">
         <mat-icon>add</mat-icon> Create new</button>
     </div>
     <div class="col s1">

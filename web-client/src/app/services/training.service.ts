@@ -8,12 +8,12 @@ import { Training } from '../models/training';
 @Injectable()
 export class TrainingService {
 
-  private trainingUrl = '/api';
+  private trainingUrl = 'http://localhost:8080/training';
 
   constructor(private http: HttpClient) { }
 
   getAllTrainings(): Observable<any> {
-    return this.http.get(`${this.trainingUrl}/trainings`);
+    return this.http.get(`${this.trainingUrl}/all`);
   }
 
   getTraining(id: number): Observable<Object> {
@@ -21,26 +21,26 @@ export class TrainingService {
   }
 
   createNewTraining(newTraining: Training): Observable<Object> {
-    return this.http.post(`${this.trainingUrl}/`, newTraining);
+    return this.http.post(`${this.trainingUrl}/new`, newTraining);
   }
 
   updateTraining(id: number, updateTraining: Training): Observable<Object> {
-    return this.http.post(`${this.trainingUrl}/training/${id}`, updateTraining);
+    return this.http.post(`${this.trainingUrl}/update/${id}`, updateTraining);
   }
 
   deleteTraining(id: number): Observable<any> {
-    return this.http.delete(`${this.trainingUrl}/training/${id}`, { responseType: 'text' })
+    return this.http.delete(`${this.trainingUrl}/delete/${id}`, { responseType: 'text' })
   }
 
   filterByName(name: string): Observable<Object> {
-    return this.http.get(`${this.trainingUrl}/training/filterByName/${name}`)
+    return this.http.get(`${this.trainingUrl}/filterByName/${name}`)
   }
 
   filterByLevel(level: string): Observable<Object> {
-    return this.http.get(`${this.trainingUrl}/training/filterByLevel/${level}`)
+    return this.http.get(`${this.trainingUrl}/filterByLevel/${level}`)
   }
 
   filterByNameAndLevel(name: string, level:string){
-    return this.http.get(`${this.trainingUrl}/training/filterByNameAndLevel/${name}/${level}`);
+    return this.http.get(`${this.trainingUrl}/filterByNameAndLevel/${name}/${level}`);
   }
 }

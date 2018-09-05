@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { TrainingRequest } from '../models/training-request';
 import { trainingRequests } from '../../api/training-requests/training-requests';
 import { allTrainingRequests } from '../../api/training-requests/all-training-request';
+import { Observable } from '../../../node_modules/rxjs';
+
 
 @Injectable()
 export class TrainingRequestService {
-    constructor() { }
+    private trainingRequestUrl = 'http://localhost:8080/trainingRequest';
+
+    constructor(private http: HttpClient) { }
 
     getTrainingRequestsByUser(): TrainingRequest[] {
         return trainingRequests;
@@ -15,4 +21,7 @@ export class TrainingRequestService {
         return allTrainingRequests;
     }
 
+    createNewTrainingRequest(trainingRequest: TrainingRequest): Observable<Object>{
+        return this.http.post(`${this.trainingRequestUrl}/new`, trainingRequest);
+    }
 }
