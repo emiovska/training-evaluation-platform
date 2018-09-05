@@ -5,14 +5,18 @@ import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRequest;
 import training.evaluation.training.model.User;
 import training.evaluation.training.repository.TrainingRepository;
+import training.evaluation.training.repository.TrainingRequestRepository;
 import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.security.JwtTokenUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @org.springframework.stereotype.Service
 public class CommonServices {
@@ -26,7 +30,11 @@ public class CommonServices {
     private TrainingRepository trainingRepository;
 
     @Autowired
+    private TrainingRequestRepository trainingRequestRepository;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
 
     public User uploadUserPicture(MultipartFile multipart, String identificator) {
         User userRecord = userRepository.findByUsername(identificator);
@@ -140,5 +148,23 @@ public class CommonServices {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByUsername(username);
         return user.getLevel();
+    }
+
+    public List<TrainingRequest.TrainingRequestResponse> getTrainingRequestResponse(List<TrainingRequest> trainingRequests) {
+        List<TrainingRequest> trainingRequestList = trainingRequestRepository.findAll();
+        List<TrainingRequest.TrainingRequestResponse> trainingRequestResponses = new ArrayList<>();
+        for (TrainingRequest trainingRequest : trainingRequestList) {
+            TrainingRequest.TrainingRequestResponse response = getResponseFromTrainingRequest(trainingRequest);
+                    trainingRequestResponses.add(response);
+        }
+
+        return trainingRequestResponses;
+    }
+
+    public TrainingRequest.TrainingRequestResponse getResponseFromTrainingRequest(TrainingRequest trainingRequest) {
+        Training training = trainingRepository.findById(trainingRequest.getTrainingId()).get();
+        User user = userRepository.findById(trainingRequest.getUserId()).get();
+        TrainingRequest.TrainingRequestResponse response = new TrainingRequest.TrainingRequestResponse(trainingRequest.getId(), training, user, trainingRequest.isCompleted(), trainingRequest.getStatus());
+        return response;
     }
 }
