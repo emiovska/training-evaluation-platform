@@ -205,6 +205,10 @@ public class TrainingServicesImpl implements ITrainingServices {
         return new ResponseEntity<>(trainingRequestRepository.findByStatus(APPROVED), HttpStatus.OK);
     }
 
+    public ResponseEntity<TrainingRequest> getByTrainingRequestId(String id) {
+        return new ResponseEntity<>(trainingRequestRepository.findById(id).get(), HttpStatus.OK);
+    }
+
     public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
         return new ResponseEntity<>(trainingRatingRepository.findByDone(false), HttpStatus.OK);
     }

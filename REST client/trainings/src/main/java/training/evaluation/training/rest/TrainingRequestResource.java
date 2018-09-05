@@ -55,4 +55,10 @@ public class TrainingRequestResource {
     public ResponseEntity<List<TrainingRequest>> getAllApprovedTrainingRequests() {
         return services.getAllApprovedTrainingRequests();
     }
+
+    @GetMapping("/getByTrainingRequestId/{id}")
+    @ApiOperation(value = "Find training request by id", notes = "Find training request by id. ")
+    public ResponseEntity<TrainingRequest> getByTrainingRequestId(@ApiParam(value = "Id of the  training request that we search for as a path variable.", required = true) @PathVariable String id) {
+        return services.getByTrainingRequestId(id);
+    }
 }
