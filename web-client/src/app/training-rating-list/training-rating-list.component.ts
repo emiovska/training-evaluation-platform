@@ -15,10 +15,12 @@ export class TrainingRatingListComponent implements OnInit {
   dataSource: MatTableDataSource<TrainingRating>;
   numStars: number;
   onRatingChangeResult: RatingChangeEvent;
+  rateIcon: string;
+  rateTitle: string;
 
   constructor(public dialog: MatDialog,
-    private trainingRatingService: TrainingRatingService,
-    private toastNotificationService: ToastNotificationService) { }
+              private trainingRatingService: TrainingRatingService,
+              private toastNotificationService: ToastNotificationService) { }
 
   displayedColumns = ['id', 'user', 'training', 'rate', 'actions'];
 
@@ -26,6 +28,8 @@ export class TrainingRatingListComponent implements OnInit {
     const trainingRatings = this.trainingRatingService.getAllTrainingRatings();
     this.dataSource = new MatTableDataSource(trainingRatings);
     this.numStars = 0;
+    this.rateIcon="star";
+    this.rateTitle = "Rate completed training records!"
   }
 
   rateRequest(trainingRating: TrainingRating) {

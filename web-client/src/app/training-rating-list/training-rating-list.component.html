@@ -1,8 +1,5 @@
 <div class="container">
-  <h2 class="training-title">
-    <mat-icon>rate_review</mat-icon>
-    <span>Rate completed training records!</span>
-  </h2>
+  <app-header-title [icon]='rateIcon' [title]='rateTitle'></app-header-title>
 
   <div class="row">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
