@@ -27,8 +27,8 @@ public class User {
     @Getter @Setter private String level=JSE;                           // JSE, SE, SSE, TL
 
 
-    @Getter @Setter private List<String> skills = new ArrayList<>();
-    @Getter @Setter private List<String> trainingRatings = new ArrayList<>();
+    @Getter @Setter private List<String> skills;
+    @Getter @Setter private List<String> trainingRatings;
     @Getter @Setter private Binary picture;
 
     public User() {}
