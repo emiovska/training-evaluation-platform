@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import training.evaluation.training.model.TrainingRequest;
 import training.evaluation.training.service.ITrainingServices;
 
+import java.util.List;
+
 @CrossOrigin(origins = {"${origins}"})
 @RestController
 @RequestMapping(value = "/trainingRequest")
@@ -40,5 +42,11 @@ public class TrainingRequestResource {
     @ApiOperation(value = "Cancel training request", notes = "Set status to canceled of the training request requested by id. ")
     public ResponseEntity<TrainingRequest> completeTrainingRequest(@ApiParam(value = "Training request id as a path variable.", required = true) @PathVariable("trainingRequestId") String trainingRequestId) {
         return services.completeTrainingRequest(trainingRequestId);
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all training requests", notes = "Return list of all training requests")
+    public ResponseEntity<List<TrainingRequest>> getAllTrainingRequests() {
+        return services.getAllTrainingRequests();
     }
 }
