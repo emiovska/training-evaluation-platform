@@ -155,7 +155,7 @@ public class CommonServices {
         List<TrainingRequest.TrainingRequestResponse> trainingRequestResponses = new ArrayList<>();
         for (TrainingRequest trainingRequest : trainingRequestList) {
             TrainingRequest.TrainingRequestResponse response = getResponseFromTrainingRequest(trainingRequest);
-                    trainingRequestResponses.add(response);
+            trainingRequestResponses.add(response);
         }
 
         return trainingRequestResponses;
