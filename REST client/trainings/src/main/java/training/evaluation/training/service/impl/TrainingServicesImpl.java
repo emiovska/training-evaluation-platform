@@ -245,8 +245,7 @@ public class TrainingServicesImpl implements ITrainingServices {
             trainingRating.get().setDone(true);
             String trainingId = trainingRating.get().getTrainingId();
             Training training = trainingRepository.findById(trainingId).get();
-            List<String> skills = new ArrayList<>();
-            skills = training.getSkills();
+            List<String> skills = training.getSkills();
             String userId = trainingRating.get().getUserId();
             User user = userRepository.findById(userId).get();
             user.setSkills(skills);
@@ -256,6 +255,5 @@ public class TrainingServicesImpl implements ITrainingServices {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 }
