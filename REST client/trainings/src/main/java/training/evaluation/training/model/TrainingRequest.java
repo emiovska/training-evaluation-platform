@@ -34,4 +34,25 @@ public class TrainingRequest {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+
+
+    public static class TrainingRequestResponse {
+        @Id
+        @Getter private String id;
+        @Getter @Setter private Training training;
+        @Getter @Setter private User user;
+        @Getter @Setter private boolean isCompleted;
+        @Getter @Setter private String status=PENDING;          // APPROVED, PENDING, CANCELED
+
+        public TrainingRequestResponse() { }
+
+        public TrainingRequestResponse(String id, Training training, User user, boolean isCompleted, String status) {
+            this.id = id;
+            this.training = training;
+            this.user = user;
+            this.isCompleted = isCompleted;
+            this.status = status;
+        }
+    }
 }

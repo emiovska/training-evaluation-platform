@@ -46,19 +46,19 @@ public class TrainingRequestResource {
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all training requests", notes = "Return list of all training requests")
-    public ResponseEntity<List<TrainingRequest>> getAllTrainingRequests() {
+    public ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllTrainingRequests() {
         return services.getAllTrainingRequests();
     }
 
     @GetMapping("/allApproved")
     @ApiOperation(value = "Get all approved training requests", notes = "Return list of all approved training requests")
-    public ResponseEntity<List<TrainingRequest>> getAllApprovedTrainingRequests() {
+    public ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllApprovedTrainingRequests() {
         return services.getAllApprovedTrainingRequests();
     }
 
     @GetMapping("/getByTrainingRequestId/{id}")
     @ApiOperation(value = "Find training request by id", notes = "Find training request by id. ")
-    public ResponseEntity<TrainingRequest> getByTrainingRequestId(@ApiParam(value = "Id of the  training request that we search for as a path variable.", required = true) @PathVariable String id) {
+    public ResponseEntity<TrainingRequest.TrainingRequestResponse> getByTrainingRequestId(@ApiParam(value = "Id of the  training request that we search for as a path variable.", required = true) @PathVariable String id) {
         return services.getByTrainingRequestId(id);
     }
 }

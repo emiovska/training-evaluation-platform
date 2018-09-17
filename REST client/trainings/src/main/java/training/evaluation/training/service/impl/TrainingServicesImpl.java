@@ -196,17 +196,21 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     @Override
-    public ResponseEntity<List<TrainingRequest>> getAllTrainingRequests() {
-        return new ResponseEntity<>(trainingRequestRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllTrainingRequests() {
+        List<TrainingRequest.TrainingRequestResponse> trainingRequestResponses = commonServices.getTrainingRequestResponse(trainingRequestRepository.findAll());
+        return new ResponseEntity<>(trainingRequestResponses, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<TrainingRequest>> getAllApprovedTrainingRequests() {
-        return new ResponseEntity<>(trainingRequestRepository.findByStatus(APPROVED), HttpStatus.OK);
+    public ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllApprovedTrainingRequests() {
+        List<TrainingRequest.TrainingRequestResponse> trainingRequestResponses = commonServices.getTrainingRequestResponse(trainingRequestRepository.findByStatus(APPROVED));
+        return new ResponseEntity<>(trainingRequestResponses, HttpStatus.OK);
     }
 
-    public ResponseEntity<TrainingRequest> getByTrainingRequestId(String id) {
-        return new ResponseEntity<>(trainingRequestRepository.findById(id).get(), HttpStatus.OK);
+    public ResponseEntity<TrainingRequest.TrainingRequestResponse> getByTrainingRequestId(String id) {
+        TrainingRequest request=trainingRequestRepository.findById(id).get();
+        TrainingRequest.TrainingRequestResponse response = commonServices.getResponseFromTrainingRequest(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
