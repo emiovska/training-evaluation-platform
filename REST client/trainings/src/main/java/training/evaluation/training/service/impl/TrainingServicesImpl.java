@@ -259,6 +259,7 @@ public class TrainingServicesImpl implements ITrainingServices {
         Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(trainingRatingId);
         if (trainingRating.isPresent()) {
             trainingRating.get().setDone(true);
+            trainingRatingRepository.save(trainingRating.get());
             String trainingId = trainingRating.get().getTrainingId();
             Training training = trainingRepository.findById(trainingId).get();
             List<String> skills = training.getSkills();
