@@ -21,13 +21,13 @@ public class TrainingRatingResource {
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all training ratngs ", notes = "Return list of training ratings")
-    public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
+    public ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatings() {
         return services.getAllTrainingRatings();
     }
 
     @GetMapping("/getAllByUserId/{userId}")
     @ApiOperation(value = "Find training ratings by userId", notes = "Find training ratings by user id. Return list of training ratings of the searched userId. User must be previously logged in (Baerer Authorization with JWT token needed).")
-        public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatingsByUserId(@ApiParam(value = "User id of the user that we search for as a path variable.", required = true) @PathVariable String userId) {
+        public ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatingsByUserId(@ApiParam(value = "User id of the user that we search for as a path variable.", required = true) @PathVariable String userId) {
          return services.getAllTrainingRatingsByUserId(userId);
     }
 

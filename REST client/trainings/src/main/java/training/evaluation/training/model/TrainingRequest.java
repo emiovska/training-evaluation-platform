@@ -11,13 +11,23 @@ import static training.evaluation.training.model.constants.Status.PENDING;
 public class TrainingRequest {
 
     @Id
-    @Getter private String id;
-    @Getter @Setter private String trainingId;
-    @Getter @Setter private String userId;
-    @Getter @Setter private boolean isCompleted;
-    @Getter @Setter private String status=PENDING;          // APPROVED, PENDING, CANCELED
+    @Getter
+    private String id;
+    @Getter
+    @Setter
+    private String trainingId;
+    @Getter
+    @Setter
+    private String userId;
+    @Getter
+    @Setter
+    private boolean isCompleted;
+    @Getter
+    @Setter
+    private String status = PENDING;          // APPROVED, PENDING, CANCELED
 
-    public TrainingRequest() { }
+    public TrainingRequest() {
+    }
 
     public TrainingRequest(String trainingId, String userId, boolean isCompleted, String status) {
         this.trainingId = trainingId;
@@ -36,16 +46,25 @@ public class TrainingRequest {
     }
 
 
-
     public static class TrainingRequestResponse {
         @Id
-        @Getter private String id;
-        @Getter @Setter private Training training;
-        @Getter @Setter private User user;
-        @Getter @Setter private boolean isCompleted;
-        @Getter @Setter private String status=PENDING;          // APPROVED, PENDING, CANCELED
+        @Getter
+        private String id;
+        @Getter
+        @Setter
+        private Training training;
+        @Getter
+        @Setter
+        private User user;
+        @Getter
+        @Setter
+        private boolean isCompleted;
+        @Getter
+        @Setter
+        private String status = PENDING;          // APPROVED, PENDING, CANCELED
 
-        public TrainingRequestResponse() { }
+        public TrainingRequestResponse() {
+        }
 
         public TrainingRequestResponse(String id, Training training, User user, boolean isCompleted, String status) {
             this.id = id;

@@ -5,6 +5,7 @@ import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRating;
 import training.evaluation.training.model.TrainingRequest;
 import training.evaluation.training.model.User;
 import training.evaluation.training.repository.TrainingRepository;
@@ -151,9 +152,8 @@ public class CommonServices {
     }
 
     public List<TrainingRequest.TrainingRequestResponse> getTrainingRequestResponse(List<TrainingRequest> trainingRequests) {
-        List<TrainingRequest> trainingRequestList = trainingRequestRepository.findAll();
         List<TrainingRequest.TrainingRequestResponse> trainingRequestResponses = new ArrayList<>();
-        for (TrainingRequest trainingRequest : trainingRequestList) {
+        for (TrainingRequest trainingRequest : trainingRequests) {
             TrainingRequest.TrainingRequestResponse response = getResponseFromTrainingRequest(trainingRequest);
             trainingRequestResponses.add(response);
         }
@@ -165,6 +165,25 @@ public class CommonServices {
         Training training = trainingRepository.findById(trainingRequest.getTrainingId()).get();
         User user = userRepository.findById(trainingRequest.getUserId()).get();
         TrainingRequest.TrainingRequestResponse response = new TrainingRequest.TrainingRequestResponse(trainingRequest.getId(), training, user, trainingRequest.isCompleted(), trainingRequest.getStatus());
+        return response;
+    }
+
+    public List<TrainingRating.TrainingRatingResponse> getTrainingRatingResponse(List<TrainingRating> trainingRatings) {
+        List<TrainingRating.TrainingRatingResponse> trainingRatingResponses = new ArrayList<>();
+        for (TrainingRating trainingRating : trainingRatings) {
+            TrainingRating.TrainingRatingResponse response = getResponseFromTrainingRating(trainingRating);
+            trainingRatingResponses.add(response);
+        }
+
+        return trainingRatingResponses;
+    }
+
+    public TrainingRating.TrainingRatingResponse getResponseFromTrainingRating(TrainingRating trainingRating) {
+        Training training = trainingRepository.findById(trainingRating.getTrainingId()).get();
+        User user = userRepository.findById(trainingRating.getUserId()).get();
+
+        //String id, Training trainingId, User userId, int rating, boolean cup, boolean done
+        TrainingRating.TrainingRatingResponse response = new TrainingRating.TrainingRatingResponse(trainingRating.getId(), training, user, trainingRating.getRating(), trainingRating.isCup(), trainingRating.isDone());
         return response;
     }
 }
