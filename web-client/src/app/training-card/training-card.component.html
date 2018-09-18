@@ -19,7 +19,7 @@
             {{ 'trainings.level' | translate }}
           </div>
           <div class="col-md-5">
-            <mat-chip *ngIf="training.level == 'JE'" class="JEChip" matTooltip="Junior Software Engineer">{{ training.level }}</mat-chip>
+            <mat-chip *ngIf="training.level == 'JSE'" class="JEChip" matTooltip="Junior Software Engineer">{{ training.level }}</mat-chip>
             <mat-chip *ngIf="training.level == 'SE'" color="primary" matTooltip="Software Engineer" selected>{{ training.level }}</mat-chip>
             <mat-chip *ngIf="training.level == 'SSE'" class="SSEChip" matTooltip="Senior Software Engineer">{{ training.level }}</mat-chip>
             <mat-chip *ngIf="training.level == 'TL'" color="accent" matTooltip="Team Lead" selected>{{ training.level }}</mat-chip>

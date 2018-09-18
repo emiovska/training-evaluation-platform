@@ -9,8 +9,8 @@ export const allTrainingRequests: TrainingRequest[] = [
             level: "JE",
             description: "This is document-oriented db ...",
             skills: [
-                { name: "Documents" },
-                { name: "No relation db" }
+               "Documents",
+               "No relation db"
             ]
         },
         user: {
@@ -31,9 +31,9 @@ export const allTrainingRequests: TrainingRequest[] = [
             level: "SE",
             description: "This is client-side framework ...",
             skills: [
-                { name: "Html" },
-                { name: "Css" },
-                { name: "Type script" }
+                "Html",
+                "Css",
+                "Type script"
             ]
         },
         user: {
@@ -54,8 +54,8 @@ export const allTrainingRequests: TrainingRequest[] = [
             level: "JE",
             description: "This is Java Script framework ...",
             skills: [
-                { name: "Express Js" },
-                { name: "Type script" }
+                "Express Js",
+                "Type script"
             ]
         },
         user: {
@@ -76,10 +76,10 @@ export const allTrainingRequests: TrainingRequest[] = [
             level: "JE",
             description: "This is AWS Services ...",
             skills: [
-                { name: "Dynamo DB" },
-                { name: "Cloudfront" },
-                { name: "S3" },
-                { name: "Cloud Formation" }
+                "Dynamo DB",
+                "Cloudfront",
+                "S3",
+                "Cloud Formation"
             ]
         },
         user: {
@@ -100,9 +100,9 @@ export const allTrainingRequests: TrainingRequest[] = [
             level: "JE",
             description: "This is relational db ...",
             skills: [
-                { name: "write Queries" },
-                { name: "using joins" },
-                { name: "Store procedures" }
+                "write Queries",
+                "using joins",
+                "Store procedures"
             ]
         },
         user: {

@@ -9,8 +9,8 @@ export const trainingRequests: TrainingRequest[] = [
             level: "JE",
             description: "This is document-oriented db ...",
             skills: [
-                { name: "Documents" },
-                { name: "No relation db" }
+                "Documents",
+                "No relation db"
             ]
         },
         user: {
@@ -31,9 +31,9 @@ export const trainingRequests: TrainingRequest[] = [
             level: "SE",
             description: "This is client-side framework ...",
             skills: [
-                { name: "Html" },
-                { name: "Css" },
-                { name: "Type script" }
+                "Html",
+                "Css",
+                "Type script"
             ]
         },
         user: {
@@ -54,8 +54,8 @@ export const trainingRequests: TrainingRequest[] = [
             level: "JE",
             description: "This is Java Script framework ...",
             skills: [
-                { name: "Express Js" },
-                { name: "Type script" }
+                "Express Js",
+                "Type script"
             ]
         },
         user: {

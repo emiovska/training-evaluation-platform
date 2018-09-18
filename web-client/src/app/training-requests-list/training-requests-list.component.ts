@@ -51,10 +51,10 @@ export class TrainingRequestsListComponent implements OnInit {
   }
 
   previewDetailsDialog(trainingRequest: TrainingRequest): void {
-    const { name, level, description } = trainingRequest.training;
+    const { name, level, description, skills } = trainingRequest.training;
     this.dialog.open(TrainingItemDialogComponent, {
       width: DialogWidth.previewDialog,
-      data: { name, level, description }
+      data: { name, level, description, skills }
     });
   }
 

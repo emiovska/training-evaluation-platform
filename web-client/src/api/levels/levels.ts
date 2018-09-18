@@ -1,1 +1,1 @@
-export const levelsApi = ['JE', 'SE',  'SSE', 'TL'];
+export const levelsApi = ['JSE', 'SE',  'SSE', 'TL'];

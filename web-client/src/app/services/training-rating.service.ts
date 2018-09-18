@@ -12,6 +12,10 @@ export class TrainingRatingService {
         return this.http.get(`${this.trainingRequestUrl}/all`);
     }
 
+    getTrainingRatingsByUserId(userId){
+        return this.http.get(`${this.trainingRequestUrl}/getAllByUserId/${userId}`);
+    }
+
     rateTraining(id: number, rating: number) {
         return this.http.post(`${this.trainingRequestUrl}/rateTraining/${id}/${rating}`, {});
     }

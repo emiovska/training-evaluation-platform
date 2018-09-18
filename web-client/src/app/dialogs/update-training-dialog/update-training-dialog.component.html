@@ -11,7 +11,19 @@
         {{level }}
       </mat-option>
     </mat-select>
-    <mat-form-field>
+
+    <mat-form-field class="topMargin">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let skill of training.skills" [selectable]="selectable" [removable]="removable" (removed)="remove(skill)">
+            {{skill}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Select skills ..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
+
+    <mat-form-field class="topMargin">
       <textarea matInput placeholder="Enter a description" [(ngModel)]="training.description" value="{{ training.description }}"></textarea>
     </mat-form-field>
   </div>

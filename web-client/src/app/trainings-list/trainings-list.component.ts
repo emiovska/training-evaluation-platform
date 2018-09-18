@@ -52,10 +52,10 @@ export class TrainingsListComponent implements OnInit {
   }
 
   previewDetailsDialog(training: Training): void {
-    const { name, level, description } = training;
+    const { name, level, description, skills } = training;
     this.dialog.open(TrainingItemDialogComponent, {
       width: DialogWidth.previewDialog,
-      data: { name, level, description }
+      data: { name, level, description, skills }
     });
   }
 
@@ -66,10 +66,10 @@ export class TrainingsListComponent implements OnInit {
   }
 
   editDialog(training: Training): void {
-    const { id, name, level, description } = training;
+    const { id, name, level, description, skills } = training;
     let dialogRef = this.dialog.open(UpdateTrainingDialogComponent, {
       width: DialogWidth.editDialog,
-      data: { id, name, level, description }
+      data: { id, name, level, description, skills }
     });
     dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
   }
@@ -106,6 +106,6 @@ export class TrainingsListComponent implements OnInit {
 
   isAdmin(): boolean {
     const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-    return currentUser.role == ROLE.ADMIN; 
+    return currentUser.role == ROLE.ADMIN;
   }
 }

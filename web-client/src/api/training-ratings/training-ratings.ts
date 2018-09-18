@@ -9,8 +9,7 @@ export const trainingRatings: TrainingRating[] = [
             level: "JE",
             description: "This is document-oriented db ...",
             skills: [
-                { name: "Documents" },
-                { name: "No relation db" }
+                "Documents", "No relation db"
             ]
         },
         userId: {
@@ -30,10 +29,7 @@ export const trainingRatings: TrainingRating[] = [
             name: "Angular JS 5",
             level: "SE",
             description: "This is client-side framework ...",
-            skills: [
-                { name: "Html" },
-                { name: "Css" },
-                { name: "Type script" }
+            skills: ["Html", "Css", "Type script"
             ]
         },
         userId: {
@@ -53,10 +49,7 @@ export const trainingRatings: TrainingRating[] = [
             name: "Node JS",
             level: "JE",
             description: "This is Java Script framework ...",
-            skills: [
-                { name: "Express Js" },
-                { name: "Type script" }
-            ]
+            skills: ["Express Js", "Type script"]
         },
         userId: {
             id: 2,
@@ -76,10 +69,10 @@ export const trainingRatings: TrainingRating[] = [
             level: "JE",
             description: "This is AWS Services ...",
             skills: [
-                { name: "Dynamo DB" },
-                { name: "Cloudfront" },
-                { name: "S3" },
-                { name: "Cloud Formation" }
+                "Dynamo DB",
+                "Cloudfront",
+                "S3",
+                "Cloud Formation"
             ]
         },
         userId: {
@@ -100,9 +93,9 @@ export const trainingRatings: TrainingRating[] = [
             level: "JE",
             description: "This is relational db ...",
             skills: [
-                { name: "write Queries" },
-                { name: "using joins" },
-                { name: "Store procedures" }
+                "write Queries",
+                "using joins",
+                "Store procedures"
             ]
         },
         userId: {

@@ -27,9 +27,14 @@ export class SelfProfileComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.getCurrentUser();
-    this.trainingRatingService.getAllTrainingRatings().subscribe((trainingRate: TrainingRating[]) => {
+    this.trainingRatingService.getTrainingRatingsByUserId(this.currentUser.id).subscribe((trainingRate: TrainingRating[]) => {
       this.trainingRate = trainingRate;
     });
+
+    this.userService.retrieveUserPicture(this.currentUser.username).subscribe(res => {
+      console.log("Receiving user picture res", res);
+    });
+
     this.selfIcon = 'person_pin';
     this.selfTitle = "Self Profile";
     //this.uploadService.uploadImage(this.currentUser.username, this.currentUser.token, this.uploader);

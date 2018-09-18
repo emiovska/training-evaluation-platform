@@ -32,6 +32,6 @@ export class UserService {
     }
 
     retrieveUserPicture(username: string) {
-        return this.http.post(`${this.baseUrl}/retrieve/${username}`, {});
+        return this.http.get(`${this.baseUrl}/retrievePicture/${username}`);
     }
 }

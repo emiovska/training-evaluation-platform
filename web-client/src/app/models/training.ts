@@ -5,5 +5,5 @@ export class Training {
     name: string;
     level: string;
     description: string;
-    skills: Skill[];
+    skills: string[];
 }
