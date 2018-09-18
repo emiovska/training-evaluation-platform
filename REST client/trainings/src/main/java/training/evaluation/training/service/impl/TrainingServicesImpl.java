@@ -36,7 +36,7 @@ public class TrainingServicesImpl implements ITrainingServices {
     public ResponseEntity<Training> createTraining(Training training) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
-        if (role.equals(TRAINER)) {
+        if (role.equals(ADMIN) || role.equals(TRAINER)) {
             training.setTrainer(username);
             trainingRepository.save(training);
             return new ResponseEntity<>(training, HttpStatus.OK);
@@ -107,7 +107,7 @@ public class TrainingServicesImpl implements ITrainingServices {
 
 
     public ResponseEntity<List<Training>> findByNameStartingWith(String name) {
-        return new ResponseEntity<>(trainingRepository.findByNameStartingWith(name), HttpStatus.OK);
+        return new ResponseEntity<>(trainingRepository.findByNameStartingWith(name.toUpperCase()), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Training>> filterByLevel(String level) {
@@ -189,6 +189,10 @@ public class TrainingServicesImpl implements ITrainingServices {
                 TrainingRating trainingRating = new TrainingRating(trainingRequest.get().getTrainingId(), trainingRequest.get().getUserId(), 0, false);
                 trainingRatingRepository.save(trainingRating);
             }
+            else {
+                //return message if not status is not approved
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(trainingRequest.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -203,6 +207,15 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     @Override
     public ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllApprovedTrainingRequests() {
+        System.out.println("getAllApprovedTrainingRequests");
+
+        System.out.println("getTrainingRequest");
+        for (TrainingRequest tr : trainingRequestRepository.findByStatus(APPROVED) )
+            System.out.println(tr.getStatus() + "         ");
+
+        System.out.println("getTrainingRequestResponse");
+        for (TrainingRequest.TrainingRequestResponse tr : commonServices.getTrainingRequestResponse(trainingRequestRepository.findByStatus(APPROVED) ))
+        System.out.println(tr.getStatus() + "         ");
         List<TrainingRequest.TrainingRequestResponse> trainingRequestResponses = commonServices.getTrainingRequestResponse(trainingRequestRepository.findByStatus(APPROVED));
         return new ResponseEntity<>(trainingRequestResponses, HttpStatus.OK);
     }
@@ -213,12 +226,14 @@ public class TrainingServicesImpl implements ITrainingServices {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatings() {
-        return new ResponseEntity<>(trainingRatingRepository.findByDone(false), HttpStatus.OK);
+    public ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatings() {
+        List<TrainingRating.TrainingRatingResponse> trainingRatingResponses = commonServices.getTrainingRatingResponse(trainingRatingRepository.findAll());
+        return new ResponseEntity<>(trainingRatingResponses,HttpStatus.OK);
     }
 
-    public ResponseEntity<Iterable<TrainingRating>> getAllTrainingRatingsByUserId(String userId) {
-        return new ResponseEntity<>(trainingRatingRepository.findByUserId(userId), HttpStatus.OK);
+    public ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatingsByUserId(String userId) {
+        List<TrainingRating.TrainingRatingResponse> trainingRatingResponses = commonServices.getTrainingRatingResponse(trainingRatingRepository.findByUserId(userId));
+        return new ResponseEntity<>(trainingRatingResponses,HttpStatus.OK);
     }
 
     public ResponseEntity<TrainingRating> rateTraining(String id, int rating) {
@@ -245,8 +260,7 @@ public class TrainingServicesImpl implements ITrainingServices {
             trainingRating.get().setDone(true);
             String trainingId = trainingRating.get().getTrainingId();
             Training training = trainingRepository.findById(trainingId).get();
-            List<String> skills = new ArrayList<>();
-            skills = training.getSkills();
+            List<String> skills = training.getSkills();
             String userId = trainingRating.get().getUserId();
             User user = userRepository.findById(userId).get();
             user.setSkills(skills);
@@ -256,6 +270,5 @@ public class TrainingServicesImpl implements ITrainingServices {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 }
