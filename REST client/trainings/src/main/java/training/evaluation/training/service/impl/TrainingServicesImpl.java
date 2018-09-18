@@ -245,6 +245,7 @@ public class TrainingServicesImpl implements ITrainingServices {
                 trainingRating.get().setRating(rating);
                 if (rating >= 4)
                     trainingRating.get().setCup(true);
+                trainingRatingRepository.save(trainingRating.get());
                 return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
