@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { TrainingService } from '../../services/training.service';
 import { ToastNotificationService } from '../../services/toast-notification.service';
 import { TrainingRequest } from '../../models/training-request';
+import { TrainingRequestService } from '../../services/training-request.service';
 
 @Component({
   selector: 'check-progreess-of-training-dialog',
@@ -15,7 +15,7 @@ export class CheckProgressOfTrainingDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<CheckProgressOfTrainingDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private trainingService: TrainingService,
+    private trainingRequestService: TrainingRequestService,
     private toastNotificationService: ToastNotificationService) { };
 
   ngOnInit(): void {
@@ -27,8 +27,10 @@ export class CheckProgressOfTrainingDialogComponent {
   }
 
   complete(): void {
-    this.toastNotificationService.showNotification(`All training skills for ${this.trainingRequest.training.name} are completed!`);
-    this.dialogRef.close(null);
+    this.trainingRequestService.completeTrainingRequest(this.trainingRequest.id).subscribe(() => {
+      this.toastNotificationService.showNotification(`All training skills for ${this.trainingRequest.training.name} are completed!`);
+      this.dialogRef.close(null);
+    });
   }
 
 }

@@ -17,11 +17,31 @@ export class TrainingRequestService {
         return trainingRequests;
     }
 
-    getAllTrainingRequestByUser() {
-        return allTrainingRequests;
+    getAllTrainingRequest(): Observable<Object> {
+        return this.http.get(`${this.trainingRequestUrl}/all`);
     }
 
-    createNewTrainingRequest(trainingRequest): Observable<Object>{
+    createNewTrainingRequest(trainingRequest): Observable<Object> {
         return this.http.post(`${this.trainingRequestUrl}/new`, trainingRequest);
+    }
+
+    approveTrainingRequest(trainingRequestId) {
+        return this.http.post(`${this.trainingRequestUrl}/approve/${trainingRequestId}`, {});
+    }
+
+    cancelTrainingRequest(trainingRequestId) {
+        return this.http.post(`${this.trainingRequestUrl}/cancel/${trainingRequestId}`, {});
+    }
+
+    getTrainingRequestById(id) {
+        return this.http.get(`${this.trainingRequestUrl}/getByTrainingRequestId/${id}`);
+    }
+
+    getAllApprovedTrainingRequest() {
+        return this.http.get(`${this.trainingRequestUrl}/allApproved`);
+    }
+
+    completeTrainingRequest(id){
+        return this.http.post(`${this.trainingRequestUrl}/complete/${id}`, {});
     }
 }
