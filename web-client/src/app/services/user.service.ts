@@ -13,7 +13,7 @@ export class UserService {
     }
 
     getAllUsers() {
-        return this.http.get(`${this.baseUrl}/`);
+        return this.http.get(`${this.baseUrl}/all`);
     }
 
     getById(id: string) {

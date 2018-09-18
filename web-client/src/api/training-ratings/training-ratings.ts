@@ -3,7 +3,7 @@ import { TrainingRating } from "../../app/models/training-rate";
 export const trainingRatings: TrainingRating[] = [
     {
         id: 1,
-        training: {
+        trainingId: {
             id: 2,
             name: "Mongo DB",
             level: "JE",
@@ -13,7 +13,7 @@ export const trainingRatings: TrainingRating[] = [
                 { name: "No relation db" }
             ]
         },
-        user: {
+        userId: {
             id: 2,
             firstname: "Goran",
             lastname: "Petrovski",
@@ -25,7 +25,7 @@ export const trainingRatings: TrainingRating[] = [
     },
     {
         id: 2,
-        training: {
+        trainingId: {
             id: 2,
             name: "Angular JS 5",
             level: "SE",
@@ -36,7 +36,7 @@ export const trainingRatings: TrainingRating[] = [
                 { name: "Type script" }
             ]
         },
-        user: {
+        userId: {
             id: 2,
             firstname: "Goran",
             lastname: "Petrovski",
@@ -48,7 +48,7 @@ export const trainingRatings: TrainingRating[] = [
     },
     {
         id: 3,
-        training: {
+        trainingId: {
             id: 2,
             name: "Node JS",
             level: "JE",
@@ -58,7 +58,7 @@ export const trainingRatings: TrainingRating[] = [
                 { name: "Type script" }
             ]
         },
-        user: {
+        userId: {
             id: 2,
             firstname: "Goran",
             lastname: "Petrovski",
@@ -70,7 +70,7 @@ export const trainingRatings: TrainingRating[] = [
     },
     {
         id: 4,
-        training: {
+        trainingId: {
             id: 2,
             name: "AWS",
             level: "JE",
@@ -82,7 +82,7 @@ export const trainingRatings: TrainingRating[] = [
                 { name: "Cloud Formation" }
             ]
         },
-        user: {
+        userId: {
             id: 2,
             firstname: "Goran",
             lastname: "Petrovski",
@@ -94,7 +94,7 @@ export const trainingRatings: TrainingRating[] = [
     },
     {
         id: 5,
-        training: {
+        trainingId: {
             id: 2,
             name: "MySql",
             level: "JE",
@@ -105,7 +105,7 @@ export const trainingRatings: TrainingRating[] = [
                 { name: "Store procedures" }
             ]
         },
-        user: {
+        userId: {
             id: 2,
             firstname: "Goran",
             lastname: "Petrovski",

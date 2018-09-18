@@ -11,6 +11,7 @@ import { DialogWidth } from '../interfaces/dialog-width';
 import { ENTER_LEAVE_ANIMATION } from '../animations/enter-leave.animation';
 
 import { SendRequestDialogComponent } from '../dialogs/send-request-dialog/send-request-dialog.component';
+import { User, ROLE } from '../models/user';
 
 
 @Component({
@@ -104,6 +105,7 @@ export class TrainingsListComponent implements OnInit {
   }
 
   isAdmin(): boolean {
-    return false;
+    const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser.role == ROLE.ADMIN; 
   }
 }

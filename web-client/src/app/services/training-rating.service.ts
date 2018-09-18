@@ -11,4 +11,12 @@ export class TrainingRatingService {
     getAllTrainingRatings(): Observable<Object> {
         return this.http.get(`${this.trainingRequestUrl}/all`);
     }
+
+    rateTraining(id: number, rating: number) {
+        return this.http.post(`${this.trainingRequestUrl}/rateTraining/${id}/${rating}`, {});
+    }
+
+    doneRating(id){
+        return this.http.post(`${this.trainingRequestUrl}/rate/${id}`, {});
+    }
 }

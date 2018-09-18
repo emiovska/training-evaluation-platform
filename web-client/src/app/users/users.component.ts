@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class UsersComponent implements OnInit {
   dataSource: MatTableDataSource<User>;
-  displayedColumns = ['id', 'username', 'firstName', 'lastName'];
+  displayedColumns = ['id', 'username', 'firstName', 'lastName', 'role'];
   usersIcon: string;
   usersTitle: string;
 

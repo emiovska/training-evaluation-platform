@@ -41,7 +41,7 @@ export class TrainingRequestService {
         return this.http.get(`${this.trainingRequestUrl}/allApproved`);
     }
 
-    completeTrainingRequest(id){
+    completeTrainingRequest(id) {
         return this.http.post(`${this.trainingRequestUrl}/complete/${id}`, {});
     }
 }
