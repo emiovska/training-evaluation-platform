@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface TrainingRequestRepository extends MongoRepository<TrainingRequest, String> {
     Optional<TrainingRequest> findById(String id);
     List<TrainingRequest> findByStatus(String status);
-    Optional<TrainingRequest> findByUserId(String userId);
+    List<TrainingRequest> findByUserId(String userId);
 }

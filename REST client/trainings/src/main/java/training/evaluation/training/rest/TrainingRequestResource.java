@@ -64,7 +64,7 @@ public class TrainingRequestResource {
 
     @GetMapping("/getByUserId/{userId}")
     @ApiOperation(value="Find training requests by user id", notes = "Find training requests by user id. ")
-    public  ResponseEntity<TrainingRequest.TrainingRequestResponse> getTrainingRequestsByUserId(@ApiParam(value="Id of the user that we search in training requests.", required = true) @PathVariable String userId) {
+    public  ResponseEntity<Iterable<TrainingRequest.TrainingRequestResponse>> getTrainingRequestsByUserId(@ApiParam(value="Id of the user that we search in training requests.", required = true) @PathVariable String userId) {
         return services.getTrainingRequestsByUserId(userId);
     }
 }
