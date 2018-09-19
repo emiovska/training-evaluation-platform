@@ -44,4 +44,8 @@ export class TrainingRequestService {
     completeTrainingRequest(id) {
         return this.http.post(`${this.trainingRequestUrl}/complete/${id}`, {});
     }
+
+    getByUserId(userId) {
+        return this.http.get(`${this.trainingRequestUrl}/getByUserId/${userId}`);
+    }
 }

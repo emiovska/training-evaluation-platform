@@ -46,7 +46,7 @@
   <mat-card-actions>
     <button mat-raised-button color="basic" class="action-btn" (click)="previewDetails()">
       <mat-icon>add</mat-icon>{{ 'trainings.details' | translate }}</button>
-    <button mat-raised-button color="accent" class="action-btn" (click)="giveProgress()">
+    <button mat-raised-button color="accent" *ngIf="!trainingRequest.completed" class="action-btn" (click)="giveProgress()">
       <mat-icon>star</mat-icon>{{ 'trainings.progress' | translate }}</button>
   </mat-card-actions>
 </mat-card>
