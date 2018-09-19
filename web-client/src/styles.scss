@@ -4,12 +4,11 @@
 
 
 html {
-  min-height: 100vh;
+  background-color: rgb(220, 240, 239);
 }
   
 body {
   font-family: 'Open Sans', sans-serif; // font-family: 'Roboto', sans-serif;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }

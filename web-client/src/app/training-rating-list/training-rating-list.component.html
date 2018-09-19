@@ -29,13 +29,7 @@
             <div class="col-md-8">
               <star-rating (ratingChange)="onRatingChange($event)" [starType]="'svg'" [rating]="element.rating"></star-rating>
             </div>
-            <!-- <div class="col-md-4">
-              <mat-chip-list>
-                <mat-chip selected>
-                  {{ element.rating }} / 5
-                </mat-chip>
-              </mat-chip-list>
-            </div> -->
+
           </div>
         </td>
       </ng-container>
@@ -44,19 +38,32 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'request.action' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" *ngIf="!element.done">
               <button mat-stroked-button color="accent" class="rateBtn" (click)="rateRequest(element)">
                 <mat-icon>star</mat-icon> Rate</button>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" *ngIf="!element.done">
               <button mat-stroked-button color="accent" class="doneBtn" (click)="doneRating(element)">
-                <mat-icon>check</mat-icon></button>
+                <mat-icon>check</mat-icon>
+              </button>
+            </div>
+            <div class="col-md-6" *ngIf="element.done" class="doneBtn">
+              <mat-chip-list>
+                <mat-chip selected>
+                  {{ element.rating }} / 5
+                </mat-chip>
+              </mat-chip-list>
             </div>
             <div class="col-md-6">
-              <span>Num of current stars is: {{ element.rating }} stars</span>
-              <img *ngIf="element.rating >= 4" src="assets/images/cup.gif" width="65px" height="95px">
-              <p *ngIf="element.rating < 4">You must learn more</p>
-
+              <div class="row">
+                <div class="col-md-6">
+                  <span>Num of current stars is: {{ element.rating }} stars</span>
+                </div>
+                <div class="col-md-6">
+                  <img *ngIf="element.rating >= 4" src="assets/images/cup.gif" width="65px" height="95px">
+                  <p *ngIf="element.rating < 4">You must learn more</p>
+                </div>
+              </div>
             </div>
           </div>
         </td>

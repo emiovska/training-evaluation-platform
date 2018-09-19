@@ -21,19 +21,24 @@ export class AppComponent {
   ngOnInit(): void {
     this.translate.use(this.defaultLanguage);
     this.currentUser = this.getCurrentUser();
-    this.currUserInfo = `${this.currentUser.firstname} ${this.currentUser.lastname} [ ${this.currentUser.role} ]`;
+
   }
 
   logout() {
+    this.currentUser = null;
+    this.currUserInfo = '';
     return this.authService.logout();
   }
 
   getCurrentUser(): User {
-    return JSON.parse(localStorage.getItem('currentUser'));
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    this.currUserInfo = user? `${user.firstname} ${user.lastname} [ ${user.role} ]`: '';
+    return user;
   }
 
   isAuthenticated() {
     const currentUser = localStorage.getItem('currentUser');
+    this.currentUser = this.getCurrentUser();
     return currentUser != null;
   }
 

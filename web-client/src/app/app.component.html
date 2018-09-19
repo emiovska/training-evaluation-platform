@@ -32,7 +32,7 @@
         <li class="nav-item" *ngIf="isAuthenticated() && isRoleAdmin()">
           <a class="nav-link" routerLinkActive="active" routerLink="/users">{{ 'RegisteredUsers' | translate }}</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated()">
           <mat-chip matTooltip="{{ currUserInfo }}">
             {{ currentUser.username }}
           </mat-chip>

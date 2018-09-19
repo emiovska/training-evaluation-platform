@@ -108,4 +108,9 @@ export class TrainingsListComponent implements OnInit {
     const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
     return currentUser.role == ROLE.ADMIN;
   }
+
+  isUser(): boolean{
+    const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser.role == ROLE.USER;
+  }
 }
