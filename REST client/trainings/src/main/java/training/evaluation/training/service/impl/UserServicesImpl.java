@@ -101,7 +101,10 @@ public class UserServicesImpl implements IUserServices {
     }
 
     public ResponseEntity<User> setRoleToUser(String id, String role) {
+        String roleLoggedUser = commonServices.getRoleFromLoggedUser(CommonServices.token);
+        String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
         Optional<User> userData = userRepository.findById(id);
+        if (roleLoggedUser.equals(ADMIN) || roleLoggedUser.equals(TRAINER) || role.equals(USER) && userData.get().getUsername().equals(username)) {
             if (role.equals(ADMIN) || role.equals(TRAINER) || role.equals(USER)) {
                 if (userData.isPresent()) {
                     User usr = userData.get();
@@ -113,5 +116,8 @@ public class UserServicesImpl implements IUserServices {
             } else {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 }
