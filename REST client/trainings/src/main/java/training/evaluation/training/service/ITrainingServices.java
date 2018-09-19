@@ -30,7 +30,7 @@ public interface ITrainingServices {
     ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllTrainingRequests();
     ResponseEntity<List<TrainingRequest.TrainingRequestResponse>> getAllApprovedTrainingRequests();
     ResponseEntity<TrainingRequest.TrainingRequestResponse> getByTrainingRequestId(String id);
-    ResponseEntity<TrainingRequest.TrainingRequestResponse> getTrainingRequestsByUserId(String userId);
+    ResponseEntity<Iterable<TrainingRequest.TrainingRequestResponse>> getTrainingRequestsByUserId(String userId);
 
     //training rating
     ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatings();
