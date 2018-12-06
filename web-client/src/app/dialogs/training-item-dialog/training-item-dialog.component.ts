@@ -19,6 +19,6 @@ export class TrainingItemDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.skills = skillsApi;
+    
   }
 }

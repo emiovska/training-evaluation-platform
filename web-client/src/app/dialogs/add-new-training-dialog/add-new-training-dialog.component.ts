@@ -5,8 +5,6 @@ import { levelsApi } from '../../../api/levels/levels';
 import { TrainingService } from '../../services/training.service';
 import { Training } from '../../models/training';
 import { FormControl, Validators } from '@angular/forms';
-import { Skill } from '../../models/skill';
-import { skillsApi } from '../../../api/skills/skills';
 
 @Component({
   selector: 'app-add-new-training-dialog',
@@ -27,11 +25,11 @@ export class AddNewTrainingDialogComponent implements OnInit {
     private trainingService: TrainingService) { }
 
   levels: string[];
-  skills: Skill[];
+  skills: string[];
 
   ngOnInit(): void {
     this.training = new Training();
-    this.skills = skillsApi;
+    this.skills = [];
     this.levels = levelsApi;
   }
 
@@ -45,6 +43,7 @@ export class AddNewTrainingDialogComponent implements OnInit {
 
   save() {
     console.log("Add new save btn", this.training);
+    this.training.skills = this.skills;
     this.trainingService.createNewTraining(this.training).subscribe(training => {
       this.dialogRef.close(training);
     });
@@ -61,7 +60,7 @@ export class AddNewTrainingDialogComponent implements OnInit {
 
     // Add our skill
     if ((value || '').trim()) {
-      this.skills.push({ name: value.trim() });
+      this.skills.push(value.trim());
     }
 
     // Reset the input value
@@ -70,7 +69,7 @@ export class AddNewTrainingDialogComponent implements OnInit {
     }
   }
 
-  remove(skill: Skill): void {
+  remove(skill: string): void {
     const index = this.skills.indexOf(skill);
 
     if (index >= 0) {

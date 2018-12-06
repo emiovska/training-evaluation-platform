@@ -20,7 +20,7 @@
     <mat-form-field class="topMargin">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let skill of skills" [selectable]="selectable" [removable]="removable" (removed)="remove(skill)">
-          {{skill.name}}
+          {{skill}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input placeholder="Select skills ..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

@@ -43,15 +43,15 @@
       </mat-card>
     </div>
   </div>
-
   <div class="row" id="selfTrainingRow" *ngFor="let tr of trainingRate">
     <div class="col-md-4" style="text-align: left">
-      <img src="assets/images/training.png" height="30px"> {{tr.training.name}}
+      <img src="assets/images/training.png" height="30px"> {{tr.trainingId.name}}
     </div>
     <div class="col-md-3">
 
       <div class="row">
         <div class="col-md-8">
+          {{tr.rating}}
           <div *ngIf="tr.rating == 1" class="oneStar" matTooltip="1 star">
             <mat-icon>star</mat-icon>
           </div>
@@ -87,7 +87,7 @@
     </div>
     <div class="col-md-5">
       <mat-chip-list>
-        <mat-chip *ngFor="let skill of tr.training.skills" color="primary" selected>{{ skill.name }}</mat-chip>
+        <mat-chip *ngFor="let skill of tr.trainingId.skills" color="primary" selected>{{ skill }}</mat-chip>
       </mat-chip-list>
     </div>
   </div>

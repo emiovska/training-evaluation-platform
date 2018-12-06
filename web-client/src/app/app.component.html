@@ -20,17 +20,22 @@
         <li class="nav-item" *ngIf="isAuthenticated()">
           <a class="nav-link" routerLinkActive="active" routerLink="/trainings">{{ 'TrainingRecords' | translate }}</a>
         </li>
-        <li class="nav-item" *ngIf="isAuthenticated()">
+        <li class="nav-item" *ngIf="isAuthenticated() && isRoleUser()">
           <a class="nav-link" routerLinkActive="active" routerLink="/training-requests">{{ 'TrainingRequests' | translate }}</a>
         </li>
-        <li class="nav-item" *ngIf="isAuthenticated()">
+        <li class="nav-item" *ngIf="isAuthenticated() && isRoleTrainer()">
           <a class="nav-link" routerLinkActive="active" routerLink="/requests-list">{{ 'RequestsList' | translate }}</a>
         </li>
-        <li class="nav-item" *ngIf="isAuthenticated()">
+        <li class="nav-item" *ngIf="isAuthenticated() && isRoleTrainer()">
           <a class="nav-link" routerLinkActive="active" routerLink="/rate-trainings">{{ 'RateTrainings' | translate }}</a>
         </li>
-        <li class="nav-item" *ngIf="isAuthenticated()">
+        <li class="nav-item" *ngIf="isAuthenticated() && isRoleAdmin()">
           <a class="nav-link" routerLinkActive="active" routerLink="/users">{{ 'RegisteredUsers' | translate }}</a>
+        </li>
+        <li class="nav-item" *ngIf="isAuthenticated()">
+          <mat-chip matTooltip="{{ currUserInfo }}">
+            {{ currentUser.username }}
+          </mat-chip>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/login" (click)="logout()">{{ 'Logout' | translate }}</a>

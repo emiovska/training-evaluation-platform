@@ -20,7 +20,7 @@ export class TrainingRequestsListComponent implements OnInit {
   dataSource: MatTableDataSource<TrainingRequest>;
 
   constructor(public dialog: MatDialog,
-              private trainingRequestService: TrainingRequestService) { }
+    private trainingRequestService: TrainingRequestService) { }
 
   displayedColumns = ['id', 'user', 'training', 'details', 'actions'];
   requestIcon: string;
@@ -28,25 +28,39 @@ export class TrainingRequestsListComponent implements OnInit {
 
 
   ngOnInit() {
-    const trainingRequests = this.trainingRequestService.getAllTrainingRequestByUser();
-    this.dataSource = new MatTableDataSource(trainingRequests);
-    this.requestIcon = 'more_horiz';
-    this.requestTitle = 'Approved / Canceled Training requests records!';
+    this.trainingRequestService.getAllTrainingRequest().subscribe((trainingRequest: any[]) => {
+      this.dataSource = new MatTableDataSource(trainingRequest);
+      this.requestIcon = 'more_horiz';
+      this.requestTitle = 'Approved / Canceled Training requests records!';
+    });
+
   }
 
   approveRequest(trainingRequest: TrainingRequest) {
-    trainingRequest.status = STATUS.APPROVED;
+    //trainingRequest.status = STATUS.APPROVED;
+    this.trainingRequestService.approveTrainingRequest(trainingRequest.id).subscribe(() => {
+      this.reloadTrainingRequests();
+    });
   }
 
   cancelRequest(trainingRequest: TrainingRequest) {
-    trainingRequest.status = STATUS.CANCELED;
+    //trainingRequest.status = STATUS.CANCELED;
+    this.trainingRequestService.cancelTrainingRequest(trainingRequest.id).subscribe(() => {
+      this.reloadTrainingRequests();
+    });
   }
 
   previewDetailsDialog(trainingRequest: TrainingRequest): void {
-    const { name, level, description } = trainingRequest.training;
+    const { name, level, description, skills } = trainingRequest.training;
     this.dialog.open(TrainingItemDialogComponent, {
       width: DialogWidth.previewDialog,
-      data: { name, level, description }
+      data: { name, level, description, skills }
+    });
+  }
+
+  reloadTrainingRequests() {
+    this.trainingRequestService.getAllTrainingRequest().subscribe((trainingRequest: any[]) => {
+      this.dataSource = new MatTableDataSource(trainingRequest);
     });
   }
 }

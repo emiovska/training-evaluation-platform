@@ -26,7 +26,7 @@
       <mat-icon>list</mat-icon>List of all training skills</h5>
     <mat-selection-list #selectedSkills>
       <mat-list-option *ngFor="let skill of trainingRequest.training.skills">
-        {{ skill.name }}
+        {{ skill }}
       </mat-list-option>
     </mat-selection-list>
   </div>

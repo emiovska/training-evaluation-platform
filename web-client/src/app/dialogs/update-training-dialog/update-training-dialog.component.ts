@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent } from '@angular/material';
 import { levelsApi } from '../../../api/levels/levels';
 import { TrainingService } from '../../services/training.service';
 import { Training } from '../../models/training';
@@ -8,7 +8,7 @@ import { Training } from '../../models/training';
   templateUrl: './update-training-dialog.component.html',
   styleUrls: ['./update-training-dialog.component.css']
 })
-export class UpdateTrainingDialogComponent {
+export class UpdateTrainingDialogComponent implements OnInit {
 
   training: Training;
 
@@ -35,5 +35,29 @@ export class UpdateTrainingDialogComponent {
 
   dismiss() {
     this.dialogRef.close(null);
+  }
+
+  //skill select combo
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our skill
+    if ((value || '').trim()) {
+      this.training.skills.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(skill: string): void {
+    const index = this.training.skills.indexOf(skill);
+
+    if (index >= 0) {
+      this.training.skills.splice(index, 1);
+    }
   }
 }

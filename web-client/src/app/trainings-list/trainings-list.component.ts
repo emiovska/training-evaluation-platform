@@ -11,6 +11,7 @@ import { DialogWidth } from '../interfaces/dialog-width';
 import { ENTER_LEAVE_ANIMATION } from '../animations/enter-leave.animation';
 
 import { SendRequestDialogComponent } from '../dialogs/send-request-dialog/send-request-dialog.component';
+import { User, ROLE } from '../models/user';
 
 
 @Component({
@@ -51,10 +52,10 @@ export class TrainingsListComponent implements OnInit {
   }
 
   previewDetailsDialog(training: Training): void {
-    const { name, level, description } = training;
+    const { name, level, description, skills } = training;
     this.dialog.open(TrainingItemDialogComponent, {
       width: DialogWidth.previewDialog,
-      data: { name, level, description }
+      data: { name, level, description, skills }
     });
   }
 
@@ -65,10 +66,10 @@ export class TrainingsListComponent implements OnInit {
   }
 
   editDialog(training: Training): void {
-    const { id, name, level, description } = training;
+    const { id, name, level, description, skills } = training;
     let dialogRef = this.dialog.open(UpdateTrainingDialogComponent, {
       width: DialogWidth.editDialog,
-      data: { id, name, level, description }
+      data: { id, name, level, description, skills }
     });
     dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
   }
@@ -95,14 +96,21 @@ export class TrainingsListComponent implements OnInit {
   }
 
   sendRequestForTraining(training: Training) {
+    const { id, name } = training;
     let dialogRef = this.dialog.open(SendRequestDialogComponent, {
       width: DialogWidth.deleteDialog,
-      data: { name: training.name }
+      data: { id, name }
     });
     dialogRef.afterClosed().subscribe(() => this.reloadTrainings());
   }
 
   isAdmin(): boolean {
-    return false;
+    const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser.role == ROLE.ADMIN;
+  }
+
+  isUser(): boolean{
+    const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser.role == ROLE.USER;
   }
 }

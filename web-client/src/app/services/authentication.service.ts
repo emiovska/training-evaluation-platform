@@ -10,8 +10,7 @@ export class AuthenticationService {
     constructor(private http: HttpClient) { }
 
     login(username: string, password: string){
-        console.log("Authentication service ", username, " = ", password);
-        return this.http.post<any>(`${this.baseUrl}/sign-in`, { username, password }, {observe: 'response'});
+        return this.http.post<any>(`${this.baseUrl}/user/sign-in`, { username, password }, {observe: 'response'});
     }
 
     logout() {

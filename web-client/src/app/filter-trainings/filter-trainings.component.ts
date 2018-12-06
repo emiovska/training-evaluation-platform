@@ -4,6 +4,7 @@ import { levelsApi } from '../../api/levels/levels';
 import { AddNewTrainingDialogComponent } from '../dialogs/add-new-training-dialog/add-new-training-dialog.component';
 import { TrainingToggleView } from '../interfaces/toggle-view';
 import { TrainingFilter } from '../interfaces/filter';
+import { User, ROLE } from '../models/user';
 
 const ALL_LEVELS: string = 'All levels';
 
@@ -65,4 +66,8 @@ export class FilterTrainingsComponent implements OnInit {
     this.toogleBtnClicked.emit({ selectedTable: this.selectedTable, viewTitle: this.viewTitle })
   }
 
+  isUserRoleTrainer(): boolean{
+    const currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser.role == ROLE.TRAINER; 
+  }
 }

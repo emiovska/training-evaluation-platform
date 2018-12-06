@@ -22,14 +22,14 @@ export class SelfProfileComponent implements OnInit {
   selfTitle: string;
 
   constructor(private toastNotificationService: ToastNotificationService,
-              private trainingRatingService: TrainingRatingService,
-              private userService: UserService) { }
+    private trainingRatingService: TrainingRatingService,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.currentUser = this.getCurrentUser();
-    console.log("Upload user ", this.currentUser.username);
-    console.log("Upload token ", this.currentUser.token);
-
+    this.trainingRatingService.getTrainingRatingsByUserId(this.currentUser.id).subscribe((trainingRate: TrainingRating[]) => {
+      this.trainingRate = trainingRate;
+    });
     this.selfIcon = 'person_pin';
     this.selfTitle = "Self Profile";
     //this.uploadService.uploadImage(this.currentUser.username, this.currentUser.token, this.uploader);
@@ -43,7 +43,6 @@ export class SelfProfileComponent implements OnInit {
       });
 
     };
-    this.trainingRate = this.trainingRatingService.getAllTrainingRatings();
   }
 
   getCurrentUser() {

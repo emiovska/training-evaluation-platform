@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { TrainingService } from '../../services/training.service';
 import { Training } from '../../models/training';
 import { ToastNotificationService } from '../../services/toast-notification.service';
+import { TrainingRequestService } from '../../services/training-request.service';
+import { TrainingRequest } from '../../models/training-request';
 
 @Component({
   selector: 'app-delete-training-dialog',
@@ -15,7 +16,7 @@ export class SendRequestDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<SendRequestDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private trainingService: TrainingService,
+    private trainingRequestService: TrainingRequestService,
     private toastNotificationService: ToastNotificationService) { };
 
   ngOnInit(): void {
@@ -27,8 +28,18 @@ export class SendRequestDialogComponent {
   }
 
   confirm(): void {
-    this.toastNotificationService.showNotification(`The request for training ${this.training.name} is send. Please wait for approval by trainer !`);
-    this.dialogRef.close(null);
+    const trainingRequest = {
+      trainingId: this.training.id,
+      userId: JSON.parse(localStorage.getItem('currentUser')).id,
+      isCompleted: false,
+      status: 'PENDING'
+    };
+    this.trainingRequestService.createNewTrainingRequest(trainingRequest)
+      .subscribe(data => {
+        this.toastNotificationService.showNotification(`The request for training ${this.training.name} is send. Please wait for approval by trainer !`);
+        this.dialogRef.close(null);
+      });
+
   }
 
 }

@@ -26,22 +26,6 @@
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item role="listitem">
-
-      <div class="row">
-        <div class="col-md-2">
-          <mat-icon>person</mat-icon>
-        </div>
-        <div class="col-md-3 col-md-offset-1">
-          Trainer:
-        </div>
-        <div class="col-md-5 col-md-offset-1">
-          Nekoj
-        </div>
-      </div>
-
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item role="listitem">
       <div class="row">
         <div class="col-md-1">
           <mat-icon>cast_for_education</mat-icon>
@@ -53,7 +37,7 @@
       <div class="row">
         <div class="col-md-9">
           <mat-chip-list>
-            <mat-chip *ngFor="let skill of skills" color="primary" selected>{{ skill.name}}</mat-chip>
+            <mat-chip *ngFor="let skill of data.skills" color="primary" selected>{{ skill}}</mat-chip>
           </mat-chip-list>
         </div>
       </div>
