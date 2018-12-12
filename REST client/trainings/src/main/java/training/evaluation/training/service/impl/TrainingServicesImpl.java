@@ -4,11 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import training.evaluation.training.model.*;
-import training.evaluation.training.repository.*;
+import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRating;
+import training.evaluation.training.model.TrainingRequest;
+import training.evaluation.training.model.User;
+import training.evaluation.training.repository.TrainingRatingRepository;
+import training.evaluation.training.repository.TrainingRepository;
+import training.evaluation.training.repository.TrainingRequestRepository;
+import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.ITrainingServices;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static training.evaluation.training.model.constants.Levels.*;
 import static training.evaluation.training.model.constants.Roles.*;
@@ -44,7 +51,6 @@ public class TrainingServicesImpl implements ITrainingServices {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
-
 
     public ResponseEntity<List<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
@@ -236,20 +242,15 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     public ResponseEntity<TrainingRating> rateTraining(String id, int rating) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(TRAINER)) {
-
-            Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
-            if (trainingRating.isPresent()) {
-                trainingRating.get().setRating(rating);
-                if (rating >= 4)
-                    trainingRating.get().setCup(true);
-                trainingRatingRepository.save(trainingRating.get());
-                return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+        Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
+        if (trainingRating.isPresent()) {
+            trainingRating.get().setRating(rating);
+            if (rating >= 4)
+                trainingRating.get().setCup(true);
+            trainingRatingRepository.save(trainingRating.get());
+            return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -270,6 +271,4 @@ public class TrainingServicesImpl implements ITrainingServices {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
 }

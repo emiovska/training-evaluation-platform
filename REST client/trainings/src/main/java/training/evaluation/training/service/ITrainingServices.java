@@ -1,6 +1,7 @@
 package training.evaluation.training.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.multipart.MultipartFile;
 import training.evaluation.training.model.Training;
 import training.evaluation.training.model.TrainingRating;
@@ -35,6 +36,8 @@ public interface ITrainingServices {
     //training rating
     ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatings();
     ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatingsByUserId(String userId);
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     ResponseEntity<TrainingRating> rateTraining(String id, int rating);
     ResponseEntity<String> rate(String trainingRatingId);
 }
