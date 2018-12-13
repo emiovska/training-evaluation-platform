@@ -37,7 +37,7 @@ public interface ITrainingServices {
     ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatings();
     ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatingsByUserId(String userId);
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<TrainingRating> rateTraining(String id, int rating);
     ResponseEntity<String> rate(String trainingRatingId);
 }

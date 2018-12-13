@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import training.evaluation.training.service.IUserServices;
 
 import static training.evaluation.training.security.SecurityConstants.SIGN_UP_URL;
 
@@ -26,10 +27,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private IUserServices userServices;
 
 
-    public WebSecurity(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(
+            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+            IUserServices userServices,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
+        this.userServices = userServices;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -55,7 +61,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTLoginFilter("/user/sign-in", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 // And filter other requests to check the presence of JWT in header
-                .addFilterBefore(new JWTAuthenticationFilter(),
+                .addFilterBefore(new JWTAuthorizationFilter(userServices),
                         UsernamePasswordAuthenticationFilter.class);
     }
 

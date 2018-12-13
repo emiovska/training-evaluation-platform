@@ -1,12 +1,14 @@
 package training.evaluation.training.security;
 
 import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
-import training.evaluation.training.service.impl.CommonServices;
+import training.evaluation.training.model.User;
+import training.evaluation.training.service.IUserServices;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,15 +16,19 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static java.util.Collections.emptyList;
 import static training.evaluation.training.security.SecurityConstants.*;
 
 
-public class JWTAuthenticationFilter extends GenericFilterBean {
 
-    @Autowired
-    CommonServices commonServices;
+public class JWTAuthorizationFilter extends GenericFilterBean {
+    private IUserServices userServices;
+
+    public JWTAuthorizationFilter(IUserServices userServices) {
+        this.userServices = userServices;
+    }
 
     @Override
     public void doFilter(ServletRequest request,
@@ -41,17 +47,20 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user= Jwts.parser()
+            String username = Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-            return user != null ?
-                    new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
+
+            User user = userServices.getByUsername(username).getBody();
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole()));
+
+            return username != null ?
+                    new UsernamePasswordAuthenticationToken(username, null, authorities) :
                     null;
         }
         return null;
     }
-
-
 }
