@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static training.evaluation.training.model.constants.Levels.*;
-import static training.evaluation.training.model.constants.Roles.*;
+import static training.evaluation.training.model.constants.Roles.USER;
 import static training.evaluation.training.model.constants.Status.*;
 
 @org.springframework.stereotype.Service
@@ -41,26 +41,20 @@ public class TrainingServicesImpl implements ITrainingServices {
 
 
     public ResponseEntity<Training> createTraining(Training training) {
-        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN) || role.equals(TRAINER)) {
-            training.setTrainer(username);
-            trainingRepository.save(training);
-            return new ResponseEntity<>(training, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+        training.setTrainer(username);
+        trainingRepository.save(training);
+        return new ResponseEntity<>(training, HttpStatus.OK);
+
     }
 
     public ResponseEntity<List<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN) || role.equals(TRAINER)) {
-            return new ResponseEntity<>(trainingRepository.findAll(), HttpStatus.OK);
-        } else if (role.equals(USER)) {
+        if (role.equals(USER)) {
             return getAllTrainingsByUserLevel();
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        return new ResponseEntity<>(trainingRepository.findAll(), HttpStatus.OK);
+
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
@@ -68,16 +62,14 @@ public class TrainingServicesImpl implements ITrainingServices {
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
         Optional<Training> training = trainingRepository.findById(id);
 
-        if (role.equals(ADMIN) || (role.equals(TRAINER) && training.get().getTrainer().equals(username))) {
-
-            if (training.isPresent()) {
-                trainingRepository.delete(training.get());
-                return new ResponseEntity<>("Training deleted", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } else {
+        if (!training.get().getTrainer().equals(username)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (training.isPresent()) {
+            trainingRepository.delete(training.get());
+            return new ResponseEntity<>("Training deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -87,28 +79,26 @@ public class TrainingServicesImpl implements ITrainingServices {
         Optional<Training> trainingData = trainingRepository.findById(id);
         String trainer;
 
-        if ((role.equals(ADMIN)) || (role.equals(TRAINER) && trainingData.get().getTrainer().equals(username))) {
-            if (trainingData.isPresent()) {
-                Training tr = trainingData.get();
-                tr.setName(training.getName());
-                tr.setLevel(training.getLevel());
-                tr.setDescription(training.getDescription());
-                tr.setTrainer(training.getTrainer());
-                tr.setSkills(training.getSkills());
-                if (training.getTrainer() != null) {
-                    trainer = training.getTrainer();
-                } else {
-                    trainer = username;
-                }
-
-                tr.setTrainer(trainer);
-                return new ResponseEntity<>(trainingRepository.save(tr), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } else {
+        if (!trainingData.get().getTrainer().equals(username)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        if (!trainingData.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Training tr = trainingData.get();
+        tr.setName(training.getName());
+        tr.setLevel(training.getLevel());
+        tr.setDescription(training.getDescription());
+        tr.setTrainer(training.getTrainer());
+        tr.setSkills(training.getSkills());
+        if (training.getTrainer() != null) {
+            trainer = training.getTrainer();
+        } else {
+            trainer = username;
+        }
+
+        tr.setTrainer(trainer);
+        return new ResponseEntity<>(trainingRepository.save(tr), HttpStatus.OK);
     }
 
 
