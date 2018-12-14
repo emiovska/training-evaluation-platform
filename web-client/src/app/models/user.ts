@@ -1,7 +1,7 @@
 export enum ROLE {
-    ADMIN = "ADMIN",
-    TRAINER = "TRAINER",
-    USER = "USER"
+    ADMIN = "ROLE_ADMIN",
+    TRAINER = "ROLE_TRAINER",
+    USER = "ROLE_USER"
 }
 
 enum LEVEL {

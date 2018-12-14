@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static training.evaluation.training.model.constants.Levels.*;
-import static training.evaluation.training.model.constants.Roles.USER;
 import static training.evaluation.training.model.constants.Status.*;
 
 @org.springframework.stereotype.Service
@@ -50,11 +49,7 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     public ResponseEntity<List<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(USER)) {
-            return getAllTrainingsByUserLevel();
-        }
         return new ResponseEntity<>(trainingRepository.findAll(), HttpStatus.OK);
-
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
@@ -165,14 +160,11 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     public ResponseEntity<TrainingRequest> changeStatus(String id, String status) {
-        Optional<TrainingRequest> trainingRequest = trainingRequestRepository.findById(id);
-        if (trainingRequest.isPresent()) {
-            trainingRequest.get().setStatus(status);
-            trainingRequestRepository.save(trainingRequest.get());
-            return new ResponseEntity<>(trainingRequest.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return Optional.of(trainingRequestRepository.findById(id)).map(t -> {
+            t.get().setStatus(status);
+            trainingRequestRepository.save(t.get());
+            return new ResponseEntity<>(t.get(), HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity<TrainingRequest> completeTrainingRequest(String id) {
