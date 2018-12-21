@@ -19,6 +19,9 @@ public class TrainingRatingResource {
     @Autowired
     ITrainingServices services;
 
+    @Autowired
+    CommonServices commonServices;
+
     @GetMapping("/all")
     @ApiOperation(value = "Get all training ratngs ", notes = "Return list of training ratings")
     public ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatings() {
@@ -35,6 +38,9 @@ public class TrainingRatingResource {
     @ApiOperation(value = "Rate training", notes = "Find training ratings by id and set rate value. User must be previously logged in (Baerer Authorization with JWT token needed).")
     public ResponseEntity<TrainingRating> rateTraining(@RequestHeader("Authorization") String authorisation, @ApiParam(value = "Training Ratings id of the object that we need to update rating", required = true) @PathVariable String id,@ApiParam(value = "Rating value that we need to set", required = true) @PathVariable int rating) {
         CommonServices.token=authorisation;
+
+        String role = commonServices.getRoleFromLoggedUser(authorisation);
+        System.out.println("ROLE: " + role);
         return services.rateTraining(id,rating);
     }
 

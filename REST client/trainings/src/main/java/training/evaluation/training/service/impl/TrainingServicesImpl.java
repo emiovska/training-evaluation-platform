@@ -4,14 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import training.evaluation.training.model.*;
-import training.evaluation.training.repository.*;
+import training.evaluation.training.model.Training;
+import training.evaluation.training.model.TrainingRating;
+import training.evaluation.training.model.TrainingRequest;
+import training.evaluation.training.model.User;
+import training.evaluation.training.repository.TrainingRatingRepository;
+import training.evaluation.training.repository.TrainingRepository;
+import training.evaluation.training.repository.TrainingRequestRepository;
+import training.evaluation.training.repository.UserRepository;
 import training.evaluation.training.service.ITrainingServices;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static training.evaluation.training.model.constants.Levels.*;
-import static training.evaluation.training.model.constants.Roles.*;
 import static training.evaluation.training.model.constants.Status.*;
 
 @org.springframework.stereotype.Service
@@ -34,27 +40,16 @@ public class TrainingServicesImpl implements ITrainingServices {
 
 
     public ResponseEntity<Training> createTraining(Training training) {
-        String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN) || role.equals(TRAINER)) {
-            training.setTrainer(username);
-            trainingRepository.save(training);
-            return new ResponseEntity<>(training, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }
+        training.setTrainer(username);
+        trainingRepository.save(training);
+        return new ResponseEntity<>(training, HttpStatus.OK);
 
+    }
 
     public ResponseEntity<List<Training>> getAllTrainings() {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(ADMIN) || role.equals(TRAINER)) {
-            return new ResponseEntity<>(trainingRepository.findAll(), HttpStatus.OK);
-        } else if (role.equals(USER)) {
-            return getAllTrainingsByUserLevel();
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+        return new ResponseEntity<>(trainingRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity<String> deleteTraining(String id) {
@@ -62,16 +57,14 @@ public class TrainingServicesImpl implements ITrainingServices {
         String username = commonServices.getUsernameFromLoggedUser(CommonServices.token);
         Optional<Training> training = trainingRepository.findById(id);
 
-        if (role.equals(ADMIN) || (role.equals(TRAINER) && training.get().getTrainer().equals(username))) {
-
-            if (training.isPresent()) {
-                trainingRepository.delete(training.get());
-                return new ResponseEntity<>("Training deleted", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } else {
+        if (!training.get().getTrainer().equals(username)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (training.isPresent()) {
+            trainingRepository.delete(training.get());
+            return new ResponseEntity<>("Training deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -81,28 +74,26 @@ public class TrainingServicesImpl implements ITrainingServices {
         Optional<Training> trainingData = trainingRepository.findById(id);
         String trainer;
 
-        if ((role.equals(ADMIN)) || (role.equals(TRAINER) && trainingData.get().getTrainer().equals(username))) {
-            if (trainingData.isPresent()) {
-                Training tr = trainingData.get();
-                tr.setName(training.getName());
-                tr.setLevel(training.getLevel());
-                tr.setDescription(training.getDescription());
-                tr.setTrainer(training.getTrainer());
-                tr.setSkills(training.getSkills());
-                if (training.getTrainer() != null) {
-                    trainer = training.getTrainer();
-                } else {
-                    trainer = username;
-                }
-
-                tr.setTrainer(trainer);
-                return new ResponseEntity<>(trainingRepository.save(tr), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } else {
+        if (!trainingData.get().getTrainer().equals(username)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        if (!trainingData.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Training tr = trainingData.get();
+        tr.setName(training.getName());
+        tr.setLevel(training.getLevel());
+        tr.setDescription(training.getDescription());
+        tr.setTrainer(training.getTrainer());
+        tr.setSkills(training.getSkills());
+        if (training.getTrainer() != null) {
+            trainer = training.getTrainer();
+        } else {
+            trainer = username;
+        }
+
+        tr.setTrainer(trainer);
+        return new ResponseEntity<>(trainingRepository.save(tr), HttpStatus.OK);
     }
 
 
@@ -169,14 +160,11 @@ public class TrainingServicesImpl implements ITrainingServices {
     }
 
     public ResponseEntity<TrainingRequest> changeStatus(String id, String status) {
-        Optional<TrainingRequest> trainingRequest = trainingRequestRepository.findById(id);
-        if (trainingRequest.isPresent()) {
-            trainingRequest.get().setStatus(status);
-            trainingRequestRepository.save(trainingRequest.get());
-            return new ResponseEntity<>(trainingRequest.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return Optional.of(trainingRequestRepository.findById(id)).map(t -> {
+            t.get().setStatus(status);
+            trainingRequestRepository.save(t.get());
+            return new ResponseEntity<>(t.get(), HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity<TrainingRequest> completeTrainingRequest(String id) {
@@ -236,20 +224,15 @@ public class TrainingServicesImpl implements ITrainingServices {
 
     public ResponseEntity<TrainingRating> rateTraining(String id, int rating) {
         String role = commonServices.getRoleFromLoggedUser(CommonServices.token);
-        if (role.equals(TRAINER)) {
-
-            Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
-            if (trainingRating.isPresent()) {
-                trainingRating.get().setRating(rating);
-                if (rating >= 4)
-                    trainingRating.get().setCup(true);
-                trainingRatingRepository.save(trainingRating.get());
-                return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+        Optional<TrainingRating> trainingRating = trainingRatingRepository.findById(id);
+        if (trainingRating.isPresent()) {
+            trainingRating.get().setRating(rating);
+            if (rating >= 4)
+                trainingRating.get().setCup(true);
+            trainingRatingRepository.save(trainingRating.get());
+            return new ResponseEntity<>(trainingRating.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -270,6 +253,4 @@ public class TrainingServicesImpl implements ITrainingServices {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
