@@ -14,13 +14,10 @@ public interface ITrainingServices {
 
     ResponseEntity<Training> createTraining(Training training);
 
-    @PreAuthorize("hasRole('ADMIN') OR hasRole('TRAINER')")
     ResponseEntity<List<Training>> getAllTrainings();
 
-    @PreAuthorize("hasRole('ADMIN') OR hasRole('TRAINER')")
     ResponseEntity<String> deleteTraining(String id);
 
-    @PreAuthorize("hasRole('ADMIN') OR hasRole('TRAINER')")
     ResponseEntity<Training> updateTraining(String id, Training training);
 
     ResponseEntity<List<Training>> findByNameStartingWith(String name);
@@ -33,11 +30,8 @@ public interface ITrainingServices {
 
     ResponseEntity<String> getTrainingPicture(String trainingName);
 
-    @PreAuthorize("hasRole('USER')")
     ResponseEntity<List<Training>> getAllTrainingsByUserLevel();
 
-    //training request
-    @PreAuthorize("hasRole('ADMIN') OR hasRole('TRAINER')")
     ResponseEntity<TrainingRequest> createTrainingRequest(TrainingRequest trainingRequest);
 
     ResponseEntity<TrainingRequest> approveTrainingRequest(String id);
@@ -59,7 +53,6 @@ public interface ITrainingServices {
 
     ResponseEntity<Iterable<TrainingRating.TrainingRatingResponse>> getAllTrainingRatingsByUserId(String userId);
 
-    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<TrainingRating> rateTraining(String id, int rating);
 
     ResponseEntity<String> rate(String trainingRatingId);

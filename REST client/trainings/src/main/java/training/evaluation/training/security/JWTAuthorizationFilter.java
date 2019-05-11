@@ -17,6 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static training.evaluation.training.security.SecurityConstants.*;
@@ -47,19 +48,16 @@ public class JWTAuthorizationFilter extends GenericFilterBean {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String username = Jwts.parser()
+            String user = Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
 
-            User user = userServices.getByUsername(username).getBody();
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getRole()));
+            return user != null ?
+                    new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList()) : null;
 
-            return username != null ?
-                    new UsernamePasswordAuthenticationToken(username, null, authorities) :
-                    null;
+
         }
         return null;
     }

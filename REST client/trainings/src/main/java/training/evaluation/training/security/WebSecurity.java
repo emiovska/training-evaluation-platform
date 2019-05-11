@@ -20,9 +20,7 @@ import training.evaluation.training.service.IUserServices;
 import static training.evaluation.training.security.SecurityConstants.SIGN_UP_URL;
 
 
-@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
@@ -31,11 +29,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 
     public WebSecurity(
-            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
-            IUserServices userServices,
-            BCryptPasswordEncoder bCryptPasswordEncoder) {
+            @Qualifier("userDetailsServiceImpl")
+            UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
-        this.userServices = userServices;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
